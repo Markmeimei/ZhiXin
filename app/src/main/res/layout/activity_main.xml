@@ -1,0 +1,35 @@
+<com.example.zhi.view.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg" >
+    <!--android:fitsSystemWindows="true"-->
+    <!--android:clipToPadding="true"-->
+    <include layout="@layout/main_sliding"/>
+    <com.example.zhi.view.MyRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee" >
+        <include layout="@layout/main_header"
+            android:id="@+id/main_header"/>
+        <include
+            android:id="@+id/main_bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            layout="@layout/main_bottom"/>
+        <View
+            android:id="@+id/view_temp"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_above="@id/main_bottom"
+            android:background="#d6d6d6" />
+        <RelativeLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/view_temp"
+            android:layout_below="@id/main_header"/>
+    </com.example.zhi.view.MyRelativeLayout>
+
+</com.example.zhi.view.DragLayout>

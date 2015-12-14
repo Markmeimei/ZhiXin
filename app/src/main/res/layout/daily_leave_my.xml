@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/snow">
+    <include layout="@layout/activity_header"/>
+    <ListView
+        android:id="@+id/leave_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="@null"
+        android:listSelector="@null"
+        android:divider="@color/line_color"
+        android:dividerHeight="@dimen/dimen_0.5"/>
+</LinearLayout>

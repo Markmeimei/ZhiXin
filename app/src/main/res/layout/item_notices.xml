@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_5"
+        android:layout_marginLeft="@dimen/dimen_5">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/notices_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11-04"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/text_color2"
+                android:textSize="@dimen/dimen_15"/>
+            <TextView
+                android:id="@+id/notices_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关于每日一报、明日计划、每周计划的通报"
+                android:textSize="@dimen/dimen_16"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_toLeftOf="@id/notices_time"
+                android:layout_alignParentLeft="true"/>
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/notices_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="公司长期以来执行每日一报、明日计划、每周计划制度，以下是对10月、11月以来的执行情况做出统计的通报，统计时间截止到11月18日。 "
+            android:textSize="@dimen/dimen_14"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:textColor="@color/text_color2"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_0.5"
+        android:background="@color/line_color"/>
+</LinearLayout>

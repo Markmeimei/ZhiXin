@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.zhi" >
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.NoTitleBar">
+
+        <activity android:name=".welcome.WelcomeActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 测试 -->
+        <activity android:name=".activity.daily.TestActivity">
+        </activity>
+        <!-- 引导页 -->
+        <activity android:name=".landing.ProductTourActivity">
+        </activity>
+        <!-- 主页 -->
+        <activity android:name=".MainActivity">
+        </activity>
+        <!-- 我的二维码 -->
+        <activity android:name=".activity.sliding.QR_Activity">
+        </activity>
+        <!-- 设置 -->
+        <activity android:name=".activity.sliding.SettingActivity">
+        </activity>
+        <!-- 反馈 -->
+        <activity android:name=".activity.sliding.FeedbackActivity">
+        </activity>
+        <!-- 账户详情 -->
+        <activity android:name=".activity.sliding.AccountActivity">
+        </activity>
+        <!-- 通知公告 -->
+        <activity android:name=".activity.sliding.NoticesActivity">
+        </activity>
+        <!-- 登录 -->
+        <activity android:name=".activity.login.LoginActivity">
+        </activity>
+        <!-- 每日一报 -->
+        <activity android:name=".activity.daily.EveryDayActivity">
+        </activity>
+        <!-- 签到记录 -->
+        <activity android:name=".activity.daily.Sign_RecordActivity">
+        </activity>
+        <!-- 邮件管理 -->
+        <activity android:name=".activity.daily.MailActivity">
+        </activity>
+        <!-- 邮件详情 -->
+        <activity android:name=".activity.daily.mail.Mail_Details_Activity">
+        </activity>
+        <!-- 请假管理 -->
+        <activity android:name=".activity.daily.leave.Leave_FragmentActivity">
+        </activity>
+        <!-- 我的请假 -->
+        <activity android:name=".activity.daily.leave.Leave_My_Activity">
+        </activity>
+        <!-- 项目管理 -->
+        <activity android:name=".activity.manage.ProjectActivity">
+        </activity>
+        <!-- 创建新项目 -->
+        <activity android:name=".activity.manage.project.Project_New_Activity">
+        </activity>
+    </application>
+
+</manifest>

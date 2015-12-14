@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+    <RelativeLayout
+        android:id="@+id/sliding_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/dimen_20">
+
+        <RelativeLayout
+            android:id="@+id/sliding_ll"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_70">
+
+            <ImageView
+                android:id="@+id/sliding_icon"
+                android:layout_width="@dimen/dimen_50"
+                android:layout_height="@dimen/dimen_50"
+                android:src="@mipmap/img_face" />
+
+            <TextView
+                android:id="@+id/sliding_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:text="BlueMor"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/dimen_16"
+                android:layout_toRightOf="@id/sliding_icon"/>
+            <ImageView
+                android:id="@+id/sliding_qr"
+                android:layout_width="@dimen/dimen_30"
+                android:layout_height="@dimen/dimen_30"
+                android:src="@mipmap/qr_code"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/sliding_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/dimen_20"
+                android:layout_height="@dimen/dimen_20"
+                android:src="@mipmap/sss"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="@string/sliding_setting"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/dimen_14"
+                android:layout_marginLeft="@dimen/dimen_2"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/sliding_lv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/sliding_setting"
+            android:layout_below="@id/sliding_ll"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            android:cacheColorHint="#00000000"
+            android:listSelector="#00000000"
+            android:divider="@null"
+            android:textColor="#ffffff"
+            android:scrollbars="none"/>
+    </RelativeLayout>
+</RelativeLayout>

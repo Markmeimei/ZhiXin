@@ -1,0 +1,142 @@
+<resources>
+    <string name="app_name">ZhiXin</string>
+    <string name="button_product_tour">product tour</string>
+
+    <string name="welcom_head_01">Spreadsheets on the go</string>
+    <string name="welcom_content_01">Get stuff done with or without an internet connection.</string>
+    <string name="welcom_head_02">Share and edit together</string>
+    <string name="welcom_content_02">Write on your own or invite more people to contribute.</string>
+    <string name="welcom_head_03">Automatically save to the web</string>
+    <string name="welcom_content_03">Never lose your progress, so you can keep working from any computer or device.</string>
+    <string name="welcom_head_04">Edit Excel spreadsheets</string>
+    <string name="welcom_content_04">Open, edit, and save Excel files - all within Sheets.</string>
+    <!-- 基础 -->
+    <string name="base_back">返回</string>
+    <string name="base_submit">提交</string>
+    <!-- 主页 -->
+    <string name="sliding_setting">设置</string>
+    <string name="sliding_suggestions">建言献策</string>
+    <string name="sliding_feedback">协同反馈</string>
+    <string name="sliding_company">公司制度</string>
+    <!-- 设置 -->
+    <string name="sliding_password">密码设置</string>
+    <string name="sliding_mobile">手机号</string>
+    <string name="sliding_safe">安全设置</string>
+    <string name="sliding_notice">信息通知</string>
+    <string name="sliding_exit">退出登录</string>
+    <string name="sliding_about">关于</string>
+    <string name="sliding_head">头像</string>
+    <string name="sliding_qr">二维码</string>
+    <string name="sliding_qr_my">我的二维码</string>
+    <string name="sliding_qr_text">扫描二维码，添加我到通讯录</string>
+    <!-- 账户详情 -->
+    <string name="account_basic">基本信息</string>
+    <string name="account_name">名字</string>
+    <string name="account_name_spell">姓名全拼(大写)</string>
+    <string name="account_sex">性别</string>
+    <string name="account_birthday">生日</string>
+    <string name="account_ID">身份证号码</string>
+    <string name="account_mobile">手机号码</string>
+    <string name="account_short">手机短号</string>
+    <string name="account_qq">QQ</string>
+    <string name="account_mail">邮件</string>
+    <string name="account_education">学历</string>
+    <string name="account_position">职务</string>
+    <string name="account_department">所属部门</string>
+    <string name="account_entry">入职时间</string>
+    <string name="account_hometown">故乡</string>
+    <string name="account_address">现在住址</string>
+    <string name="account_charge">负责人姓名</string>
+    <string name="account_relation">与责任人关系</string>
+    <string name="account_relation_tell">责任人电话</string>
+    <string name="account_communication">通讯</string>
+    <string name="account_job">工作</string>
+    <string name="account_archives">档案</string>
+    <!-- Main -->
+    <string name="main_daily">日常</string>
+    <string name="main_manage">管理</string>
+    <string name="main_book">通讯录</string>
+    <string name="main_tool">工具</string>
+    <string name="daily_title">日常工作</string>
+    <string name="manage_title">管理工具</string>
+    <string name="book_title">通讯录</string>
+    <string name="tool_title">实用工具</string>
+    <!-- 登录 -->
+    <string name="login_username">登录账户</string>
+    <string name="login_password">账户密码</string>
+    <string name="login_text">登录</string>
+    <string name="login_auto">自动登录</string>
+    <!-- 日常工作 -->
+    <string name="daily_everyday">每日一报</string>
+    <string name="daily_tomorrow">明日计划</string>
+    <string name="daily_week">每周计划</string>
+    <string name="daily_sign">签到</string>
+    <string name="daily_schedule">日程管理</string>
+    <string name="daily_mail">邮件管理</string>
+    <string name="daily_task">任务管理</string>
+    <string name="daily_leave">请假</string>
+    <string name="daily_overtime">加班</string>
+    <!-- 每日一报 -->
+    <string name="every_add">添加日报</string>
+    <string name="every_record">日报记录</string>
+    <string name="every_chose">选择日期</string>
+    <string name="every_attachment">选择附件</string>
+    <string name="every_input">请输入日报内容</string>
+    <!-- 邮件 -->
+    <string name="mail_received">已收邮件</string>
+    <string name="mail_have">已发邮件</string>
+    <!-- 邮件详情 -->
+    <string name="mail_sender">发件人：</string>
+    <string name="mail_theme">主题：</string>
+    <string name="mail_text">正文：</string>
+    <string name="mail_reply">回复</string>
+    <string name="mail_forward">转发</string>
+    <string name="mail_delete">删除</string>
+    <!-- 管理 -->
+    <string name="manage_project">项目管理</string>
+    <string name="manage_inquiry">询价资产</string>
+    <string name="manage_attendance">考勤管理</string>
+    <string name="manage_oil">车油管理</string>
+    <string name="manage_clientele">客户管理</string>
+    <string name="manage_stock">进销存</string>
+    <!-- 项目管理 -->
+    <string name="project_new">创建新项目</string>
+    <string name="project_no_start">未开始项目</string>
+    <string name="project_underway">进行中项目</string>
+    <string name="project_known">得知项目</string>
+    <string name="project_undetermined">待定项目</string>
+    <string name="project_follow">跟进项目</string>
+    <string name="project_end">已完结项目</string>
+    <string name="project_ensure">确定项目</string>
+    <string name="project_lose">丢失项目</string>
+    <!-- 创建新项目 -->
+    <string name="project_name">项目名称</string>
+    <string name="project_classify">项目分类</string>
+    <string name="project_introduction">项目介绍</string>
+    <string name="project_charge">总负责人</string>
+    <string name="project_division">项目分工</string>
+    <string name="project_message">短信通知</string>
+    <string name="project_ensure_add">确认添加</string>
+    <!-- 通讯录 -->
+    <string name="search_header">搜</string>
+    <string name="address_text">至信</string>
+    <string name="address_mail">群发短信</string>
+    <!-- 请假管理 -->
+    <string name="leave">请假</string>
+    <string name="leave_pending">待审请假</string>
+    <string name="leave_approved">已批请假</string>
+    <string name="leave_unapproved">未批请假</string>
+    <string name="leave_apply_time">申请时间</string>
+    <string name="leave_start_time">开始时间</string>
+    <string name="leave_end_time">结束时间</string>
+    <string name="leave_time">请假时长</string>
+    <string name="leave_reason">请假原因</string>
+    <string name="leave_reviewer">审核人</string>
+    <string name="leave_status">审核状态</string>
+    <string name="leave_reject_reason">未通过原因</string>
+    <string name="leave_agreement">同意</string>
+    <string name="leave_disagree">不同意</string>
+    <string name="leave_add">添加请假</string>
+    <string name="leave_reason_hint">请输入请假原因</string>
+    <string name="leave_message">发送短信</string>
+</resources>
