@@ -69,6 +69,7 @@
         </activity>
         <activity android:name=".Test_ddd">
         </activity>
+        <!--测试一下-->
     </application>
 
 </manifest>
