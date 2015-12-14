@@ -13,9 +13,18 @@ import com.example.zhi.R;
 public class Test_Activity extends Activity {
     private static final String TAG = "Test_Activity";
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_test);
+        initConstants();
+    }
+
+    private void initConstants() {
+
     }
 }
