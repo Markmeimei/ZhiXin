@@ -67,6 +67,9 @@
         <!-- 创建新项目 -->
         <activity android:name=".activity.manage.project.Project_New_Activity">
         </activity>
+        <!-- -->
+        <activity android:name=".activity.Test_Activity">
+        </activity>
     </application>
 
 </manifest>
