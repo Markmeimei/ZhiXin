@@ -67,9 +67,6 @@
         <!-- 创建新项目 -->
         <activity android:name=".activity.manage.project.Project_New_Activity">
         </activity>
-        <activity android:name=".Test_ddd">
-        </activity>
-        <!--测试一下-->
     </application>
 
 </manifest>
