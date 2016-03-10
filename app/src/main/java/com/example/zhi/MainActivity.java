@@ -31,74 +31,75 @@ import com.example.zhi.fragment.Fragment_Daily;
 import com.example.zhi.fragment.Fragment_Manage;
 import com.example.zhi.fragment.Fragment_Tool;
 import com.example.zhi.view.DragLayout;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.nineoldandroids.view.ViewHelper;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     // 日常
-    @ViewInject(R.id.re_daily)
+    @Bind(R.id.re_daily)
     RelativeLayout re_daily;
-    @ViewInject(R.id.iv_daily)
+    @Bind(R.id.iv_daily)
     ImageView iv_daily;
-    @ViewInject(R.id.tv_daily)
+    @Bind(R.id.tv_daily)
     TextView tv_daily;
     // 管理
-    @ViewInject(R.id.re_manage)
+    @Bind(R.id.re_manage)
     RelativeLayout re_manage;
-    @ViewInject(R.id.iv_manage)
+    @Bind(R.id.iv_manage)
     ImageView iv_manage;
-    @ViewInject(R.id.tv_manage)
+    @Bind(R.id.tv_manage)
     TextView tv_manage;
     // 通讯录
-    @ViewInject(R.id.re_book)
+    @Bind(R.id.re_book)
     RelativeLayout re_book;
-    @ViewInject(R.id.iv_book)
+    @Bind(R.id.iv_book)
     ImageView iv_book;
-    @ViewInject(R.id.tv_book)
+    @Bind(R.id.tv_book)
     TextView tv_book;
     // 工具
-    @ViewInject(R.id.re_tool)
+    @Bind(R.id.re_tool)
     RelativeLayout re_tool;
-    @ViewInject(R.id.iv_tool)
+    @Bind(R.id.iv_tool)
     ImageView iv_tool;
-    @ViewInject(R.id.tv_tool)
+    @Bind(R.id.tv_tool)
     TextView tv_tool;
     //
-    @ViewInject(R.id.dl)
+    @Bind(R.id.dl)
     DragLayout main_dl;
     /**
      *  侧栏
      */
     // 页面
-    @ViewInject(R.id.sliding_rl)
+    @Bind(R.id.sliding_rl)
     RelativeLayout sliding_rl;
     // 账户
-    @ViewInject(R.id.sliding_ll)
+    @Bind(R.id.sliding_ll)
     RelativeLayout sliding_ll;
     // 列表
-    @ViewInject(R.id.sliding_lv)
+    @Bind(R.id.sliding_lv)
     ListView sliding_lv;
     // 头像
-    @ViewInject(R.id.sliding_icon)
+    @Bind(R.id.sliding_icon)
     ImageView sliding_icon;
     // 二维码
-    @ViewInject(R.id.sliding_qr)
+    @Bind(R.id.sliding_qr)
     ImageView sliding_qr;
     // 用户名
-    @ViewInject(R.id.sliding_username)
+    @Bind(R.id.sliding_username)
     TextView sliding_username;
     // 设置
-    @ViewInject(R.id.sliding_setting)
+    @Bind(R.id.sliding_setting)
     LinearLayout sliding_setting;
     /**
      * 顶栏
      */
     //  标题
-    @ViewInject(R.id.header_title)
+    @Bind(R.id.header_title)
     TextView header_title;
     // 头像
-    @ViewInject(R.id.header_icon)
+    @Bind(R.id.header_icon)
     ImageView header_icon;
     // 对象
     private Fragment[] fragments;
@@ -135,7 +136,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         WindowManager wm = this.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
-        ViewUtils.inject(this);
+
+        ButterKnife.bind(this);
+
         initConstants();
         initDragLayout();
         initFragment(); // 初始化 Fragment
@@ -195,7 +198,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         imageViews = new ImageView[]{iv_daily,iv_manage,iv_book,iv_tool};
         imageViews[0].setSelected(true);
         textViews = new TextView[]{tv_daily,tv_manage,tv_book,tv_tool};
-        textViews[0].setTextColor(getResources().getColor(R.color.gold));
+        textViews[0].setTextColor(getResources().getColor(R.color.main_color));
         // 添加显示 第一个Fragment
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container,fragment_daily)
@@ -276,10 +279,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             ft.show(fragments[index]).commit();
         }
         imageViews[fragment_index].setSelected(false);
-        textViews[fragment_index].setTextColor(getResources().getColor(R.color.white));
+        textViews[fragment_index].setTextColor(getResources().getColor(R.color.text_color_bottom));
         // 当前 Tab 选中
         imageViews[index].setSelected(true);
-        textViews[index].setTextColor(getResources().getColor(R.color.gold));
+        textViews[index].setTextColor(getResources().getColor(R.color.main_color));
         fragment_index = index;
     }
 

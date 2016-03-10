@@ -13,6 +13,8 @@
     <!-- 基础 -->
     <string name="base_back">返回</string>
     <string name="base_submit">提交</string>
+    <string name="loading_press">请稍候，正在提交...</string>
+    <string name="login_posting">正在登录，请稍候...</string>
     <!-- 主页 -->
     <string name="sliding_setting">设置</string>
     <string name="sliding_suggestions">建言献策</string>
@@ -62,10 +64,16 @@
     <string name="book_title">通讯录</string>
     <string name="tool_title">实用工具</string>
     <!-- 登录 -->
-    <string name="login_username">登录账户</string>
-    <string name="login_password">账户密码</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
     <string name="login_text">登录</string>
-    <string name="login_auto">自动登录</string>
+    <string name="login_auto">记住密码</string>
+    <string name="login_forget">忘记密码</string>
+    <string name="login_hint_username">请输入用户名</string>
+    <string name="login_hint_password">请输入密码</string>
+    <string name="login_on_loading">正在登录······</string>
+    <string name="login_error">用户名或密码错误</string>
+    <string name="login_load_success">欢迎您，</string>
     <!-- 日常工作 -->
     <string name="daily_everyday">每日一报</string>
     <string name="daily_tomorrow">明日计划</string>
@@ -76,13 +84,35 @@
     <string name="daily_task">任务管理</string>
     <string name="daily_leave">请假</string>
     <string name="daily_overtime">加班</string>
+    <string name="daily_work">日常工作</string>
     <!-- 每日一报 -->
-    <string name="every_add">添加日报</string>
+    <string name="daily_report">每日一报</string>
+    <string name="every_add">每日一报</string>
+    <string name="every_report_submit">提交日报</string>
     <string name="every_record">日报记录</string>
     <string name="every_chose">选择日期</string>
     <string name="every_attachment">选择附件</string>
     <string name="every_input">请输入日报内容</string>
+    <string name="every_ip">IP:</string>
+    <string name="every_add_time">添加时间:</string>
+
+    <!--明日计划-->
+    <string name="tom_plan_add">明日计划</string>
+    <string name="tom_plan_record">计划记录</string>
+    <string name="tom_plan_date">日期</string>
+    <string name="tom_plan_choice">选择日期</string>
+    <string name="tom_plan_input">请输入计划内容</string>
+    <string name="tom_plan_ip">IP</string>
+    <string name="tom_plan_add_time">添加时间</string>
+    <string name="tom_plan_state">添加完成情况</string>
+    <string name="tom_plan_read">阅读人：</string>
+    <string name="tom_plan_read_time">阅读时间</string>
+
+    <!--每周计划-->
+    <string name="weekly_plan_add">每周计划</string>
+
     <!-- 邮件 -->
+    <string name="mail_manage">邮件管理</string>
     <string name="mail_received">已收邮件</string>
     <string name="mail_have">已发邮件</string>
     <!-- 邮件详情 -->
@@ -109,6 +139,8 @@
     <string name="project_end">已完结项目</string>
     <string name="project_ensure">确定项目</string>
     <string name="project_lose">丢失项目</string>
+    <string name="project_manage_back">管理</string>
+    <string name="project_manage_title">项目管理</string>
     <!-- 创建新项目 -->
     <string name="project_name">项目名称</string>
     <string name="project_classify">项目分类</string>
@@ -122,7 +154,9 @@
     <string name="address_text">至信</string>
     <string name="address_mail">群发短信</string>
     <!-- 请假管理 -->
-    <string name="leave">请假</string>
+    <string name="leave">请假管理</string>
+    <string name="leave_my">我的请假</string>
+    <string name="leave_my_add">添加请假</string>
     <string name="leave_pending">待审请假</string>
     <string name="leave_approved">已批请假</string>
     <string name="leave_unapproved">未批请假</string>
@@ -139,4 +173,46 @@
     <string name="leave_add">添加请假</string>
     <string name="leave_reason_hint">请输入请假原因</string>
     <string name="leave_message">发送短信</string>
+
+    <!--任务管理-->
+    <string name="task_not_receive">未接任务</string>
+    <string name="task_received">已接任务</string>
+    <string name="task_complete">已完任务</string>
+    <string name="task_date">日期</string>
+    <string name="task_choice_date">选择日期</string>
+    <string name="task_describe">任务描述</string>
+    <string name="task_attachment">任务附件</string>
+    <string name="task_add_attachment">添加附件</string>
+    <string name="task_level">任务等级</string>
+    <string name="task_general">一般</string>
+    <string name="task_important">重要</string>
+    <string name="task_handle_state">完/接/总</string>
+    <string name="task_creator">添加人</string>
+    <string name="task_transactor">办理人</string>
+    <string name="task_add">添加任务</string>
+    <string name="task_manage">任务管理</string>
+    <string name="task_deadline">任务时限</string>
+    <string name="task_receive">接收</string>
+    <string name="task_repost">转发</string>
+    <string name="task_receive_time">接收时间</string>
+    <string name="task_progress">任务进度</string>
+    <string name="task_progress_describe">任务进度描述</string>
+    <string name="task_complete_describe">任务完成描述</string>
+    <string name="task_unfinished_reason">未及时完成原因</string>
+    <string name="task_progress_situation">进度情况</string>
+    <string name="task_complete_situation">完成情况</string>
+    <string name="task_sms">短信通知</string>
+    <string name="task_send">发送</string>
+    <string name="task_clear">清空</string>
+
+    <!--签到记录-->
+    <string name="sign_name">姓名</string>
+    <string name="sign_time">签到时间</string>
+    <string name="sign_ip">签到IP</string>
+    <string name="sign_out_time">签退时间</string>
+
+    <string name="late">迟到</string>
+    <string name="late_reason">迟到原因</string>
+    <string name="leave_earlier">早退</string>
+    <string name="leave_earlier_reason">早退原因</string>
 </resources>

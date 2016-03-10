@@ -8,15 +8,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.fragment.mail.Mail_Have_Fragment;
 import com.example.zhi.fragment.mail.Mail_Received_Fragment;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Author：Mark
@@ -27,13 +30,21 @@ import java.util.List;
  */
 public class MailActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "MailActivity";
+    // 导航栏
+    @Bind(R.id.header_back)
+    TextView mailHeaderBack;
+    @Bind(R.id.header_title)
+    TextView mailheaderTitle;
+    @Bind(R.id.header_right)
+    ImageView mailHeaderRight;
+
     // 已收
-    @ViewInject(R.id.mail_received)
+    @Bind(R.id.mail_received)
     Button mail_received;
     // 已发
-    @ViewInject(R.id.mail_have)
+    @Bind(R.id.mail_have)
     Button mail_have;
-    @ViewInject(R.id.vp_viewpager)
+    @Bind(R.id.vp_viewpager)
     ViewPager vp_viewpager;
     // 对象
     private Context context;
@@ -44,7 +55,7 @@ public class MailActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.daily_mail);
-        ViewUtils.inject(this);
+        ButterKnife.bind(this);
         initConstants();
         initView();
     }
@@ -71,6 +82,13 @@ public class MailActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initView() {
+
+        mailHeaderBack.setText(R.string.daily_title);
+        mailheaderTitle.setText(R.string.mail_manage);
+        mailHeaderRight.setVisibility(View.GONE);
+
+        mailHeaderBack.setOnClickListener(this);
+
         mail_received.setOnClickListener(this);
         mail_have.setOnClickListener(this);
         // ViewPager 监听
@@ -84,15 +102,15 @@ public class MailActivity extends FragmentActivity implements View.OnClickListen
             public void onPageSelected(int position) {
                 // 重置 字体&颜色
                 resetColor();
-               switch (position){
-                   case 0:
+                switch (position) {
+                    case 0:
                         mail_received.setTextColor(getResources().getColor(R.color.white));
-                       mail_received.setBackground(getResources().getDrawable(R.drawable.shape_left_press));
-                       break;
-                   case 1:
-                       mail_have.setTextColor(getResources().getColor(R.color.white));
-                       mail_have.setBackground(getResources().getDrawable(R.drawable.shape_right_press));
-               }
+                        mail_received.setBackground(getResources().getDrawable(R.drawable.shape_left_press));
+                        break;
+                    case 1:
+                        mail_have.setTextColor(getResources().getColor(R.color.white));
+                        mail_have.setBackground(getResources().getDrawable(R.drawable.shape_right_press));
+                }
             }
 
             @Override
@@ -119,6 +137,9 @@ public class MailActivity extends FragmentActivity implements View.OnClickListen
             case R.id.mail_have:
                 // 已发邮件
                 vp_viewpager.setCurrentItem(1);
+                break;
+            case R.id.header_back:
+                finish();
                 break;
         }
     }

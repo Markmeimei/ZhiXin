@@ -11,8 +11,15 @@ import java.util.Date;
 public class DateUtils {
     private static final String TAG = "DateUtils";
     private static SimpleDateFormat simpleDateFormat = null;
+
     public static String getTimeYMDHM(){
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
+    }
+
+    public static String getDateYMD() {
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
     }

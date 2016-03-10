@@ -24,7 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/fragment_project_manage" />
 
         <TextView
             android:id="@+id/tv_project"
@@ -71,7 +71,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/fragment_inquiry_asset" />
 
         <TextView
             android:id="@+id/tv_inquiry"
@@ -117,7 +117,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/fragment_attendance_manage" />
 
         <TextView
             android:id="@+id/tv_attendance"
@@ -155,7 +155,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/fragment_car_manage" />
 
         <TextView
             android:id="@+id/tv_oil"
@@ -201,7 +201,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/fragment_customer_manage" />
 
         <TextView
             android:id="@+id/tv_clientele"
@@ -247,7 +247,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/fragment_inout_manage" />
 
         <TextView
             android:id="@+id/tv_stock"

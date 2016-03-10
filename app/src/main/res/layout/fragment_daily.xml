@@ -17,7 +17,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/notification_icon"
+                android:src="@mipmap/icon_daily_news"
                 android:background="@null"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/notification_icon"
+                android:src="@mipmap/icon_tomorrow_project"
                 android:background="@null"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/notification_icon"
+                android:src="@mipmap/icon_weekly_project"
                 android:background="@null"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/notification_icon"
+                android:src="@mipmap/icon_daily_sign"
                 android:background="@null"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -116,8 +116,8 @@
                         android:padding="@dimen/dimen_5">
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/chat_press"
+                            android:layout_height="@dimen/dimen_50"
+                            android:src="@mipmap/icon_calendar_manage"
                             android:background="@null"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -138,8 +138,8 @@
                         android:padding="@dimen/dimen_5">
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/chat_press"
+                            android:layout_height="@dimen/dimen_50"
+                            android:src="@mipmap/icon_mail_manage"
                             android:background="@null"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,8 +160,8 @@
                         android:padding="@dimen/dimen_5">
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/chat_press"
+                            android:layout_height="@dimen/dimen_50"
+                            android:src="@mipmap/icon_task_manage"
                             android:background="@null"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -182,8 +182,8 @@
                         android:padding="@dimen/dimen_5">
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/chat_press"
+                            android:layout_height="@dimen/dimen_50"
+                            android:src="@mipmap/icon_leave_manage"
                             android:background="@null"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -208,8 +208,8 @@
                         android:padding="@dimen/dimen_5">
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/chat_press"
+                            android:layout_height="@dimen/dimen_50"
+                            android:src="@mipmap/icon_overtime_manage"
                             android:background="@null"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -229,7 +229,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -252,7 +252,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -275,7 +275,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -302,7 +302,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -325,7 +325,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -348,7 +348,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -371,7 +371,7 @@
                         android:padding="@dimen/dimen_5">
                         <ImageButton
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/dimen_50"
                             android:src="@mipmap/chat_press"
                             android:background="@null"
                             android:visibility="invisible"/>
@@ -390,50 +390,54 @@
                 android:layout_height="@dimen/dimen_0.5"
                 android:background="@color/gainsboro"
                 android:layout_marginTop="@dimen/dimen_10"/>
-            <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="200dp"
-                android:visibility="visible">
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/daily_vp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/dimen_20"
-                    android:layout_gravity="bottom"
-                    android:gravity="center"
-                    android:orientation="vertical" >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dip"
-                        android:gravity="center" >
 
-                        <View
-                            android:id="@+id/v_dot0"
-                            style="@style/dot_style"
-                            android:background="@drawable/shape_dot_press" />
+            <!--<FrameLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="200dp"-->
+                <!--android:visibility="visible">-->
+                <!--<android.support.v4.view.ViewPager-->
+                    <!--android:id="@+id/daily_vp"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="fill_parent" />-->
 
-                        <View
-                            android:id="@+id/v_dot1"
-                            style="@style/dot_style" />
+                <!--<LinearLayout-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="@dimen/dimen_20"-->
+                    <!--android:layout_gravity="bottom"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical" >-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="3dip"-->
+                        <!--android:gravity="center" >-->
 
-                        <View
-                            android:id="@+id/v_dot2"
-                            style="@style/dot_style" />
+                        <!--<View-->
+                            <!--android:id="@+id/v_dot0"-->
+                            <!--style="@style/dot_style"-->
+                            <!--android:background="@drawable/shape_dot_press" />-->
 
-                        <View
-                            android:id="@+id/v_dot3"
-                            style="@style/dot_style" />
+                        <!--<View-->
+                            <!--android:id="@+id/v_dot1"-->
+                            <!--style="@style/dot_style" />-->
 
-                        <View
-                            android:id="@+id/v_dot4"
-                            style="@style/dot_style" />
-                    </LinearLayout>
-                </LinearLayout>
-            </FrameLayout>
+                        <!--<View-->
+                            <!--android:id="@+id/v_dot2"-->
+                            <!--style="@style/dot_style" />-->
+
+                        <!--<View-->
+                            <!--android:id="@+id/v_dot3"-->
+                            <!--style="@style/dot_style" />-->
+
+                        <!--<View-->
+                            <!--android:id="@+id/v_dot4"-->
+                            <!--style="@style/dot_style" />-->
+                    <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
+            <!--</FrameLayout>-->
+
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/dimen_0.5"

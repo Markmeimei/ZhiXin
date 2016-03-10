@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,12 +23,12 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class Leave_My_Activity extends Activity implements View.OnClickListener {
     private static final String TAG = "Leave_My_Activity";
     // 顶栏
-    @ViewInject(R.id.header_back)
+    @ViewInject(R.id.task_header_back)
     TextView header_back;
-    @ViewInject(R.id.header_title)
+    @ViewInject(R.id.task_header_title)
     TextView header_title;
-    @ViewInject(R.id.header_right)
-    ImageView header_right;
+    @ViewInject(R.id.task_header_right)
+    TextView header_right;
     @ViewInject(R.id.leave_list)
     ListView leave_list;
     // 对象
@@ -51,12 +50,13 @@ public class Leave_My_Activity extends Activity implements View.OnClickListener 
 
     private void initViews() {
         adapter = new LeaveAdapter(context,5);
+        header_title.setText(getString(R.string.leave));
+        header_right.setText(getString(R.string.leave_my));//我的请假
         leave_list.setAdapter(adapter);
     }
 
     private void initEvents() {
         header_back.setOnClickListener(this);
-        header_title.setText(getString(R.string.leave));
         header_right.setOnClickListener(this);
     }
 

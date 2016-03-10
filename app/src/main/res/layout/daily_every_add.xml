@@ -1,179 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/snow">
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/dimen_50"
-        android:paddingLeft="@dimen/dimen_5"
-        android:paddingRight="@dimen/dimen_5">
-        <TextView
-            android:id="@+id/add_time_show"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="日期：2015-12-01 11:00"
-            android:textSize="@dimen/dimen_16"
-            android:textColor="@color/darkorange"
-            android:gravity="center"/>
-        <TextView
-            android:id="@+id/add_time_chose"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:text="@string/every_chose"
-            android:textSize="@dimen/dimen_16"
-            android:textColor="@color/darkorange"
-            android:gravity="center"
-            android:drawableLeft="@mipmap/movie"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/dimen_0.5"
-        android:background="@color/line_color"/>
-    <EditText
-        android:id="@+id/add_input"
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:background="@color/white"
-        android:hint="@string/every_input"
-        android:gravity="start"
-        android:textColor="@color/text_color3"
-        android:textSize="@dimen/dimen_14"
-        android:padding="@dimen/dimen_5"
-        />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/dimen_0.5"
-        android:background="@color/line_color"/>
+    android:background="@color/snow"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/dimen_20"
-        android:background="@color/white">
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50"
-            android:paddingRight="@dimen/dimen_15"
-            android:paddingLeft="@dimen/dimen_15">
+            android:paddingLeft="@dimen/dimen_5"
+            android:paddingRight="@dimen/dimen_5">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/every_attachment"
-                android:textSize="@dimen/dimen_16"
-                android:textColor="@color/text_color2"
-                android:layout_centerVertical="true"/>
-            <LinearLayout
+                android:id="@+id/add_time_show"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:layout_centerVertical="true"
                 android:gravity="center"
-                android:layout_alignParentRight="true">
-                <ImageView
-                    android:layout_width="@dimen/dimen_40"
-                    android:layout_height="@dimen/dimen_40"
-                    android:src="@mipmap/image_icon"/>
-                <ImageView
-                    android:layout_width="@dimen/dimen_40"
-                    android:layout_height="@dimen/dimen_40"
-                    android:src="@mipmap/image_icon"
-                    android:layout_marginLeft="@dimen/dimen_10"/>
-                <ImageView
-                    android:layout_width="@dimen/dimen_40"
-                    android:layout_height="@dimen/dimen_40"
-                    android:src="@mipmap/image_icon"
-                    android:layout_marginLeft="@dimen/dimen_10"/>
-            </LinearLayout>
-        </RelativeLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color"
-            android:layout_marginLeft="@dimen/dimen_15"
-            android:layout_marginRight="@dimen/dimen_15"/>
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_40"
-            android:paddingRight="@dimen/dimen_15"
-            android:paddingLeft="@dimen/dimen_15"
-            android:gravity="center_vertical">
-            <ImageView
-                android:id="@+id/project_file_img1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/file_attach_pdf"/>
+                android:text="日期："
+                android:textColor="@color/darkorange"
+                android:textSize="@dimen/dimen_16" />
+
             <TextView
+                android:id="@+id/add_date_show"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="项目汇总.pdf"
-                android:textSize="@dimen/dimen_16"
-                android:textColor="@color/text_color2"
-                android:layout_toRightOf="@id/project_file_img1"
-                android:layout_marginLeft="@dimen/dimen_10"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color"
-            android:layout_marginLeft="@dimen/dimen_15"
-            android:layout_marginRight="@dimen/dimen_15"/>
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_40"
-            android:paddingRight="@dimen/dimen_15"
-            android:paddingLeft="@dimen/dimen_15"
-            android:gravity="center_vertical">
-            <ImageView
-                android:id="@+id/project_file_img2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/file_attach_doc"/>
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="2016-03-04"
+                android:layout_toRightOf="@+id/add_time_show"
+                android:textColor="@color/darkorange"
+                android:textSize="@dimen/dimen_16" />
+
+
+
             <TextView
+                android:id="@+id/add_time_chose"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="接口文档.doc"
-                android:textSize="@dimen/dimen_16"
-                android:textColor="@color/text_color2"
-                android:layout_toRightOf="@id/project_file_img2"
-                android:layout_marginLeft="@dimen/dimen_10"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color"
-            android:layout_marginLeft="@dimen/dimen_15"
-            android:layout_marginRight="@dimen/dimen_15"/>
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_40"
-            android:paddingRight="@dimen/dimen_15"
-            android:paddingLeft="@dimen/dimen_15"
-            android:gravity="center_vertical">
-            <ImageView
-                android:id="@+id/project_file_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/file_attach_xls"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="人员名单.xls"
-                android:textSize="@dimen/dimen_16"
-                android:textColor="@color/text_color2"
-                android:layout_toRightOf="@id/project_file_img"
-                android:layout_marginLeft="@dimen/dimen_10"/>
+                android:layout_height="fill_parent"
+                android:drawableLeft="@mipmap/icon_choice_date"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="@dimen/dimen_4"
+                android:gravity="center"
+                android:text="@string/every_chose"
+                android:textColor="@color/darkorange"
+                android:textSize="@dimen/dimen_16" />
         </RelativeLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color"/>
+            android:background="@color/line_color" />
+
+        <EditText
+            android:id="@+id/et_add_input"
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:background="@color/white"
+            android:gravity="start"
+            android:hint="@string/every_input"
+            android:padding="@dimen/dimen_5"
+            android:textColor="@color/text_color1"
+            android:textSize="@dimen/dimen_16" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_0.5"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_50"
+                android:paddingLeft="@dimen/dimen_15"
+                android:paddingRight="@dimen/dimen_15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/every_attachment"
+                    android:textColor="@color/text_color2"
+                    android:textSize="@dimen/dimen_16" />
+
+                <ImageView
+                    android:id="@+id/iv_add_attachment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/dimen_20"
+                    android:paddingRight="@dimen/dimen_20"
+                    android:src="@mipmap/add_receiver" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:layout_marginLeft="@dimen/dimen_15"
+                android:layout_marginRight="@dimen/dimen_15"
+                android:background="@color/line_color" />
+
+            <!--<ListView-->
+            <!--android:id="@+id/lv_daily_attachment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--</ListView>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list_attachment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_report_submit"
+                android:text="提交"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/daily_calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </FrameLayout>
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

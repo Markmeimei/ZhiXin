@@ -8,8 +8,11 @@
     <color name="text_color2">#646464</color>
     <color name="text_color3">#b3b3b3</color>
     <color name="text_color4">#f0f0f0</color>
+    <color name="text_content">#ffa19d94</color>
     <color name="line_color">#D6D6D6</color>
     <color name="main_color">#1487df</color>
+    <color name="text_color_main">#333333</color>
+    <color name="text_color_bottom">#999999</color>
     <color name="white">#FFFFFF</color><!--白色 -->
 
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
@@ -19,7 +22,8 @@
     <color name="yellow">#FFFF00</color><!--黄色 -->
 
     <!--<color name="snow">#FFFAFA</color>&lt;!&ndash;雪白色 &ndash;&gt;-->
-    <color name="snow">#DCDCDC</color>
+    <color name="snow">#F5F5F9</color>
+    <color name="snow_low">#fcfcfc</color>
 
     <color name="floralwhite">#FFFAF0</color><!--花白色 -->
 
@@ -298,4 +302,5 @@
     <color name="navy">#000080</color><!--海军色 -->
 
     <color name="black">#000000</color><!--黑色 -->
+    <color name="black_low">#2b2b2b</color><!--黑色 -->
 </resources>

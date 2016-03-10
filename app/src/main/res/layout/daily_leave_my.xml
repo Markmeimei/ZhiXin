@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/snow">
-    <include layout="@layout/activity_header"/>
+    <include layout="@layout/activity_task_header"/>
     <ListView
         android:id="@+id/leave_list"
         android:layout_width="fill_parent"

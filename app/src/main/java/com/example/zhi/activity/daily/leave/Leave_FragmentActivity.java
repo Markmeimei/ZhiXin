@@ -6,21 +6,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.fragment.leave.Leave_Approved_Fragment;
 import com.example.zhi.fragment.leave.Leave_Pend_Fragment;
 import com.example.zhi.fragment.leave.Leave_Unapproved_Fragment;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Author：Mark
@@ -32,41 +33,44 @@ import java.util.List;
 public class Leave_FragmentActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "Leave_FragmentActivity";
     // 顶栏
-    @ViewInject(R.id.header_back)
-    TextView header_back;
-    @ViewInject(R.id.header_title)
+    @Bind(R.id.task_header_back)
+    TextView leave_header_back;
+    @Bind(R.id.task_header_title)
     TextView header_title;
-    @ViewInject(R.id.header_right)
-    ImageView header_right;
+    @Bind(R.id.task_header_right)
+    TextView leave_header_right;
     // 导航栏
-    @ViewInject(R.id.fragment_btn1)
+    @Bind(R.id.fragment_btn1)
     Button fragment_btn1;
-    @ViewInject(R.id.fragment_btn2)
+    @Bind(R.id.fragment_btn2)
     Button fragment_btn2;
-    @ViewInject(R.id.fragment_btn3)
+    @Bind(R.id.fragment_btn3)
     Button fragment_btn3;
     // 滑动页
-    @ViewInject(R.id.fragment_viewpager)
+    @Bind(R.id.fragment_viewpager)
     ViewPager fragment_viewpager;
     // 对象
     private FragmentPagerAdapter pagerAdapter;
-    private Context context;
-    private List<Fragment> fragments = new ArrayList<Fragment>();
+    private Context mContext;
+    private List<Fragment> fragments = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.daily_leave);
-        ViewUtils.inject(this);
+        ButterKnife.bind(this);
         initConstants();
         initViews();
         initEvents();
     }
 
     private void initConstants() {
-        context = Leave_FragmentActivity.this;
+        mContext = Leave_FragmentActivity.this;
     }
 
     private void initViews() {
+        header_title.setText(getString(R.string.leave));
+        leave_header_right.setText(getString(R.string.leave_my));
+
         Leave_Pend_Fragment pend_fragment = new Leave_Pend_Fragment();
         Leave_Approved_Fragment approved_fragment = new Leave_Approved_Fragment();
         Leave_Unapproved_Fragment unapproved_fragment = new Leave_Unapproved_Fragment();
@@ -89,14 +93,14 @@ public class Leave_FragmentActivity extends FragmentActivity implements View.OnC
     }
 
     private void initEvents() {
-        header_back.setOnClickListener(this);
-        header_title.setText(getString(R.string.leave));
-        header_right.setOnClickListener(this);
+        leave_header_back.setOnClickListener(this);
+        leave_header_right.setOnClickListener(this);
+
         fragment_btn1.setOnClickListener(this);
         fragment_btn2.setOnClickListener(this);
         fragment_btn3.setOnClickListener(this);
         // ViewPager 页面切换
-        fragment_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        fragment_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -106,18 +110,18 @@ public class Leave_FragmentActivity extends FragmentActivity implements View.OnC
             public void onPageSelected(int position) {
                 // 重置颜色
                 resetColor();
-                switch (position){
+                switch (position) {
                     case 0:
-                        fragment_btn1.setTextColor(getResources().getColor(R.color.white));
-                        fragment_btn1.setBackground(getResources().getDrawable(R.drawable.shape_left_press));
+                        fragment_btn1.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+                        fragment_btn1.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_left_press));
                         break;
                     case 1:
-                        fragment_btn2.setTextColor(getResources().getColor(R.color.white));
-                        fragment_btn2.setBackgroundColor(getResources().getColor(R.color.main_color));
+                        fragment_btn2.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+                        fragment_btn2.setBackgroundColor(ContextCompat.getColor(mContext, R.color.main_color));
                         break;
                     case 2:
-                        fragment_btn3.setTextColor(getResources().getColor(R.color.white));
-                        fragment_btn3.setBackground(getResources().getDrawable(R.drawable.shape_right_press));
+                        fragment_btn3.setTextColor(ContextCompat.getColor(mContext, R.color.white));
+                        fragment_btn3.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_right_press));
                         break;
                 }
             }
@@ -131,23 +135,23 @@ public class Leave_FragmentActivity extends FragmentActivity implements View.OnC
     }
     // 重置导航栏颜色
     private void resetColor() {
-        fragment_btn1.setTextColor(getResources().getColor(R.color.main_color));
-        fragment_btn1.setBackground(getResources().getDrawable(R.drawable.shape_left_normal));
-        fragment_btn2.setTextColor(getResources().getColor(R.color.main_color));
-        fragment_btn2.setBackgroundColor(getResources().getColor(R.color.white));
-        fragment_btn3.setTextColor(getResources().getColor(R.color.main_color));
-        fragment_btn3.setBackground(getResources().getDrawable(R.drawable.shape_right_normal));
+        fragment_btn1.setTextColor(ContextCompat.getColor(mContext, R.color.main_color));
+        fragment_btn1.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_left_normal));
+        fragment_btn2.setTextColor(ContextCompat.getColor(mContext, R.color.main_color));
+        fragment_btn2.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+        fragment_btn3.setTextColor(ContextCompat.getColor(mContext, R.color.main_color));
+        fragment_btn3.setBackground(ContextCompat.getDrawable(mContext, R.drawable.shape_right_normal));
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.header_back:
+        switch (v.getId()) {
+            case R.id.task_header_back:
                 // 返回
                 finish();
                 break;
-            case R.id.header_right:
-                startActivity(new Intent(context,Leave_My_Activity.class));
+            case R.id.task_header_right:
+                startActivity(new Intent(mContext, Leave_My_Activity.class));
                 break;
             case R.id.fragment_btn1:
                 fragment_viewpager.setCurrentItem(0);

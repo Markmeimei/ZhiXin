@@ -7,8 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zhi.R;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Author：Mark
@@ -20,17 +21,17 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class Project_New_Activity extends Activity implements View.OnClickListener {
     private static final String TAG = "Project_New_Activity";
     // 顶栏
-    @ViewInject(R.id.header_back)
+    @Bind(R.id.header_back)
     TextView header_back;
-    @ViewInject(R.id.header_title)
+    @Bind(R.id.header_title)
     TextView header_title;
-    @ViewInject(R.id.header_right)
+    @Bind(R.id.header_right)
     ImageView header_right;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.manage_project_new);
-        ViewUtils.inject(this);
+        ButterKnife.bind(this);
         initConstants();
         initViews();
         initEvents();

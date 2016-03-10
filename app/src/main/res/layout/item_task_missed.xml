@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/snow"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/item_task_missed"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_50"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_task_not_receive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/task_not_receive"
+            android:textColor="@color/main_color"
+            android:textSize="@dimen/dimen_20" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen_15"
+            android:src="@mipmap/dropdown" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/item_task_missed_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:paddingLeft="@dimen/dimen_15"
+                android:paddingRight="@dimen/dimen_15">
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_date" />
+
+                <TextView
+                    android:id="@+id/tv_task_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="2016-01-01"
+                    android:textSize="@dimen/dimen_18" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_choice_date"
+                    android:paddingRight="@dimen/dimen_2"
+                    android:src="@mipmap/icon_choice_date" />
+
+                <TextView
+                    android:id="@+id/tv_choice_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/task_choice_date"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/dimen_16" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:paddingLeft="@dimen/dimen_15"
+                android:paddingRight="@dimen/dimen_15">
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_describe" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_task_describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/dimen_4"
+                android:paddingBottom="@dimen/dimen_10"
+                android:paddingLeft="@dimen/dimen_15"
+                android:paddingRight="@dimen/dimen_15"
+                android:text="蒹葭苍苍，白露为霜。所谓伊人，在水一方！溯洄从之，道阻且长。溯游从之，宛在水中央。蒹葭凄凄，白露未晞。所谓伊人，在水之湄。溯洄从之，道阻且跻，溯游从之，宛在水中坻。蒹葭采采，白露未已。所谓伊人，在水之涘。溯洄从之，道阻且右。溯游从之，宛在水中沚。"
+                android:textColor="@color/black_low"
+                android:textSize="@dimen/dimen_15" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dimen_15"
+                android:text="@string/task_attachment"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dimen_15" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <!--附件列表ListView默认不显示-->
+            <ListView
+                android:id="@+id/lv_task_attachment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"></ListView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:paddingLeft="@dimen/dimen_15">
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_40"
+                    android:text="@string/task_level" />
+
+                <TextView
+                    android:id="@+id/tv_task_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_40"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dimen_20"
+                    android:gravity="center_vertical"
+                    android:text="无"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dimen_15" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:paddingLeft="@dimen/dimen_15">
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_handle_state" />
+
+                <TextView
+                    android:id="@+id/tv_task_handle_total"
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dimen_20"
+                    android:text="0" />
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/tv_task_handle_total"
+                    android:paddingRight="@dimen/dimen_2"
+                    android:text="/" />
+
+                <TextView
+                    android:id="@+id/tv_task_handle_receive"
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/dimen_10"
+                    android:layout_toLeftOf="@+id/tv_task_handle_total"
+                    android:text="1" />
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/tv_task_handle_receive"
+                    android:paddingRight="@dimen/dimen_2"
+                    android:text="/" />
+
+                <TextView
+                    android:id="@+id/tv_task_handle_finish"
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/dimen_10"
+                    android:layout_toLeftOf="@+id/tv_task_handle_receive"
+                    android:text="2" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_40"
+                android:paddingLeft="@dimen/dimen_15">
+
+                <TextView
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/task_creator" />
+
+                <TextView
+                    android:id="@+id/tv_task_creator"
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dimen_20"
+                    android:text="王二麻子" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_0.5"
+                android:background="@color/line_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dimen_15">
+
+                <TextView
+                    android:id="@+id/tv_task_transactor"
+                    style="@style/task_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dimen_10"
+                    android:text="@string/task_transactor" />
+
+                <TextView
+                    android:id="@+id/tv_task_transactors"
+                    style="@style/task_text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_task_transactor"
+                    android:lineSpacingExtra="@dimen/dimen_6"
+                    android:padding="@dimen/dimen_10"
+                    android:text="张三，李四，王五，赵六，张三，李四，王五，赵六" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dimen_10"
+                android:background="@color/line_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="@dimen/dimen_40">
+
+                <LinearLayout
+                    android:id="@+id/ll_task_receive"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/task_receive"
+                        android:layout_marginLeft="@dimen/dimen_5"
+                        android:textSize="@dimen/dimen_16"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="@dimen/dimen_0.5"
+                    android:layout_height="fill_parent"
+                    android:background="@color/line_color"
+                    android:layout_marginBottom="@dimen/dimen_5"
+                    android:layout_marginTop="@dimen/dimen_5"/>
+                <LinearLayout
+                    android:id="@+id/ll_task_repost"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/task_repost"
+                        android:layout_marginLeft="@dimen/dimen_5"
+                        android:textSize="@dimen/dimen_16"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
