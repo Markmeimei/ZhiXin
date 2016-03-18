@@ -156,6 +156,7 @@ public class EveryDayActivity extends FragmentActivity implements View.OnClickLi
      * 重置颜色
      */
     protected void resetTextView() {
+//        every_add.setTextColor(getResources().getColor(R.color.main_color));
         every_add.setTextColor(getResources().getColor(R.color.main_color));
         every_add.setBackground(getResources().getDrawable(R.drawable.shape_left_normal));
         every_record.setTextColor(getResources().getColor(R.color.main_color));

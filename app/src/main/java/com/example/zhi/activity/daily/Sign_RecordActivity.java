@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ import butterknife.ButterKnife;
  *
  * 签到记录
  */
-public class Sign_RecordActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener {
+public class Sign_RecordActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener, View.OnClickListener {
 
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
@@ -39,6 +41,13 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
     float y2 = 0;
 
     private static final String TAG = "Sign_RecordActivity";
+
+    @Bind(R.id.header_back)
+    TextView headerBack;
+    @Bind(R.id.header_title)
+    TextView headerTitle;
+    @Bind(R.id.header_right)
+    ImageView headerRight;
     @Bind(R.id.calendarView)
     MaterialCalendarView dailyReportCalendar;
     @Bind(R.id.add_date_show)
@@ -55,10 +64,18 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
         dailyReportCalendar.setOnDateChangedListener(this);
         dailyReportCalendar.setOnMonthChangedListener(this);
 
+        initView();
         initDate();
         initTime();
+        initEvent();
 
         currentDate.setText(getSelectedDatesString());
+    }
+
+    private void initView() {
+        headerBack.setText("日常工作");
+        headerTitle.setText("签到");
+        headerRight.setVisibility(View.GONE);
     }
 
     /**
@@ -122,6 +139,10 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
         return format.format(date.getDate());
     }
 
+    private void initEvent() {
+        headerBack.setOnClickListener(this);
+    }
+
     /**
      * 通过滑动实现月模式和周模式的替换
      *
@@ -152,5 +173,14 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.header_back:
+                finish();
+                break;
+        }
     }
 }

@@ -52,7 +52,7 @@ public class Task_Missed_Fragment extends Fragment {
     }
 
     private void initView() {
-        adapter = new MailAdapter(context,5);
+        adapter = new MailAdapter(context,10);
         fragment_list.setAdapter(adapter);
         fragment_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

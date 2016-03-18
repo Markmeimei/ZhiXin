@@ -30,20 +30,19 @@
                 android:id="@+id/add_date_show"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/add_time_show"
                 android:gravity="center_vertical"
                 android:text="2016-03-04"
-                android:layout_toRightOf="@+id/add_time_show"
                 android:textColor="@color/darkorange"
                 android:textSize="@dimen/dimen_16" />
-
 
 
             <TextView
                 android:id="@+id/add_time_chose"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:drawableLeft="@mipmap/icon_choice_date"
                 android:layout_alignParentRight="true"
+                android:drawableLeft="@mipmap/icon_choice_date"
                 android:drawablePadding="@dimen/dimen_4"
                 android:gravity="center"
                 android:text="@string/every_chose"
@@ -51,26 +50,18 @@
                 android:textSize="@dimen/dimen_16" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color" />
-
         <EditText
             android:id="@+id/et_add_input"
             android:layout_width="fill_parent"
             android:layout_height="300dp"
-            android:background="@color/white"
+            android:background="@drawable/task_edittext_bg_blue"
             android:gravity="start"
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:layout_marginRight="@dimen/dimen_5"
             android:hint="@string/every_input"
             android:padding="@dimen/dimen_5"
             android:textColor="@color/text_color1"
             android:textSize="@dimen/dimen_16" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/dimen_0.5"
-            android:background="@color/line_color" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -134,21 +125,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/btn_report_submit"
-                android:text="提交"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_20"
+                android:background="@drawable/ripple_button"
+                android:textColor="@color/white"
+                android:text="提交" />
         </LinearLayout>
 
         <FrameLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/daily_calendarView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
         </FrameLayout>
 
     </LinearLayout>

@@ -18,8 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.zhi.MainActivity;
 import com.example.zhi.R;
+import com.example.zhi.activity.login.LoginActivity;
 import com.nineoldandroids.view.ViewHelper;
 
 
@@ -150,7 +150,7 @@ public class ProductTourActivity extends FragmentActivity {
     }
  
     private void endTutorial(){
-        startActivity(new Intent(ProductTourActivity.this,MainActivity.class));
+        startActivity(new Intent(ProductTourActivity.this,LoginActivity.class));
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
         finish();
     }

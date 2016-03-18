@@ -11,9 +11,19 @@
     <color name="text_content">#ffa19d94</color>
     <color name="line_color">#D6D6D6</color>
     <color name="main_color">#1487df</color>
+    <color name="main_color2">#012e50</color>
+    <color name="main_color3">#0362a9</color>
     <color name="text_color_main">#333333</color>
     <color name="text_color_bottom">#999999</color>
     <color name="white">#FFFFFF</color><!--白色 -->
+
+    <color name="text_normal">#626262</color>
+    <color name="text_light">#ababab</color>
+    <color name="text_super_light">#c0c0c0</color>
+
+    <color name="blue_light">#48a5cc</color>
+    <color name="blue_dark">#00aeef</color>
+    <color name="stroke">#77d4f6</color>
 
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
 

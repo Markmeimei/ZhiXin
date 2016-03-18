@@ -23,4 +23,22 @@ public class DateUtils {
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
     }
+
+    public static int getDateYear() {
+        simpleDateFormat = new SimpleDateFormat("yyyy");
+        Date date = new Date(System.currentTimeMillis());
+        return Integer.parseInt(simpleDateFormat.format(date));
+    }
+
+    public static int getDateMonth() {
+        simpleDateFormat = new SimpleDateFormat("M");
+        Date date = new Date(System.currentTimeMillis());
+        return Integer.parseInt(simpleDateFormat.format(date));
+    }
+
+    public static int getDateDay() {
+        simpleDateFormat = new SimpleDateFormat("d");
+        Date date = new Date(System.currentTimeMillis());
+        return Integer.parseInt(simpleDateFormat.format(date));
+    }
 }

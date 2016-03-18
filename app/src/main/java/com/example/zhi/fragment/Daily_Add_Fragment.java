@@ -24,8 +24,6 @@ import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.DailyReport;
 import com.example.zhi.utils.DateUtils;
 import com.google.gson.Gson;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -61,23 +59,18 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     @Bind(R.id.btn_report_submit)
     Button btn_report_submit;//提交日报
 
-    // test
-    @Bind(R.id.daily_calendarView)
-    MaterialCalendarView daily_calenderView;
-
     // 对象
     private Context mContext;
     public CalenderDialogFragment mCalenderDialogFragment;// 日历
     public String userName;
     public int userId;
-    public String dailyReportTime;
+    public String dailyReportTime;//时间
     public String currentDate;
+    private String selectDate = "";//DialogDatePicker 选择的时间
 
     private MaterialDialog mMaterialDialog;//Material Dialog
 
-    public DatePickerDialog mDatePickerDialog;//日历Dialog
-
-    public final String TESTTIME = "2016-03-03";
+    public final String TESTTIME = "2016-03-14";
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
     @Nullable
@@ -118,21 +111,24 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     private void initConstants() {
         mCalenderDialogFragment = new CalenderDialogFragment();
         mContext = getActivity();
-        mMaterialDialog=new MaterialDialog(mContext)
+        mMaterialDialog = new MaterialDialog(mContext)
                 .setTitle("提交")
                 .setMessage("确定提交日报？")
                 .setPositiveButton("确认", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /**
+                         * 提交数据
+                         */
+                        submitDailyReport();
                         mMaterialDialog.dismiss();
-                        submitDailyReport();// 提交日报
                     }
                 })
                 .setNegativeButton("取消", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mMaterialDialog.dismiss();
-                        Toast.makeText(mContext,"已取消",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "已取消", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -154,14 +150,18 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.add_time_chose:
                 // 选择日期
-//                    mCalenderDialogFragment.show(getFragmentManager(), "CalenderDialog");
-
-                showDatePickerDialog(mContext, daily_calenderView.getSelectedDate(), new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePicker = new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        daily_calenderView.setSelectedDate(CalendarDay.from(year, monthOfYear, dayOfMonth));
+                        selectDate = +year + "-" + ((monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : (monthOfYear + 1)) + "-" + (dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth);
+                        Log.e("选定时间：", selectDate);
+                        add_date_show.setText(selectDate);
+                        currentDate = selectDate;
+                        Log.e("选择日起后的日期----->", currentDate);
                     }
-                });
+                }, DateUtils.getDateYear(), DateUtils.getDateMonth() - 1, DateUtils.getDateDay());//格式化时间格式
+
+                datePicker.show();
 
                 break;
             case R.id.iv_add_attachment:
@@ -175,7 +175,6 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
                 } else {
                     mMaterialDialog.show();
                 }
-//                    submitDailyReport();
                 break;
         }
     }
@@ -186,13 +185,13 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
                 .post()
                 .url(ConstantURL.DAILY_REPORT)
                 .addParams("uid", "" + userId)
-                .addParams("date",TESTTIME)
+                .addParams("date",currentDate)//当前时间
                 .addParams("text", add_daily_report.getText().toString())
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
-                        Toast.makeText(mContext,"上报失败！",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -201,31 +200,13 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
                         DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                         if (dailyReport != null) {
                             if (dailyReport.getCode() == 1) {
-                                Toast.makeText(mContext,"上报失败！",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
                             } else if (dailyReport.getCode() == 2) {
-                                Toast.makeText(mContext,dailyReport.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 });
-    }
-
-    /**
-     * 日历选择Dialog
-     *
-     * @param context
-     * @param day
-     * @param callback
-     */
-    public static void showDatePickerDialog(Context context, CalendarDay day,
-                                            DatePickerDialog.OnDateSetListener callback) {
-        if (day == null) {
-            day = CalendarDay.today();
-        }
-        DatePickerDialog dialog = new DatePickerDialog(
-                context, 0, callback, day.getYear(), day.getMonth(), day.getDay()
-        );
-        dialog.show();
     }
 
 }

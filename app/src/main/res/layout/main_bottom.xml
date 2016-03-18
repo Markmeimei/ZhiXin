@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/main_color"
+        android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/re_daily"
@@ -18,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_daily"
@@ -27,7 +28,8 @@
                 android:layout_centerHorizontal="true"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/selector_main_bottom" />
+                android:src="@drawable/selector_daily_bottom" />
+
             <TextView
                 android:id="@+id/tv_daily"
                 android:layout_width="wrap_content"
@@ -36,8 +38,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
                 android:text="@string/main_daily"
-                android:textColor="@color/white"
-                android:textSize="12dp"/>
+                android:textColor="@color/text_color_bottom"
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/unread_msg_number"
@@ -50,7 +52,7 @@
                 android:text="7"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -59,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_manage"
@@ -68,7 +70,8 @@
                 android:layout_centerHorizontal="true"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/selector_main_bottom" />
+                android:src="@drawable/selector_manage_bottom" />
+
             <TextView
                 android:id="@+id/tv_manage"
                 android:layout_width="wrap_content"
@@ -78,7 +81,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="3dp"
                 android:text="@string/main_manage"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_bottom"
                 android:textSize="12dp" />
 
             <TextView
@@ -91,7 +94,7 @@
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -100,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_book"
@@ -109,7 +112,8 @@
                 android:layout_centerHorizontal="true"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/selector_main_bottom"/>
+                android:src="@drawable/selector_contact_bottom" />
+
             <TextView
                 android:id="@+id/tv_book"
                 android:layout_width="wrap_content"
@@ -119,8 +123,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="3dp"
                 android:text="@string/main_book"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_bottom"
                 android:textSize="12dp" />
+
             <TextView
                 android:id="@+id/unread_friend_number"
                 android:layout_width="wrap_content"
@@ -130,7 +135,7 @@
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -139,7 +144,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_tool"
@@ -148,7 +153,8 @@
                 android:layout_centerHorizontal="true"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/selector_main_bottom"/>
+                android:src="@drawable/selector_tools_bottom" />
+
             <TextView
                 android:id="@+id/tv_tool"
                 android:layout_width="wrap_content"
@@ -158,8 +164,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="3dp"
                 android:text="@string/main_tool"
-                android:textColor="@color/white"
+                android:textColor="@color/text_color_bottom"
                 android:textSize="12dp" />
+
             <TextView
                 android:id="@+id/unread_me_number"
                 android:layout_width="wrap_content"
@@ -170,7 +177,7 @@
                 android:gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
