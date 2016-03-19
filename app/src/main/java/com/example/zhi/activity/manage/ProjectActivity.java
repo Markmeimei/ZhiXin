@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.activity.manage.project.Project_New_Activity;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Author：Mark
@@ -21,8 +24,16 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  */
 public class ProjectActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "ProjectActivity";
+    // 导航栏
+    @Bind(R.id.header_back)
+    TextView header_back;
+    @Bind(R.id.header_title)
+    TextView header_title;
+    @Bind(R.id.header_right)
+    ImageView header_right;
+
     // 新建项目
-    @ViewInject(R.id.project_new)
+    @Bind(R.id.project_new)
     LinearLayout project_new;
     // 对象
     private Context context;
@@ -30,7 +41,7 @@ public class ProjectActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.manage_project);
-        ViewUtils.inject(this);
+        ButterKnife.bind(this);
         initConstants();
         initViews();
         initEvent();
@@ -42,15 +53,23 @@ public class ProjectActivity extends Activity implements View.OnClickListener {
 
     private void initViews() {
 
+        header_back.setText(R.string.project_manage_back);
+        header_title.setText(R.string.project_manage_title);
+        header_right.setVisibility(View.GONE);
+
     }
 
     private void initEvent() {
+        header_back.setOnClickListener(this);
         project_new.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
+            case R.id.header_back:
+                finish();
+                break;
             case R.id.project_new:
                 startActivity(new Intent(context, Project_New_Activity.class));
                 break;

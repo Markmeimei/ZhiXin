@@ -216,4 +216,11 @@
     <string name="late_reason">迟到原因</string>
     <string name="leave_earlier">早退</string>
     <string name="leave_earlier_reason">早退原因</string>
+
+    <!--Dialog-->
+    <string name="dialog_title">接收人</string>
+    <string name="dialog_select_all">全选</string>
+    <string name="dialog_positive">确定</string>
+    <string name="dialog_negative">取消</string>
+
 </resources>

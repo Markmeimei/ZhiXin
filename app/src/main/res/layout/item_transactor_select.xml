@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/card_background"
+    android:paddingLeft="@dimen/dimen_10"
+    android:touchscreenBlocksFocus="false"
+    android:paddingRight="@dimen/dimen_10">
+
+    <TextView
+        android:id="@+id/tv_item_user"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dimen_10"
+        android:text="张全蛋"
+        android:textSize="18sp" />
+
+    <CheckBox
+        android:id="@+id/cb_select_user"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:focusable="false"
+        android:paddingLeft="@dimen/dimen_8" />
+
+</LinearLayout>

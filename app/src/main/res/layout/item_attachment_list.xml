@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/snow"
+        android:paddingRight="@dimen/dimen_20"
+        android:paddingTop="@dimen/dimen_10"
+        android:paddingBottom="@dimen/dimen_10"
+        android:paddingLeft="@dimen/dimen_20">
+
+        <ImageView
+            android:id="@+id/iv_attachment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_att_file" />
+
+        <TextView
+            android:id="@+id/tv_attachment_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:text="我是附件1"
+            android:textSize="@dimen/dimen_16" />
+
+        <ImageView
+            android:id="@+id/iv_delete_att"
+            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/dimen_20"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_delete_file" />
+
+    </LinearLayout>
+
+</LinearLayout>

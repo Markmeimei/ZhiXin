@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/snow">
+
+    <include
+        android:id="@+id/task_header"
+        layout="@layout/activity_task_header" />
+
+    <LinearLayout
+        android:id="@+id/task_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:layout_alignParentBottom="true"
+        android:background="@color/snow"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_0.5"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/bt_task_clear"
+                style="@style/task_text_size"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_20"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_negative_button"
+                android:text="@string/task_clear"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/bt_task_submit"
+                style="@style/task_text_size"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dimen_20"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_button"
+                android:text="@string/task_submit"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/task_bottom"
+        android:layout_below="@id/task_header">
+
+        <LinearLayout
+            android:id="@+id/ll_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/task_header"
+            android:background="@color/snow">
+
+            <LinearLayout
+                android:id="@+id/item_task_missed_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:paddingRight="@dimen/dimen_15">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/task_date" />
+
+                        <TextView
+                            android:id="@+id/tv_add_task_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:text="2016-01-01"
+                            android:textSize="@dimen/dimen_18" />
+
+                        <TextView
+                            android:id="@+id/tv_choice_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentRight="true"
+                            android:drawableLeft="@mipmap/icon_choice_date"
+                            android:drawablePadding="@dimen/dimen_4"
+                            android:gravity="center"
+                            android:text="@string/task_end_time"
+                            android:textColor="@color/darkorange"
+                            android:textSize="@dimen/dimen_16" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:paddingRight="@dimen/dimen_15">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/task_describe" />
+                    </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/tv_add_task_describe"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_margin="@dimen/dimen_5"
+                        android:background="@drawable/task_edittext_bg_blue"
+                        android:gravity="start"
+                        android:hint="请输入任务内容"
+                        android:lineSpacingExtra="@dimen/dimen_4"
+                        android:paddingBottom="@dimen/dimen_10"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:paddingRight="@dimen/dimen_15"
+                        android:textColor="@color/black_low"
+                        android:textSize="@dimen/dimen_15" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_15"
+                            android:text="@string/task_add_attachment"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+
+                        <ImageView
+                            android:id="@+id/iv_task_add_attachment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:paddingLeft="@dimen/dimen_20"
+                            android:paddingRight="@dimen/dimen_20"
+                            android:src="@mipmap/add_receiver" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <!--附件列表-->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_attachments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:text="@string/task_level" />
+
+                        <TextView
+                            android:id="@+id/tv_add_task_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_30"
+                            android:paddingRight="@dimen/dimen_24"
+                            android:text="无"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/task_transactor" />
+
+                        <ImageView
+                            android:id="@+id/iv_add_transactor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:paddingLeft="@dimen/dimen_20"
+                            android:paddingRight="@dimen/dimen_20"
+                            android:src="@mipmap/add_receiver" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dimen_15"
+                        android:minHeight="@dimen/dimen_50">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_list_transactor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white">
+                        </android.support.v7.widget.RecyclerView>
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15">
+
+                        <CheckBox
+                            android:id="@+id/cb_is_sms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dimen_10"
+                            android:gravity="center_vertical"
+                            android:text="@string/task_sms" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
+
+
+

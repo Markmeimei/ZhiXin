@@ -22,15 +22,12 @@ import android.widget.Toast;
 import com.example.zhi.R;
 import com.example.zhi.adapter.AttachmentsRecyclerViewAdapter;
 import com.example.zhi.adapter.TransactorRecyclerViewAdapter;
-import com.example.zhi.constant.ConstantURL;
+import com.example.zhi.dialog.ReceiverDialog;
 import com.example.zhi.object.AttachmentFile;
-import com.example.zhi.object.DailyReport;
-import com.example.zhi.object.PeopleObject;
+import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.DateUtils;
+import com.example.zhi.utils.ToolsUtils;
 import com.example.zhi.view.FullyGridLayoutManager;
-import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,11 +35,10 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.drakeet.materialdialog.MaterialDialog;
-import okhttp3.Call;
 
 /**
  * 添加任务
- * <p/>
+ * <p>
  * Author: Eron
  * Date: 2016/2/20 0020
  * Time: 16:05
@@ -82,17 +78,19 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
     private Context mContext;
     private MaterialDialog mMaterialDialog;//Material Dialog
+    private ReceiverDialog receiverDialog;//接收人Dialog
     private int userId;
     private String userName;
     public String taskSubmitDate;//时间
     private String selectDate = "";//DialogDatePicker 选择的时间
     private String isSMS = "0";// 是否发送短信
 
-    private ArrayList<PeopleObject> taskTransactors;
+    private ArrayList<ReceiverObject> taskTransactors;
     private TransactorRecyclerViewAdapter transactorAdapter;//联系人Adapter
 
     private ArrayList<AttachmentFile> attachmentFiles;
     private AttachmentsRecyclerViewAdapter attachmentsAdapter;//附件Adapter
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,13 +146,13 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
             attachmentFiles.add(attachmentFile);
         }
 
-        taskTransactors = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            PeopleObject peopleObject = new PeopleObject();
-            peopleObject.setName("张全蛋" + i);
-            peopleObject.setUid(String.valueOf(i));
-            taskTransactors.add(peopleObject);
-        }
+//        taskTransactors = new ArrayList<>();
+//        for (int i = 0; i < 8; i++) {
+//            ReceiverObject receiverObject = new ReceiverObject();
+//            receiverObject.setName("张全蛋" + i);
+//            receiverObject.setId(String.valueOf(i));
+//            taskTransactors.add(receiverObject);
+//        }
 
     }
 
@@ -168,12 +166,19 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         taskAddAttachment.setOnClickListener(this);
         taskAddTransactor.setOnClickListener(this);
 
+        // 测试删除联系人ID是否跟name一致****** ToolsUtils.checkedUsers.get(position).getId()+
         transactorAdapter.setOnItemClickListener(new TransactorRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(mContext, taskTransactors.get(position).getName() + "已删除",
+                Toast.makeText(mContext, ToolsUtils.checkedUsers.get(position).getName() + "已删除",
                         Toast.LENGTH_SHORT).show();
+                String old = ToolsUtils.checkedUsers.get(position).getId() + ",";
+                Log.e("准备删除ID", ToolsUtils.checkedUsers.get(position).getId());
+                ToolsUtils.update_ID = ToolsUtils.update_ID.replace(old, "");
+//                Toast.makeText(mContext,ToolsUtils.update_ID,Toast.LENGTH_SHORT).show();//显示删除联系人id
+                Log.e("当前选中人ID", ToolsUtils.update_ID);
                 transactorAdapter.removeData(position);
+
             }
         });
 
@@ -193,7 +198,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
         attachmentsAdapter = new AttachmentsRecyclerViewAdapter(this, attachmentFiles);
         listAttachment.setAdapter(attachmentsAdapter);//附件
-        transactorAdapter = new TransactorRecyclerViewAdapter(this, taskTransactors);
+        transactorAdapter = new TransactorRecyclerViewAdapter(this, ToolsUtils.checkedUsers);
         listTransactor.setAdapter(transactorAdapter);//办理人
 
         // 监测EditText的焦点事件，进入页面焦点自动被EditText获取
@@ -231,22 +236,43 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                 break;
             case R.id.iv_task_add_attachment:
                 Toast.makeText(mContext, "添加附件", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.iv_add_transactor:
-                Toast.makeText(mContext, "添加办理人", Toast.LENGTH_SHORT).show();
-                PeopleObject peopleObject = new PeopleObject();
-                peopleObject.setName("王尼玛100");
-                peopleObject.setUid("100");
-                transactorAdapter.addData(10, peopleObject);
+                // 添加接收人
+                new ReceiverDialog(mContext)
+                        .readData()
+                        .builder()
+                        .setCancelable(false)
+                        .setNegativeButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        })
+                        .setPositiveButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Log.e("选中办理人ID", ToolsUtils.update_ID);
+                                transactorAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .show();// 显示接收人Dialog
+
                 break;
             case R.id.bt_task_clear:
                 //清空输入框内的内容
                 taskDescribe.setText("");
+                transactorAdapter.removeAll();// 清空接收人
                 break;
             case R.id.bt_task_submit:
                 // 判断EditText是否为空
                 if ("".equals(taskDescribe.getText().toString())) {
                     Toast.makeText(mContext, "内容不能为空！", Toast.LENGTH_SHORT).show();
+
+                } else if (ToolsUtils.checkedUsers.size() == 0) {
+                    Log.e("tag----接收人", ToolsUtils.checkedUsers.toString());
+                    Toast.makeText(mContext, "请添加联系人！", Toast.LENGTH_SHORT).show();
                 } else {
                     mMaterialDialog.show();
                 }
@@ -267,37 +293,49 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
             Toast.makeText(TaskAddActivity.this, "文件不存在", Toast.LENGTH_SHORT).show();
             return;
         }
-        OkHttpUtils
-                .post()
-                .url(ConstantURL.DAILY_TASK_ADD)
-                .addParams("uid", "" + userId)
-                .addParams("jsr", "" + 279)//因无用户ID，暂定
-                .addParams("content", taskDescribe.getText().toString())//内容
-                .addParams("date", taskSubmitDate)//添加任务的日期
-                .addParams("edate", "" + selectDate)// 截止时间(可选)
-                .addParams("dx", isSMS)//是否发送短信
-                .addFile("file", "testUploadImage.jpg", file)//附件可选
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e) {
-                        Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
-                    }
 
-                    @Override
-                    public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
-                        if (dailyReport != null) {
-                            if (dailyReport.getCode() == 2) {
-                                Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                            } else if (dailyReport.getCode() == 0) {
-                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        taskDescribe.setText("");// 清空输入框
-                    }
-                });
+        StringBuilder builder = new StringBuilder();
+        for (ReceiverObject o : ToolsUtils.checkedUsers) {
+            builder.append(o.getId())
+                    .append(",");
+        }
+        String submitUser = builder.toString();
+        submitUser = submitUser.substring(0, submitUser.length() - 1);
+        Log.e("tag------测试接收人", submitUser);
+
+//        OkHttpUtils
+//                .post()
+//                .url(ConstantURL.DAILY_TASK_ADD)
+//                .addParams("uid", "" + userId)
+//                .addParams("jsr", "" + ToolsUtils.update_ID.substring(0, ToolsUtils.update_ID.length() - 1))
+//                .addParams("content", taskDescribe.getText().toString())//内容
+//                .addParams("date", taskSubmitDate)//添加任务的日期
+//                .addParams("edate", "" + selectDate)// 截止时间(可选)
+//                .addParams("dx", isSMS)//是否发送短信
+//                .addFile("file", "testUploadImage.jpg", file)//附件可选
+//                .build()
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e) {
+//                        Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onResponse(String response) {
+//                        Gson gson = new Gson();
+//                        DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
+//                        if (dailyReport != null) {
+//                            if (dailyReport.getCode() == 2) {
+//                                Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+//                            } else if (dailyReport.getCode() == 0) {
+//                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                        taskDescribe.setText("");// 清空输入框
+//                        transactorAdapter.removeAll();
+//                    }
+//                });
+
 
     }
 

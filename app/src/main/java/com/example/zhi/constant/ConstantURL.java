@@ -12,7 +12,9 @@ public class ConstantURL {
     // 每日一报
     public static final String DAILY_REPORT = BASIC_URL + "rbadd.php"; // 添加日报
     public static final String DAILY_RECORD = BASIC_URL + "rb.php"; // 日报记录
-    public static final String DAILY_TASK_ADD = BASIC_URL + "rwadd.php"; // 日报记录
+    public static final String DAILY_TASK_ADD = BASIC_URL + "rwadd.php"; // 添加任务
+    public static final String RECEIVER = BASIC_URL + "userlist.php"; // 接收人列表
+    public static final String ADDRESSLIST = BASIC_URL + "txl.php"; // 通讯录
 
 
 
