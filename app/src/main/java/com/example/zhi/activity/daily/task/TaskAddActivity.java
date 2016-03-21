@@ -444,7 +444,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
             @Override
             public void onResponse(String response) {
-                Log.e("tag", "REsponse>>>>>>>>>>>>>>>>>>" + response);
+                Log.e("tag", "Response>>>>>>>>>>>>>>>>>>" + response);
                 Gson gson = new Gson();
                 DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                 if (dailyReport != null) {
