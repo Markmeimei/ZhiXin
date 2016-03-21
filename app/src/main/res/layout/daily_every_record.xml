@@ -17,7 +17,8 @@
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/calendarViewDailyRecord"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:padding="@dimen/dimen_15"
                 android:background="@mipmap/calendar_background" />
 
@@ -50,7 +51,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:padding="@dimen/dimen_10">
 

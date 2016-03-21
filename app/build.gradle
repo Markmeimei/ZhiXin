@@ -39,7 +39,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.zhy:okhttputils:2.3.5' // 张鸿洋封装的okhttp
+    compile 'com.zhy:okhttputils:2.3.8' // 张鸿洋封装的okhttp
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.code.gson:gson:2.6.2'

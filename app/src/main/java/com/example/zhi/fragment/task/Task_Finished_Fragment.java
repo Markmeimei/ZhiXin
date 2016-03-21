@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.zhi.R;
-import com.example.zhi.activity.daily.mail.Mail_Details_Activity;
+import com.example.zhi.activity.daily.mail.MailDetailsActivity;
 import com.example.zhi.adapter.MailAdapter;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -55,7 +55,7 @@ public class Task_Finished_Fragment extends Fragment {
         fragment_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(context, Mail_Details_Activity.class));
+                startActivity(new Intent(context, MailDetailsActivity.class));
             }
         });
     }

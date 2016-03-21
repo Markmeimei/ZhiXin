@@ -116,6 +116,7 @@
     <string name="mail_received">已收邮件</string>
     <string name="mail_have">已发邮件</string>
     <!-- 邮件详情 -->
+    <string name="mail_detail">邮件详情</string>
     <string name="mail_sender">发件人：</string>
     <string name="mail_theme">主题：</string>
     <string name="mail_text">正文：</string>

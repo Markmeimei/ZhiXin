@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application
@@ -62,7 +63,7 @@
         <activity android:name=".activity.daily.MailActivity">
         </activity>
         <!-- 邮件详情 -->
-        <activity android:name=".activity.daily.mail.Mail_Details_Activity">
+        <activity android:name=".activity.daily.mail.MailDetailsActivity">
         </activity>
         <!-- 请假管理 -->
         <activity android:name=".activity.daily.leave.Leave_FragmentActivity">
