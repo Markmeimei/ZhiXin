@@ -172,13 +172,20 @@
                             android:textSize="@dimen/dimen_15" />
 
                         <ImageView
+                            android:id="@+id/iv_task_add_image"
+                            android:src="@mipmap/icon_att_img"
+                            android:layout_toLeftOf="@+id/iv_task_add_attachment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
+
+                        <ImageView
                             android:id="@+id/iv_task_add_attachment"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
-                            android:paddingLeft="@dimen/dimen_20"
-                            android:paddingRight="@dimen/dimen_20"
-                            android:src="@mipmap/add_receiver" />
+                            android:layout_marginLeft="@dimen/dimen_20"
+                            android:layout_marginRight="@dimen/dimen_20"
+                            android:src="@mipmap/icon_att_file" />
 
                     </RelativeLayout>
 

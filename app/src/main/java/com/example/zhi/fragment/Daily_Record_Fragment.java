@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,8 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     private static final String TAG = "Daily_Record_Fragment";
 
 //    private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+
+    private Display display;
 
     @Bind(R.id.calendarViewDailyRecord)
     MaterialCalendarView dailyRecordCalender;
@@ -116,6 +120,7 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     }
 
     private void initView() {
+//        dailyRecordCalender.setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth()*0.99), (int) (display.getHeight() * 0.6)));
         recordDateShow.setText(getSelectedDatesString());
 
     }

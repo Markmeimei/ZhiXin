@@ -3,9 +3,12 @@ package com.example.zhi.activity.daily.task;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -22,23 +25,38 @@ import android.widget.Toast;
 import com.example.zhi.R;
 import com.example.zhi.adapter.AttachmentsRecyclerViewAdapter;
 import com.example.zhi.adapter.TransactorRecyclerViewAdapter;
+import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.dialog.ReceiverDialog;
 import com.example.zhi.object.AttachmentFile;
+import com.example.zhi.object.DailyReport;
 import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.ToolsUtils;
 import com.example.zhi.view.FullyGridLayoutManager;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.builder.PostFormBuilder;
+import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.PostFormRequest;
+import com.zhy.http.okhttp.request.RequestCall;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.drakeet.materialdialog.MaterialDialog;
+import okhttp3.Call;
 
 /**
  * 添加任务
- * <p>
+ * <p/>
  * Author: Eron
  * Date: 2016/2/20 0020
  * Time: 16:05
@@ -74,7 +92,8 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     @Bind(R.id.bt_task_clear)
     Button taskClear;
     @Bind(R.id.bt_task_submit)
-    Button taskSubmit;
+    Button taskSubmit;//你没给他添加点击事件？我之前都能用的，可能刚才改什么地方了？wochouchou
+
 
     private Context mContext;
     private MaterialDialog mMaterialDialog;//Material Dialog
@@ -90,6 +109,10 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
     private ArrayList<AttachmentFile> attachmentFiles;
     private AttachmentsRecyclerViewAdapter attachmentsAdapter;//附件Adapter
+    private Map<String, File> files = new HashMap<String, File>();
+    private List<File> choiceFiles = new ArrayList<>();
+    private String imagePath;//照片存放路径
+    private File filePath;// 文件路径
 
 
     @Override
@@ -117,7 +140,14 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                     @Override
                     public void onClick(View v) {
                         try {
-                            submitTaskContent();// 提交任务
+//                            submitTaskContent();// 提交任务
+
+                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "测试上传文件.txt");
+                            //files.put(文件名，file);
+//                            files.put("测试图片.jpg", new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
+                            files.put("测试上传dd文件.txt", file);
+                            Log.e("tag", "文件上传的地址------->"+file.getAbsolutePath());
+                            postFile(files);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -141,19 +171,58 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         attachmentFiles = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             AttachmentFile attachmentFile = new AttachmentFile();
-            attachmentFile.setFileName("这是附件" + i);
+            attachmentFile.setFileName("详情请见附件" + i);
             attachmentFile.setPath("");
             attachmentFiles.add(attachmentFile);
         }
 
-//        taskTransactors = new ArrayList<>();
-//        for (int i = 0; i < 8; i++) {
-//            ReceiverObject receiverObject = new ReceiverObject();
-//            receiverObject.setName("张全蛋" + i);
-//            receiverObject.setId(String.valueOf(i));
-//            taskTransactors.add(receiverObject);
-//        }
+        // 设置路径
+        imagePath = Environment.getExternalStorageDirectory() + "/至信协同办公/照片/";
+        // 如果不存在，则创建
+        filePath = new File(imagePath);
+        if (!filePath.exists()) {
+            filePath.mkdirs();
+        }
 
+    }
+
+    /**
+     * 添加拍照附件
+     */
+    @OnClick(R.id.iv_task_add_image)
+    void takePhotos() {
+        Toast.makeText(mContext,"添加照片",Toast.LENGTH_SHORT).show();
+//        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        long date = new Date().getTime();
+        String imageName = imagePath + "照片-" + date + ".jpg";
+        File file = new File(imageName);
+        // 转换成uri
+        Uri uri = Uri.fromFile(file);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(intent, 0);
+    }
+
+    /**
+     * 遍历文件
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        choiceFiles.clear();
+        File[] files = filePath.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (getSuffix(f).equals("jpg")) {
+                    choiceFiles.add(f);
+                }
+            }
+        }
+        attachmentsAdapter.notifyDataSetChanged();//刷新Adapter
     }
 
     private void initEvent() {
@@ -284,8 +353,6 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
      * 提交任务
      */
     private void submitTaskContent() {
-
-
         // 上传文件
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "测试图片.jpg");
         Log.e("照片地址", file.getPath());
@@ -294,6 +361,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
             return;
         }
 
+        // 接收人
         StringBuilder builder = new StringBuilder();
         for (ReceiverObject o : ToolsUtils.checkedUsers) {
             builder.append(o.getId())
@@ -303,40 +371,93 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         submitUser = submitUser.substring(0, submitUser.length() - 1);
         Log.e("tag------测试接收人", submitUser);
 
-//        OkHttpUtils
-//                .post()
-//                .url(ConstantURL.DAILY_TASK_ADD)
-//                .addParams("uid", "" + userId)
-//                .addParams("jsr", "" + ToolsUtils.update_ID.substring(0, ToolsUtils.update_ID.length() - 1))
-//                .addParams("content", taskDescribe.getText().toString())//内容
-//                .addParams("date", taskSubmitDate)//添加任务的日期
-//                .addParams("edate", "" + selectDate)// 截止时间(可选)
-//                .addParams("dx", isSMS)//是否发送短信
-//                .addFile("file", "testUploadImage.jpg", file)//附件可选
-//                .build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e) {
-//                        Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Gson gson = new Gson();
-//                        DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
-//                        if (dailyReport != null) {
-//                            if (dailyReport.getCode() == 2) {
-//                                Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-//                            } else if (dailyReport.getCode() == 0) {
-//                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                        taskDescribe.setText("");// 清空输入框
-//                        transactorAdapter.removeAll();
-//                    }
-//                });
+        OkHttpUtils
+                .post()
+                .url(ConstantURL.DAILY_TASK_ADD)
+                .addParams("uid", "" + userId)
+                .addParams("jsr", "" + submitUser)
+                .addParams("content", taskDescribe.getText().toString())//内容
+                .addParams("date", taskSubmitDate)//添加任务的日期
+                .addParams("edate", "" + selectDate)// 截止时间(可选)
+                .addParams("dx", isSMS)//是否发送短信
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+                        DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
+                        if (dailyReport != null) {
+                            if (dailyReport.getCode() == 2) {
+                                Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                            } else if (dailyReport.getCode() == 0) {
+                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        taskDescribe.setText("");// 清空输入框
+                        transactorAdapter.removeAll();
+                    }
+                });
+    }
 
 
+    /**
+     * 提交任务 带附件
+     *
+     * @param fileMap
+     */
+    public void postFile(Map<String, File> fileMap) {
+        // 接收人
+        StringBuilder builder = new StringBuilder();
+        for (ReceiverObject o : ToolsUtils.checkedUsers) {
+            builder.append(o.getId())
+                    .append(",");
+        }
+        String submitUser = builder.toString();
+        submitUser = submitUser.substring(0, submitUser.length() - 1);
+        Log.e("tag", "------测试接收人" + submitUser);
+        Map<String, String> requestParams = new HashMap<>();
+        requestParams.put("uid", "" + userId);
+        requestParams.put("jsr", "" +submitUser);//这是不是写错了，是不是应该是submitUser
+        requestParams.put("content", taskDescribe.getText().toString());
+        requestParams.put("date", taskSubmitDate);//添加任务的日期
+        requestParams.put("edate", "" + selectDate);// 截止时间(可选)
+        requestParams.put("dx", isSMS);//是否发送短信
+        Log.e("tag", "提交数据------->");
+
+        List<PostFormBuilder.FileInput> files = new ArrayList<>();
+        if (fileMap != null && !fileMap.isEmpty()) {
+            for (String fileName : fileMap.keySet()) {
+                files.add(new PostFormBuilder.FileInput("file", fileName, fileMap.get(fileName)));
+            }
+        }
+        RequestCall call = new PostFormRequest(ConstantURL.DAILY_TASK_ADD, null, requestParams, null, files).build();
+        call.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("tag", "REsponse>>>>>>>>>>>>>>>>>>" + response);
+                Gson gson = new Gson();
+                DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
+                if (dailyReport != null) {
+                    if (dailyReport.getCode() == 2) {
+                        Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                    } else if (dailyReport.getCode() == 0) {
+                        Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                taskDescribe.setText("");// 清空输入框
+                transactorAdapter.removeAll();
+            }
+        });
     }
 
     /**
@@ -352,5 +473,13 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         } else {
             isSMS = "0";
         }
+    }
+
+    public static String getSuffix(File file) {
+        String fileName = file.getName();
+        int index = fileName.lastIndexOf(".");
+        if (index <= 0) return null;
+        String suffix = fileName.substring(index + 1);
+        return suffix.toLowerCase(Locale.getDefault());
     }
 }
