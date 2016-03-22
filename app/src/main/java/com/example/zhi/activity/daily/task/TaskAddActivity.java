@@ -5,10 +5,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -29,10 +27,12 @@ import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.dialog.ReceiverDialog;
 import com.example.zhi.object.AttachmentFile;
 import com.example.zhi.object.DailyReport;
+import com.example.zhi.object.ImageBean;
 import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.ToolsUtils;
 import com.example.zhi.view.FullyGridLayoutManager;
+import com.example.zhi.widget.PicSelectActivity;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -42,7 +42,6 @@ import com.zhy.http.okhttp.request.RequestCall;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -191,20 +190,34 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
      */
     @OnClick(R.id.iv_task_add_image)
     void takePhotos() {
-        Toast.makeText(mContext,"添加照片",Toast.LENGTH_SHORT).show();
-//        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+        startActivityForResult(new Intent(this, PicSelectActivity.class), 0x123);
+//        Toast.makeText(mContext,"添加照片",Toast.LENGTH_SHORT).show();
+////        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+//
+//        Intent intent = new Intent();
+//        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//        long date = new Date().getTime();
+//        String imageName = imagePath + "照片-" + date + ".jpg";
+//        File file = new File(imageName);
+//        // 转换成uri
+//        Uri uri = Uri.fromFile(file);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//        startActivityForResult(intent, 0);
+    }
 
-        Intent intent = new Intent();
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        long date = new Date().getTime();
-        String imageName = imagePath + "照片-" + date + ".jpg";
-        File file = new File(imageName);
-        // 转换成uri
-        Uri uri = Uri.fromFile(file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent, 0);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0x123 && resultCode == RESULT_OK) {
+            Intent intent = data;
+            List<ImageBean> imageBeans = (List<ImageBean>) intent
+                    .getSerializableExtra("images");
+            for (ImageBean b : imageBeans) {
+                System.out.println("选中图片" + b.toString());
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
