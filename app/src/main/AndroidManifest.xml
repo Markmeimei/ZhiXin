@@ -87,6 +87,8 @@
         <activity android:name=".activity.daily.task.TaskAddActivity"
             android:theme="@style/AppTheme">
         </activity>
+        <!-- 选中照片 -->
+        <activity android:name=".widget.PicSelectActivity"/>
         <!--明日计划-->
         <activity android:name=".activity.daily.TomorrowPlanActivity" />
         <!--每周计划-->
