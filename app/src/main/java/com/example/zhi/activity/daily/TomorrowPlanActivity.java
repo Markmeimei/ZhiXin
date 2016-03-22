@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.fragment.Plan_Add_Fragment;
-import com.example.zhi.fragment.Plan_Record_Fragment;
+import com.example.zhi.fragment.PlanRecordFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,7 @@ public class TomorrowPlanActivity extends FragmentActivity implements View.OnCli
     private FragmentPagerAdapter pagerAdapter;
     private List<Fragment> fragments = new ArrayList<>();
     private Plan_Add_Fragment plan_add_fragment;
-    private Plan_Record_Fragment plan_record_fragment;
+    private PlanRecordFragment planRecordFragment;
     private int currentIndex; // ViewPager的当前选中页
 
     @Override
@@ -68,9 +68,9 @@ public class TomorrowPlanActivity extends FragmentActivity implements View.OnCli
     private void initConstants() {
         mContext = TomorrowPlanActivity.this;
         plan_add_fragment = new Plan_Add_Fragment();
-        plan_record_fragment = new Plan_Record_Fragment();
+        planRecordFragment = new PlanRecordFragment();
         fragments.add(plan_add_fragment);
-        fragments.add(plan_record_fragment);
+        fragments.add(planRecordFragment);
 
         // 初始化Adapter
         pagerAdapter=new FragmentPagerAdapter(getSupportFragmentManager()) {

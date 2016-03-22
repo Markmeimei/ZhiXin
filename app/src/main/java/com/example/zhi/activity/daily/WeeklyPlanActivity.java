@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.fragment.Plan_Add_Fragment;
-import com.example.zhi.fragment.Plan_Record_Fragment;
+import com.example.zhi.fragment.PlanRecordFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class WeeklyPlanActivity extends FragmentActivity implements View.OnClick
     private FragmentPagerAdapter pagerAdapter;
     private List<Fragment> fragments = new ArrayList<>();
     private Plan_Add_Fragment plan_add_fragment;
-    private Plan_Record_Fragment plan_record_fragment;
+    private PlanRecordFragment plan_record_fragment;
     private int currentIndex; // ViewPager的当前选中页
 
     @Override
@@ -70,7 +70,7 @@ public class WeeklyPlanActivity extends FragmentActivity implements View.OnClick
     private void initConstants() {
         mContext = WeeklyPlanActivity.this;
         plan_add_fragment = new Plan_Add_Fragment();
-        plan_record_fragment = new Plan_Record_Fragment();
+        plan_record_fragment = new PlanRecordFragment();
         fragments.add(plan_add_fragment);
         fragments.add(plan_record_fragment);
 

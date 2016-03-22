@@ -11,21 +11,16 @@ import com.example.zhi.R;
 
 /**
  * Author: Eron
- * Date: 2016/3/1 0001
- * Time: 14:51
+ * Date: 2016/3/21 0021
+ * Time: 16:33
  */
-public class Plan_Record_Fragment extends Fragment {
+public class PlanRecordFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plan_record, container, false);
         return view;
-
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 }

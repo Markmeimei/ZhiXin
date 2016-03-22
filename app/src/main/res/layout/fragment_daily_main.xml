@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color">
+
+        <LinearLayout
+            android:id="@+id/daily_everyday"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_100"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@mipmap/icon_daily_news" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:text="@string/daily_everyday"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/daily_tomorrow"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_100"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@mipmap/icon_tomorrow_project" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:text="@string/daily_tomorrow"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/daily_week"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_100"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@mipmap/icon_weekly_project" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:text="@string/daily_week"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/daily_sign"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_100"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@mipmap/icon_daily_sign" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:text="@string/daily_sign"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_14" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_daily_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.example.zhi.R;
-import com.example.zhi.object.User;
+import com.example.zhi.object.txl;
 import com.example.zhi.utils.BaseViewHolder;
 
 import java.util.ArrayList;
@@ -26,13 +26,14 @@ import java.util.List;
  * 简单的好友Adapter实现
  * 
  */
-public class ContactAdapter extends ArrayAdapter<User> implements
+public class ContactAdapter extends ArrayAdapter<txl> implements
         SectionIndexer {
     private Context context;
-    List<String> list;
-    List<User> userList;
+    private List<String> list;
+    private List<txl> userList;
+    private List<txl> usersList;
+
     private LayoutInflater layoutInflater;
-    //private static List<User> starList = new ArrayList<User>();
     private SparseIntArray positionOfSection;
     private SparseIntArray sectionOfPosition;
     private int res;
@@ -42,11 +43,11 @@ public class ContactAdapter extends ArrayAdapter<User> implements
     private String id;
 
     @SuppressLint("SdCardPath")
-	public ContactAdapter(Context context, int resource, List<User> objects) {
+	public ContactAdapter(Context context, int resource, List<txl> objects) {
         super(context, resource, objects);
         this.context = context;
         this.res = resource;
-        this.userList = objects;
+        this.usersList = objects;
         layoutInflater = LayoutInflater.from(context);
 //        avatarLoader = new LoadUserAvatar(context, Toolutils.TAILER_PATH);
     }
@@ -65,14 +66,14 @@ public class ContactAdapter extends ArrayAdapter<User> implements
         TextView tvHeader = (TextView) convertView.findViewById(R.id.header);
         View view_temp = (View) convertView.findViewById(R.id.view_temp);
         TextView star_button = BaseViewHolder.getViewHolder(convertView, R.id.star_button);
-        User user = userList.get(position);
-        if (user == null)
+        txl txl = usersList.get(position);
+        if (txl == null)
             Log.d("ContactAdapter", position + "");
         // 设置nick，demo里不涉及到完整user，用username代替nick显示
 
-        String header = user.getHeader();
-        String userNick = user.getName();
-        id= user.getId();
+        String header = txl.getHeader();
+        String userNick = txl.getName();
+        id= txl.getId();
         if (position == 0 || header != null
                 && !header.equals(getItem(position - 1).getHeader())) {
             if ("".equals(header)) {
@@ -90,9 +91,9 @@ public class ContactAdapter extends ArrayAdapter<User> implements
         // 显示申请与通知item
 
         nameTextView.setText(userNick);
-        if(user.getImage() == null || user.getImage().equals("")){
+        if(txl.getImage() == null || txl.getImage().equals("")){
         }else {
-            String userAvatar = user.getImage();
+            String userAvatar = txl.getImage();
             showUserAvatar(iv_avatar, userAvatar);
         }
         star_button.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +106,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
     }
 
     @Override
-    public User getItem(int position) {
+    public txl getItem(int position) {
         return super.getItem(position);
     }
 
@@ -127,15 +128,13 @@ public class ContactAdapter extends ArrayAdapter<User> implements
         positionOfSection = new SparseIntArray();
         sectionOfPosition = new SparseIntArray();
         int count = getCount();
-        list = new ArrayList<String>();
+        list = new ArrayList<>();
         list.add(getContext().getString(R.string.search_header));
         positionOfSection.put(0, 0);
         sectionOfPosition.put(0, 0);
         for (int i = 1; i < count; i++) {
 
             String letter = getItem(i).getHeader();
-//            System.err.println("contactadapter getsection getHeader:" + letter
-//                    + " name:" + getItem(i).getUsername());
             int section = list.size() - 1;
             if (list.get(section) != null && !list.get(section).equals(letter)) {
                 list.add(letter);
@@ -150,15 +149,15 @@ public class ContactAdapter extends ArrayAdapter<User> implements
     @Override
     public Filter getFilter() {
         if (myFilter == null) {
-            myFilter = new MyFilter(userList);
+            myFilter = new MyFilter(usersList);
         }
         return myFilter;
     }
 
     private class MyFilter extends Filter {
-        List<User> mList = null;
+        List<txl> mList = null;
 
-        public MyFilter(List<User> myList) {
+        public MyFilter(List<txl> myList) {
             super();
             this.mList = myList;
         }
@@ -168,7 +167,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
                 CharSequence prefix) {
             FilterResults results = new FilterResults();
             if (mList == null) {
-                mList = new ArrayList<User>();
+                mList = new ArrayList<txl>();
             }
             if (prefix == null || prefix.length() == 0) {
                 results.values = userList;
@@ -176,10 +175,10 @@ public class ContactAdapter extends ArrayAdapter<User> implements
             } else {
                 String prefixString = prefix.toString();
                 final int count = mList.size();
-                final ArrayList<User> newValues = new ArrayList<User>();
+                final ArrayList<txl> newValues = new ArrayList<>();
                 for (int i = 0; i < count; i++) {
-                    final User user = mList.get(i);
-                    String username = user.getUsername();
+                    final txl txl = mList.get(i);
+                    String username = txl.getName();
 
                     EMConversation conversation = EMChatManager.getInstance()
                             .getConversation(username);
@@ -188,7 +187,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
                     }
 
                     if (username.startsWith(prefixString)) {
-                        newValues.add(user);
+                        newValues.add(txl);
                     } else {
                         final String[] words = username.split(" ");
                         final int wordCount = words.length;
@@ -197,7 +196,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
                         // space(s)
                         for (int k = 0; k < wordCount; k++) {
                             if (words[k].startsWith(prefixString)) {
-                                newValues.add(user);
+                                newValues.add(txl);
                                 break;
                             }
                         }
@@ -214,7 +213,7 @@ public class ContactAdapter extends ArrayAdapter<User> implements
         protected synchronized void publishResults(CharSequence constraint,
                 FilterResults results) {
             userList.clear();
-            userList.addAll((List<User>) results.values);
+            userList.addAll((List<txl>) results.values);
             if (results.count > 0) {
                 notifyDataSetChanged();
             } else {

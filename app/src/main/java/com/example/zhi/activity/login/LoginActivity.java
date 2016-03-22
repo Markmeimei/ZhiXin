@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -154,7 +153,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                     @Override
                     public void onResponse(String response) {
                         Gson gson = new Gson();
-                        Log.e("LoginActivity---->", response);
+//                        Log.e("LoginActivity---->", response);
 
                         Login login = gson.fromJson(response, Login.class);
 
