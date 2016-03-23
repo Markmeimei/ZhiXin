@@ -35,6 +35,18 @@ public class AttachmentsRecyclerViewAdapter extends RecyclerView.Adapter<Attachm
     private List<ImageBean> imageBeans;//图片实体类
     private List<AttachmentFile> attachmentFiles;// 附件
 
+    /**
+     * Item点击接口
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onClickListener) {
+        this.mOnItemClickListener = onClickListener;
+    }
 
     public AttachmentsRecyclerViewAdapter(Context context,List<ImageBean> images, ArrayList<AttachmentFile> files) {
         this.mContext=  context;
@@ -56,6 +68,22 @@ public class AttachmentsRecyclerViewAdapter extends RecyclerView.Adapter<Attachm
                 .into(holder.iconAttachment);
         Log.e("显示照片",imageBeans.get(position).getDisplayName());
 //        holder.attachmentName.setText(attachmentFiles.get(position).getFileName());
+
+        // 单击删除图片删除当前数据
+        if (mOnItemClickListener != null) {
+            holder.deleteAttachment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getAdapterPosition();
+                    // 快速点击会有crash的问题，未解决，是FullyLinearLayoutManager的问题
+                    try {
+                        mOnItemClickListener.onItemClick(holder.deleteAttachment, position);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -79,6 +107,23 @@ public class AttachmentsRecyclerViewAdapter extends RecyclerView.Adapter<Attachm
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    /**
+     * 单击删除当前数据
+     * @param position
+     */
+    public void removeData(int position) {
+        imageBeans.remove(imageBeans.get(position));
+        notifyItemChanged(position);
+    }
+
+    /**
+     * 清空数据
+     */
+    public void removeAll() {
+        imageBeans.clear();
+        notifyDataSetChanged();//通知RecyclerView刷新数据
     }
 
 }

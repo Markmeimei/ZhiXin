@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -97,6 +98,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
     private Context mContext;
     private MaterialDialog mMaterialDialog;//Material Dialog
+    private MaterialDialog clearAllDialog;//Material Dialog
     private ReceiverDialog receiverDialog;//接收人Dialog
     private int userId;
     private String userName;
@@ -108,10 +110,10 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
     private ArrayList<AttachmentFile> attachmentFiles;
     private AttachmentsRecyclerViewAdapter attachmentsAdapter;//附件Adapter
-    private Map<String, File> files = new HashMap<>();
+    private Map<String, File> files = new HashMap<>();//附件，暂不用
     private File filePath;// 文件路径
-    List<ImageBean> imageBeans = new ArrayList<>();// 图片
-    private List<ImageBean> imageBeanList = new ArrayList<>();// 图片
+    private List<ImageBean> imageBeans = new ArrayList<>();// 图片
+    private List<ImageBean> imageBeanList = new ArrayList<>();// 选中图片
     private String displayName;
     private String imagePath;//照片存放路径
 
@@ -137,6 +139,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         // 初始化时间
         taskSubmitDate = DateUtils.getDateYMD();
 
+        // 提交Dialog
         mMaterialDialog = new MaterialDialog(mContext)
                 .setTitle("提交")
                 .setMessage("确定提交任务？")
@@ -144,14 +147,8 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                     @Override
                     public void onClick(View v) {
                         try {
-//                            submitTaskContent();// 提交任务
-
-                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "测试上传文件.txt");
-                            //files.put(文件名，file);
-//                            files.put("测试图片.jpg", new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
-                            files.put("测试上传dd文件.txt", file);
-                            Log.e("tag", "文件上传的地址------->" + file.getAbsolutePath());
-                            postFile(imageBeanList);
+//                            submitTaskContent();// 提交无附件任务
+                            postFile(imageBeanList);// 提交任务带附件
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -165,28 +162,33 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                         Toast.makeText(mContext, "已取消", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        // 清空Dialog
+        clearAllDialog = new MaterialDialog(mContext)
+                .setTitle("确定清空？")
+                .setMessage("此操作会清空所有内容！")
+                .setPositiveButton("确定清空", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //清空输入框内的内容
+                        taskDescribe.setText("");
+                        transactorAdapter.removeAll();// 清空接收人
+                        attachmentsAdapter.removeAll();//清空附件
+                        clearAllDialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clearAllDialog.dismiss();
+                    }
+                });
     }
 
     private void initData() {
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
         userId = preferences.getInt("user_id", 0);
-
-        attachmentFiles = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            AttachmentFile attachmentFile = new AttachmentFile();
-            attachmentFile.setFileName("详情请见附件" + i);
-            attachmentFile.setPath("");
-            attachmentFiles.add(attachmentFile);
-        }
-
-        // 设置路径
-        imagePath = Environment.getExternalStorageDirectory() + "/至信协同办公/照片/";
-        // 如果不存在，则创建
-        filePath = new File(imagePath);
-        if (!filePath.exists()) {
-            filePath.mkdirs();
-        }
 
     }
 
@@ -195,7 +197,11 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
      */
     @OnClick(R.id.iv_task_add_image)
     void takePhotos() {
-        startActivityForResult(new Intent(this, PicSelectActivity.class), 0x123);
+        try {
+            startActivityForResult(new Intent(this, PicSelectActivity.class), 0x123);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -218,7 +224,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                 imagePath = b.getPath();
                 imageBeanList.add(b);
 
-                Log.e("tag", "选中的图片------>" + displayName + imagePath+imageBeans.size());
+                Log.e("tag", "选中的图片------>" + displayName + imagePath + imageBeans.size());
 
             }
             attachmentsAdapter.notifyDataSetChanged();
@@ -250,6 +256,23 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                 Log.e("当前选中人ID", ToolsUtils.update_ID);
                 transactorAdapter.removeData(position);
 
+            }
+        });
+
+        // 单击删除附件图片
+        attachmentsAdapter.setOnItemClickListener(new AttachmentsRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(mContext, imageBeanList.get(position).getDisplayName() + "已删除",
+                        Toast.LENGTH_SHORT).show();
+                ImageBean oldImage = imageBeanList.get(position);
+                Toast.makeText(mContext,oldImage.getDisplayName(),Toast.LENGTH_SHORT).show();
+                imageBeanList.remove(oldImage);
+                try {
+                    attachmentsAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -333,10 +356,9 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                         .show();// 显示接收人Dialog
 
                 break;
+            // 清空所有内容
             case R.id.bt_task_clear:
-                //清空输入框内的内容
-                taskDescribe.setText("");
-                transactorAdapter.removeAll();// 清空接收人
+                clearAllDialog.show();
                 break;
             case R.id.bt_task_submit:
                 // 判断EditText是否为空
@@ -431,14 +453,14 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         requestParams.put("date", taskSubmitDate);//添加任务的日期
         requestParams.put("edate", "" + selectDate);// 截止时间(可选)
         requestParams.put("dx", isSMS);//是否发送短信
-        Log.e("tag", "提交数据------->"+beanList.size());
+        Log.e("tag", "提交数据------->" + beanList.size());
 
         List<PostFormBuilder.FileInput> files = new ArrayList<>();
         if (beanList != null && !beanList.isEmpty()) {
 //            for (String fileName : fileMap.keySet()) {
 //                files.add(new PostFormBuilder.FileInput("file", fileName, fileMap.get(fileName)));
 //            }
-            for(ImageBean bean : beanList){
+            for (ImageBean bean : beanList) {
                 files.add(new PostFormBuilder.FileInput("file", bean.getDisplayName(), new File(bean.getPath())));
             }
         }
@@ -486,13 +508,5 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         } else {
             isSMS = "0";
         }
-    }
-
-    public static String getSuffix(File file) {
-        String fileName = file.getName();
-        int index = fileName.lastIndexOf(".");
-        if (index <= 0) return null;
-        String suffix = fileName.substring(index + 1);
-        return suffix.toLowerCase(Locale.getDefault());
     }
 }
