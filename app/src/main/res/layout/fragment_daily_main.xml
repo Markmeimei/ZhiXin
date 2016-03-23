@@ -10,7 +10,7 @@
         android:background="@color/main_color">
 
         <LinearLayout
-            android:id="@+id/daily_everyday"
+            android:id="@+id/ll_daily_report"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/dimen_100"
             android:layout_weight="1"
@@ -33,7 +33,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/daily_tomorrow"
+            android:id="@+id/ll_tom_plan"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/dimen_100"
             android:layout_weight="1"
@@ -56,7 +56,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/daily_week"
+            android:id="@+id/ll_weekly_plan"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/dimen_100"
             android:layout_weight="1"
@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/daily_sign"
+            android:id="@+id/ll_daily_sign"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/dimen_100"
             android:layout_weight="1"

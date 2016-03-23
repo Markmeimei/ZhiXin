@@ -32,6 +32,7 @@ import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.ToolsUtils;
 import com.example.zhi.view.FullyGridLayoutManager;
+import com.example.zhi.view.FullyLinearLayoutManager;
 import com.example.zhi.widget.PicSelectActivity;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -103,15 +104,16 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     private String selectDate = "";//DialogDatePicker 选择的时间
     private String isSMS = "0";// 是否发送短信
 
-    private ArrayList<ReceiverObject> taskTransactors;
     private TransactorRecyclerViewAdapter transactorAdapter;//联系人Adapter
 
     private ArrayList<AttachmentFile> attachmentFiles;
     private AttachmentsRecyclerViewAdapter attachmentsAdapter;//附件Adapter
-    private Map<String, File> files = new HashMap<String, File>();
-    private List<File> choiceFiles = new ArrayList<>();
-    private String imagePath;//照片存放路径
+    private Map<String, File> files = new HashMap<>();
     private File filePath;// 文件路径
+    List<ImageBean> imageBeans = new ArrayList<>();// 图片
+    private List<ImageBean> imageBeanList = new ArrayList<>();// 图片
+    private String displayName;
+    private String imagePath;//照片存放路径
 
 
     @Override
@@ -128,6 +130,9 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     }
 
     private void initConstant() {
+        ImageBean imageBean = new ImageBean();
+        imageBean.setDisplayName("1458697594252oJirk.jpg");
+        imageBeans.add(imageBean);
         mContext = TaskAddActivity.this;
         // 初始化时间
         taskSubmitDate = DateUtils.getDateYMD();
@@ -145,8 +150,8 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                             //files.put(文件名，file);
 //                            files.put("测试图片.jpg", new File(Environment.getExternalStorageDirectory().getAbsolutePath()));
                             files.put("测试上传dd文件.txt", file);
-                            Log.e("tag", "文件上传的地址------->"+file.getAbsolutePath());
-                            postFile(files);
+                            Log.e("tag", "文件上传的地址------->" + file.getAbsolutePath());
+                            postFile(imageBeanList);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -191,56 +196,40 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     @OnClick(R.id.iv_task_add_image)
     void takePhotos() {
         startActivityForResult(new Intent(this, PicSelectActivity.class), 0x123);
-//        Toast.makeText(mContext,"添加照片",Toast.LENGTH_SHORT).show();
-////        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-////        startActivityForResult(openCameraIntent, TAKE_PICTURE);
-//
-//        Intent intent = new Intent();
-//        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//        long date = new Date().getTime();
-//        String imageName = imagePath + "照片-" + date + ".jpg";
-//        File file = new File(imageName);
-//        // 转换成uri
-//        Uri uri = Uri.fromFile(file);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//        startActivityForResult(intent, 0);
     }
 
+
+    /**
+     * 选中的照片
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0x123 && resultCode == RESULT_OK) {
             Intent intent = data;
-            List<ImageBean> imageBeans = (List<ImageBean>) intent
+            imageBeans = (List<ImageBean>) intent
                     .getSerializableExtra("images");
             for (ImageBean b : imageBeans) {
-                System.out.println("选中图片" + b.toString());
+
+                displayName = b.getDisplayName();
+                imagePath = b.getPath();
+                imageBeanList.add(b);
+
+                Log.e("tag", "选中的图片------>" + displayName + imagePath+imageBeans.size());
+
             }
+            attachmentsAdapter.notifyDataSetChanged();
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    /**
-     * 遍历文件
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        choiceFiles.clear();
-        File[] files = filePath.listFiles();
-        if (files != null) {
-            for (File f : files) {
-                if (getSuffix(f).equals("jpg")) {
-                    choiceFiles.add(f);
-                }
-            }
-        }
-        attachmentsAdapter.notifyDataSetChanged();//刷新Adapter
+
     }
 
     private void initEvent() {
         task_header_back.setOnClickListener(this);
-
         taskClear.setOnClickListener(this);
         taskSubmit.setOnClickListener(this);
         taskIsSMS.setOnCheckedChangeListener(this);
@@ -267,7 +256,6 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     }
 
     private void initView() {
-
         // 默认隐藏软键盘
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         task_header_back.setText(R.string.task_manage);
@@ -275,11 +263,14 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         taskDate.setText(taskSubmitDate);// 设置当前时间
         task_header_right.setVisibility(View.GONE);
 
-        listAttachment.setLayoutManager(new FullyGridLayoutManager(this, 1));//任务附件列表
-        listTransactor.setLayoutManager(new FullyGridLayoutManager(this, 3));//任务办理人列表****通过设置自定义LayoutManager,设置不滚动****
-
-        attachmentsAdapter = new AttachmentsRecyclerViewAdapter(this, attachmentFiles);
+        // 附件
+        listAttachment.setLayoutManager(new FullyLinearLayoutManager(this));//任务附件列表
+        attachmentsAdapter = new AttachmentsRecyclerViewAdapter(this, imageBeanList, null);
+        Log.e("tag", "图片-------->" + displayName + imagePath);
         listAttachment.setAdapter(attachmentsAdapter);//附件
+
+        // 联系人
+        listTransactor.setLayoutManager(new FullyGridLayoutManager(this, 3));//任务办理人列表****通过设置自定义LayoutManager,设置不滚动****
         transactorAdapter = new TransactorRecyclerViewAdapter(this, ToolsUtils.checkedUsers);
         listTransactor.setAdapter(transactorAdapter);//办理人
 
@@ -421,9 +412,9 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     /**
      * 提交任务 带附件
      *
-     * @param fileMap
+     * @param beanList
      */
-    public void postFile(Map<String, File> fileMap) {
+    public void postFile(List<ImageBean> beanList) {
         // 接收人
         StringBuilder builder = new StringBuilder();
         for (ReceiverObject o : ToolsUtils.checkedUsers) {
@@ -435,17 +426,20 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         Log.e("tag", "------测试接收人" + submitUser);
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("uid", "" + userId);
-        requestParams.put("jsr", "" +submitUser);//这是不是写错了，是不是应该是submitUser
+        requestParams.put("jsr", "" + submitUser);//这是不是写错了，是不是应该是submitUser
         requestParams.put("content", taskDescribe.getText().toString());
         requestParams.put("date", taskSubmitDate);//添加任务的日期
         requestParams.put("edate", "" + selectDate);// 截止时间(可选)
         requestParams.put("dx", isSMS);//是否发送短信
-        Log.e("tag", "提交数据------->");
+        Log.e("tag", "提交数据------->"+beanList.size());
 
         List<PostFormBuilder.FileInput> files = new ArrayList<>();
-        if (fileMap != null && !fileMap.isEmpty()) {
-            for (String fileName : fileMap.keySet()) {
-                files.add(new PostFormBuilder.FileInput("file", fileName, fileMap.get(fileName)));
+        if (beanList != null && !beanList.isEmpty()) {
+//            for (String fileName : fileMap.keySet()) {
+//                files.add(new PostFormBuilder.FileInput("file", fileName, fileMap.get(fileName)));
+//            }
+            for(ImageBean bean : beanList){
+                files.add(new PostFormBuilder.FileInput("file", bean.getDisplayName(), new File(bean.getPath())));
             }
         }
         RequestCall call = new PostFormRequest(ConstantURL.DAILY_TASK_ADD, null, requestParams, null, files).build();
@@ -453,6 +447,12 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
             @Override
             public void onError(Call call, Exception e) {
                 Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void inProgress(float progress) {
+                super.inProgress(progress);
+                Log.e("tag", "上传进度" + progress);
             }
 
             @Override

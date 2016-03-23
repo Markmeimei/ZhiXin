@@ -5,11 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.object.DailyMainItem;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Author: Eron
@@ -22,6 +27,19 @@ public class DailyMainAdapter extends RecyclerView.Adapter<DailyMainAdapter.Dail
     private LayoutInflater mInflater;
     private ArrayList<DailyMainItem> dailyMainItems;//item对象
 
+    /**
+     * 设置点击接口
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
     public DailyMainAdapter(Context context, ArrayList<DailyMainItem> data) {
         this.mInflater = LayoutInflater.from(context);
         this.dailyMainItems = data;
@@ -33,18 +51,28 @@ public class DailyMainAdapter extends RecyclerView.Adapter<DailyMainAdapter.Dail
     }
 
     @Override
-    public void onBindViewHolder(DailyMainAdapter.DailyMainViewHolder holder, int position) {
+    public void onBindViewHolder(final DailyMainAdapter.DailyMainViewHolder holder, final int position) {
 
+        holder.dailyMainAddImage.setImageResource(dailyMainItems.get(position).getItemImage());
+        holder.dailyMainAddText.setText(dailyMainItems.get(position).getItemText());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dailyMainItems==null ? 0 : dailyMainItems.size();
     }
 
     public class DailyMainViewHolder extends RecyclerView.ViewHolder {
+
+        @Bind(R.id.iv_daily_main_add)
+        ImageView dailyMainAddImage;
+        @Bind(R.id.tv_daily_main_add)
+        TextView dailyMainAddText;
+
         public DailyMainViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
+

@@ -1,8 +1,5 @@
 package com.example.zhi.object;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
 /**
  * DailyMain Item 图标文字按钮
  *
@@ -12,22 +9,23 @@ import android.widget.TextView;
  */
 public class DailyMainItem {
 
-    private ImageView itemImage;
-    private TextView itemText;
+    private int itemImage;
+    private String itemText;
 
-    public ImageView getItemImage() {
+    public int getItemImage() {
         return itemImage;
     }
 
-    public void setItemImage(ImageView itemImage) {
+    public void setItemImage(int itemImage) {
         this.itemImage = itemImage;
     }
 
-    public TextView getItemText() {
+    public String getItemText() {
         return itemText;
     }
 
-    public void setItemText(TextView itemText) {
+    public void setItemText(String itemText) {
         this.itemText = itemText;
     }
 }
+

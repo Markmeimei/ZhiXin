@@ -46,9 +46,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 /**
+ * 照片选择器
+ *
  * Author：Mark
  * Date：2016/3/22 0022
  * Tell：15006330640
@@ -142,6 +143,8 @@ public class PicSelectActivity extends FragmentActivity implements
 	}
 
 	/**
+	 *
+	 * 拍照实现
 	 */
 	private void takePhoto() {
 		if (Environment.getExternalStorageState().equals(
@@ -173,8 +176,9 @@ public class PicSelectActivity extends FragmentActivity implements
 		System.out.println("..." + requestCode + ".." + resultCode + "..."
 				+ data);
 		if (requestCode == PHOTO_GRAPH && resultCode == RESULT_OK) {
-			List<ImageBean> selecteds = new ArrayList<ImageBean>();
-			selecteds.add(new ImageBean(null, 0l, null, dirPath + "/"
+			List<ImageBean> selecteds = new ArrayList<>();
+
+			selecteds.add(new ImageBean(null, 0l, fileName+".jpg", dirPath + "/"
 					+ fileName + ".jpg", false));
 			Intent intent = new Intent();
 			intent.putExtra(IMAGES, (Serializable) selecteds);
@@ -189,18 +193,18 @@ public class PicSelectActivity extends FragmentActivity implements
 		StringBuffer sb = new StringBuffer();
 		Calendar calendar = Calendar.getInstance();
 		long millis = calendar.getTimeInMillis();
-		String[] dictionaries = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
-				"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
-				"V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g",
-				"h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
-				"t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4",
-				"5", "6", "7", "8", "9" };
-		sb.append("dzc");
+//		String[] dictionaries = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
+//				"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
+//				"V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g",
+//				"h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+//				"t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4",
+//				"5", "6", "7", "8", "9" };
+		sb.append("image-");
 		sb.append(millis);
-		Random random = new Random();
-		for (int i = 0; i < 5; i++) {
-			sb.append(dictionaries[random.nextInt(dictionaries.length - 1)]);
-		}
+//		Random random = new Random();
+//		for (int i = 0; i < 5; i++) {
+//			sb.append(dictionaries[random.nextInt(dictionaries.length - 1)]);
+//		}
 		return sb.toString();
 	};
 
@@ -316,7 +320,6 @@ public class PicSelectActivity extends FragmentActivity implements
 					int position, long id) {
 				AlbumBean b = (AlbumBean) parent.getItemAtPosition(position);
 				adapter.taggle(b);
-				// ����ѡ�е�����
 				album.setText(b.folderName);
 				mPopupWindow.dismiss();
 			}
@@ -324,6 +327,9 @@ public class PicSelectActivity extends FragmentActivity implements
 		return mPopupWindow;
 	}
 
+	/**
+	 * 文件夹Adapter
+	 */
 	class AlbumAdapter extends BaseAdapter {
 		LayoutInflater inflater;
 		List<AlbumBean> albums;

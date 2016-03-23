@@ -25,6 +25,11 @@ import com.example.zhi.widget.PicSelectActivity.OnImageSelectedListener;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
+/**
+ * 照片选择器Adapter
+ *
+ */
+
 public class PicSelectAdapter extends BaseAdapter {
 
 	Context context;

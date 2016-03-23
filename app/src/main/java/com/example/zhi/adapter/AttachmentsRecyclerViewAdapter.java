@@ -2,16 +2,21 @@ package com.example.zhi.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.zhi.R;
 import com.example.zhi.object.AttachmentFile;
+import com.example.zhi.object.ImageBean;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,11 +32,14 @@ public class AttachmentsRecyclerViewAdapter extends RecyclerView.Adapter<Attachm
 
     private LayoutInflater mInflater;
     private Context mContext;
-    private ArrayList<AttachmentFile> attachmentFiles;
+    private List<ImageBean> imageBeans;//图片实体类
+    private List<AttachmentFile> attachmentFiles;// 附件
 
 
-    public AttachmentsRecyclerViewAdapter(Context context, ArrayList<AttachmentFile> files) {
+    public AttachmentsRecyclerViewAdapter(Context context,List<ImageBean> images, ArrayList<AttachmentFile> files) {
+        this.mContext=  context;
         this.mInflater = LayoutInflater.from(context);
+        this.imageBeans = images;
         this.attachmentFiles = files;
     }
 
@@ -42,12 +50,17 @@ public class AttachmentsRecyclerViewAdapter extends RecyclerView.Adapter<Attachm
 
     @Override
     public void onBindViewHolder(final AttachmentsRecyclerViewAdapter.AttachmentsViewHolder holder, int position) {
-        holder.attachmentName.setText(attachmentFiles.get(position).getFileName());
+        holder.attachmentName.setText(imageBeans.get(position).getDisplayName());
+        Glide.with(mContext)
+                .load(new File(imageBeans.get(position).getPath()))
+                .into(holder.iconAttachment);
+        Log.e("显示照片",imageBeans.get(position).getDisplayName());
+//        holder.attachmentName.setText(attachmentFiles.get(position).getFileName());
     }
 
     @Override
     public int getItemCount() {
-        return attachmentFiles == null ? 0 : attachmentFiles.size();
+        return imageBeans == null ? 0 : imageBeans.size();
     }
 
 
@@ -67,4 +80,5 @@ public class AttachmentsRecyclerViewAdapter extends RecyclerView.Adapter<Attachm
             ButterKnife.bind(this, itemView);
         }
     }
+
 }
