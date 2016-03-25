@@ -15,6 +15,7 @@ public class ConstantURL {
     public static final String DAILY_TASK_ADD = BASIC_URL + "rwadd.php"; // 添加任务
     public static final String RECEIVER = BASIC_URL + "userlist.php"; // 接收人列表
     public static final String ADDRESSLIST = BASIC_URL + "txl.php"; // 通讯录
+    public static final String NOTICELIST = BASIC_URL + "tongzhi.php"; // 通讯录
 
 
 

@@ -446,7 +446,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         Log.e("tag", "------测试接收人" + submitUser);
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("uid", "" + userId);
-        requestParams.put("jsr", "" + submitUser);//这是不是写错了，是不是应该是submitUser
+        requestParams.put("jsr", "" + submitUser);
         requestParams.put("content", taskDescribe.getText().toString());
         requestParams.put("date", taskSubmitDate);//添加任务的日期
         requestParams.put("edate", "" + selectDate);// 截止时间(可选)

@@ -6,12 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.zhi.R;
-import com.example.zhi.object.DailyMainItem;
+import com.example.zhi.object.MainItemBean;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +26,7 @@ public class DailyMainAdapter extends RecyclerView.Adapter<DailyMainAdapter.Dail
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<DailyMainItem> dailyMainItems;//item对象
+    private List<MainItemBean> dailyMainItems;//item对象
 
     /**
      * 设置点击接口
@@ -40,7 +41,9 @@ public class DailyMainAdapter extends RecyclerView.Adapter<DailyMainAdapter.Dail
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public DailyMainAdapter(Context context, ArrayList<DailyMainItem> data) {
+
+    public DailyMainAdapter(Context context, List<MainItemBean> data) {
+        this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.dailyMainItems = data;
     }
@@ -53,8 +56,17 @@ public class DailyMainAdapter extends RecyclerView.Adapter<DailyMainAdapter.Dail
     @Override
     public void onBindViewHolder(final DailyMainAdapter.DailyMainViewHolder holder, final int position) {
 
-        holder.dailyMainAddImage.setImageResource(dailyMainItems.get(position).getItemImage());
-        holder.dailyMainAddText.setText(dailyMainItems.get(position).getItemText());
+        holder.dailyMainAddImage.setImageResource(dailyMainItems.get(position).getResourceId());
+        holder.dailyMainAddText.setText(dailyMainItems.get(position).getItemNameResourceID());
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getAdapterPosition();
+                    mOnItemClickListener.onItemClick(holder.dailyMianItem,position);
+                }
+            });
+        }
     }
 
     @Override
@@ -68,6 +80,8 @@ public class DailyMainAdapter extends RecyclerView.Adapter<DailyMainAdapter.Dail
         ImageView dailyMainAddImage;
         @Bind(R.id.tv_daily_main_add)
         TextView dailyMainAddText;
+        @Bind(R.id.rl_main_item)
+        RelativeLayout dailyMianItem;
 
         public DailyMainViewHolder(View itemView) {
             super(itemView);

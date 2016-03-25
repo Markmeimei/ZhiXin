@@ -84,6 +84,8 @@
     <string name="daily_task">任务管理</string>
     <string name="daily_leave">请假</string>
     <string name="daily_overtime">加班</string>
+    <string name="daily_notice">通知</string>
+    <string name="daily_add">添加</string>
     <string name="daily_work">日常工作</string>
     <!-- 每日一报 -->
     <string name="daily_report">每日一报</string>

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/rl_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/ll_loading"
@@ -20,7 +21,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <ProgressBar
                     android:layout_width="28dp"
@@ -40,11 +41,12 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_loading"
                 android:background="@android:color/transparent"
-                android:footerDividersEnabled="false"
+                android:cacheColorHint="@null"
                 android:descendantFocusability="afterDescendants"
-                android:fastScrollEnabled="false"
                 android:divider="@null"
-                android:cacheColorHint="@null"/>
+                android:fastScrollEnabled="false"
+                android:footerDividersEnabled="false" />
+
             <com.example.zhi.view.Sidebar
                 android:id="@+id/address_sidebar"
                 android:layout_width="25dp"

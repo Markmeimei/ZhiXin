@@ -26,8 +26,8 @@ import com.example.zhi.activity.sliding.FeedbackActivity;
 import com.example.zhi.activity.sliding.NoticesActivity;
 import com.example.zhi.activity.sliding.QR_Activity;
 import com.example.zhi.activity.sliding.SettingActivity;
+import com.example.zhi.fragment.FragmentDailyMain;
 import com.example.zhi.fragment.Fragment_AddressBook;
-import com.example.zhi.fragment.Fragment_Daily;
 import com.example.zhi.fragment.Fragment_Manage;
 import com.example.zhi.fragment.Fragment_Tool;
 import com.example.zhi.view.DragLayout;
@@ -103,7 +103,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageView header_icon;
     // 对象
     private Fragment[] fragments;
-    private Fragment_Daily fragment_daily; // 日常工作
+//    private Fragment_Daily fragment_daily; // 日常工作
+    private FragmentDailyMain fragment_daily;
     private Fragment_Manage fragment_manage; // 管理
     private Fragment_AddressBook fragment_addressBook; // 通讯录
     private Fragment_Tool fragment_tool; // 工具
@@ -190,7 +191,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initFragment() {
-        fragment_daily = new Fragment_Daily();
+        fragment_daily = new FragmentDailyMain();
         fragment_manage = new Fragment_Manage();
         fragment_addressBook = new Fragment_AddressBook();
         fragment_tool = new Fragment_Tool();
