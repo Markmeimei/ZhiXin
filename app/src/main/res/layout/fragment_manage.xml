@@ -19,11 +19,11 @@
 
         <ImageView
             android:id="@+id/iv_avatar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/fragment_project_manage" />
 
         <TextView
@@ -66,11 +66,11 @@
 
         <ImageView
             android:id="@+id/iv_avatar1"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/fragment_inquiry_asset" />
 
         <TextView
@@ -112,11 +112,11 @@
 
         <ImageView
             android:id="@+id/iv_avatar2"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/fragment_attendance_manage" />
 
         <TextView
@@ -150,11 +150,11 @@
 
         <ImageView
             android:id="@+id/iv_avatar3"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/fragment_car_manage" />
 
         <TextView
@@ -196,11 +196,11 @@
 
         <ImageView
             android:id="@+id/iv_avatar4"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/fragment_customer_manage" />
 
         <TextView
@@ -242,11 +242,11 @@
 
         <ImageView
             android:id="@+id/iv_avatar5"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/fragment_inout_manage" />
 
         <TextView
