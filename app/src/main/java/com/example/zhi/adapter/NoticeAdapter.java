@@ -2,6 +2,7 @@ package com.example.zhi.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,15 @@ import android.widget.TextView;
 import com.example.zhi.R;
 import com.example.zhi.object.NoticeBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- *
  * 通知列表Adapter
- *
+ * <p>
  * Author: Eron
  * Date: 2016/3/25 0025
  * Time: 17:09
@@ -27,12 +28,26 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<NoticeBean> noticeBeans;
+    private List<NoticeBean> noticeBeanList = new ArrayList<>();
+
+    /**
+     * 设置点击接口
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
 
 
     public NoticeAdapter(Context context, List<NoticeBean> data) {
+        this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
-        this.noticeBeans = data;
+        this.noticeBeanList = data;
     }
 
     @Override
@@ -41,17 +56,32 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
     }
 
     @Override
-    public void onBindViewHolder(NoticeAdapter.NoticeViewHolder holder, int position) {
+    public void onBindViewHolder(final NoticeAdapter.NoticeViewHolder holder, final int position) {
 
-        holder.noticeTitle.setText(noticeBeans.get(position).getTitle());
-        holder.noticeAddTime.setText(noticeBeans.get(position).getAddtime());
-        holder.noticeAddUser.setText(noticeBeans.get(position).getAdduser());
+//        holder.noticeTitle.setText("标题：" + noticeBeanList.get(position).getTitle());
+//        Log.e("tag", "NoticeAdapter---title------>" + noticeBeanList.get(position).getTitle());
+//        holder.noticeAddTime.setText("添加时间：" + noticeBeanList.get(position).getAddtime());
+//        holder.noticeAddUser.setText("添加人：" + noticeBeanList.get(position).getAdduser());
+
+        holder.noticeTitle.setText(noticeBeanList.get(position).getTitle());
+//        Log.e("tag", "NoticeAdapter---title------>" + noticeBeanList.get(position).getTitle());
+        holder.noticeAddTime.setText(noticeBeanList.get(position).getAddtime());
+        holder.noticeAddUser.setText(noticeBeanList.get(position).getAdduser());
+
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(holder.itemView,position);
+                }
+            });
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return noticeBeans == null ? 0 : noticeBeans.size();
+        return noticeBeanList == null ? 0 : noticeBeanList.size();
     }
 
     public class NoticeViewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +95,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
         public NoticeViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

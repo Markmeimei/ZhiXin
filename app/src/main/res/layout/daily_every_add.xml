@@ -23,7 +23,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center"
                 android:text="日期："
-                android:textColor="@color/darkorange"
+                android:textColor="@color/darkOrange"
                 android:textSize="@dimen/dimen_16" />
 
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_toRightOf="@+id/add_time_show"
                 android:gravity="center_vertical"
                 android:text="2016-03-04"
-                android:textColor="@color/darkorange"
+                android:textColor="@color/darkOrange"
                 android:textSize="@dimen/dimen_16" />
 
 
@@ -46,7 +46,7 @@
                 android:drawablePadding="@dimen/dimen_4"
                 android:gravity="center"
                 android:text="@string/every_chose"
-                android:textColor="@color/darkorange"
+                android:textColor="@color/darkOrange"
                 android:textSize="@dimen/dimen_16" />
         </RelativeLayout>
 

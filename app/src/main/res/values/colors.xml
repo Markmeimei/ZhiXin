@@ -71,7 +71,7 @@
 
     <color name="lightsalmon">#FFA07A</color><!--亮肉色 -->
 
-    <color name="darkorange">#FF8C00</color><!--暗桔黄色 -->
+    <color name="darkOrange">#FF8C00</color><!--暗桔黄色 -->
 
     <color name="coral">#FF7F50</color><!--珊瑚色 -->
 
@@ -81,7 +81,7 @@
 
     <color name="orangered">#FF4500</color><!--红橙色 -->
 
-    <color name="deeppink">#FF1493</color><!--深粉红色 -->
+    <color name="deepPink">#FF1493</color><!--深粉红色 -->
 
     <color name="fuchsia">#FF00FF</color><!--紫红色 -->
 
@@ -302,11 +302,11 @@
 
     <color name="green">#008000</color><!--绿色 -->
 
-    <color name="darkgreen">#006400</color><!--暗绿色 -->
+    <color name="darkGreen">#006400</color><!--暗绿色 -->
 
     <color name="blue">#0000FF</color><!--蓝色 -->
 
-    <color name="mediumblue">#0000CD</color><!--中兰色 -->
+    <color name="mediumBlue">#0000CD</color><!--中兰色 -->
 
     <color name="darkblue">#00008B</color><!--暗蓝色 -->
 

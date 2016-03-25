@@ -220,6 +220,12 @@
     <string name="leave_earlier">早退</string>
     <string name="leave_earlier_reason">早退原因</string>
 
+    <!--通知-->
+    <string name="notice_title">通知</string>
+    <string name="notice_item_title">标题：</string>
+    <string name="notice_item_time">添加时间：</string>
+    <string name="notice_item_addUser">添加人：</string>
+
     <!--Dialog-->
     <string name="dialog_title">接收人</string>
     <string name="dialog_select_all">全选</string>

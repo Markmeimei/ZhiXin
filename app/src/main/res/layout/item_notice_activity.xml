@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview"
     app:cardCornerRadius="5dp"
-    app:cardBackgroundColor="@color/white"
+    android:background="@drawable/ripple_notice_item"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
@@ -14,27 +16,33 @@
 
         <TextView
             android:id="@+id/tv_notice_title"
-            android:layout_margin="@dimen/dimen_5"
+            android:layout_margin="@dimen/dimen_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:text="年会具体安排"
+            android:textColor="@color/text_normal"
             />
 
         <TextView
             android:id="@+id/tv_notice_addTime"
             android:text="2016-01-26 21:09:32"
+            android:textColor="@color/orange"
+            android:layout_marginLeft="@dimen/dimen_15"
             android:layout_below="@+id/tv_notice_title"
-            android:layout_margin="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/dimen_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tv_notice_addUser"
             android:text="张静"
+            android:background="@drawable/shape_transactor_bg"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginBottom="@dimen/dimen_10"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_notice_title"
-            android:layout_margin="@dimen/dimen_5"
+            android:layout_marginRight="@dimen/dimen_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

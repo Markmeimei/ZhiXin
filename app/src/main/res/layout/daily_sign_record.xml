@@ -37,7 +37,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/dimen_10"
                     android:text="日期:"
-                    android:textColor="@color/darkorange"
+                    android:textColor="@color/darkOrange"
                     android:textSize="@dimen/dimen_16" />
 
 
@@ -48,7 +48,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/dimen_10"
                     android:text="2015-12-01"
-                    android:textColor="@color/darkorange"
+                    android:textColor="@color/darkOrange"
                     android:textSize="@dimen/dimen_16" />
 
                 <TextView
@@ -58,7 +58,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/dimen_10"
                     android:text="11:11"
-                    android:textColor="@color/darkorange"
+                    android:textColor="@color/darkOrange"
                     android:textSize="@dimen/dimen_16" />
             </LinearLayout>
 

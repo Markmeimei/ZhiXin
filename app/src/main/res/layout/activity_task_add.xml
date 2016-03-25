@@ -115,7 +115,7 @@
                             android:drawablePadding="@dimen/dimen_4"
                             android:gravity="center"
                             android:text="@string/task_end_time"
-                            android:textColor="@color/darkorange"
+                            android:textColor="@color/darkOrange"
                             android:textSize="@dimen/dimen_16" />
 
                     </RelativeLayout>
