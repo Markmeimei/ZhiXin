@@ -28,6 +28,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import dmax.dialog.SpotsDialog;
 import okhttp3.Call;
 
 /**
@@ -54,8 +55,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     Button login_btn;
 
     // 对象
-    private ECProgressDialog mPostingDialog;//容联云通讯
     private SharedPreferences mSharedPreferences;
+    private SpotsDialog spotsDialog;
 
     private boolean mDisplayFlg = false;
 
@@ -112,8 +113,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
             case R.id.login_btn:
                 if (checkInput()) {
-                    mPostingDialog = new ECProgressDialog(this, R.string.login_posting);//容联云Dialog
                     login();
+                    new SpotsDialog(this, "登录中···").show();
                 }
                 break;
         }
@@ -174,7 +175,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                                 Toast.makeText(mContext, login.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
-                        DemoUtils.dismissPostingDialog(mPostingDialog);
 
                         //将登录个人信息保存到本地
                         SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();

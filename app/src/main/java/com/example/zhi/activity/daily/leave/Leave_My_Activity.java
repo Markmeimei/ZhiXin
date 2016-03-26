@@ -13,6 +13,9 @@ import com.example.zhi.dialog.Dialog_Leave;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Author：Mark
  * Date：2015/12/3 0003
@@ -23,13 +26,13 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class Leave_My_Activity extends Activity implements View.OnClickListener {
     private static final String TAG = "Leave_My_Activity";
     // 顶栏
-    @ViewInject(R.id.task_header_back)
+    @Bind(R.id.task_header_back)
     TextView header_back;
-    @ViewInject(R.id.task_header_title)
+    @Bind(R.id.task_header_title)
     TextView header_title;
-    @ViewInject(R.id.task_header_right)
+    @Bind(R.id.task_header_right)
     TextView header_right;
-    @ViewInject(R.id.leave_list)
+    @Bind(R.id.leave_list)
     ListView leave_list;
     // 对象
     private Context context;
@@ -38,7 +41,8 @@ public class Leave_My_Activity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.daily_leave_my);
-        ViewUtils.inject(this);
+        ButterKnife.bind(this);
+
         initConstants();
         initViews();
         initEvents();
@@ -50,6 +54,7 @@ public class Leave_My_Activity extends Activity implements View.OnClickListener 
 
     private void initViews() {
         adapter = new LeaveAdapter(context,5);
+        header_back.setText("返回");
         header_title.setText(getString(R.string.leave));
         header_right.setText(getString(R.string.leave_my));//我的请假
         leave_list.setAdapter(adapter);
@@ -63,11 +68,11 @@ public class Leave_My_Activity extends Activity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.header_back:
+            case R.id.task_header_back:
                 // 返回
                 finish();
                 break;
-            case R.id.header_right:
+            case R.id.task_header_right:
                 Dialog_Leave dialog_leave = new Dialog_Leave(context);
                 dialog_leave.builder()
                         .setTitle(getString(R.string.leave_add))

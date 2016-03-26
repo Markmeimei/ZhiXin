@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/ripple_notice_item"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_taskList_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_15"
+            android:text="软件项目演示会，上午11点展厅。"
+            android:textColor="@color/text_normal"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_taskList_addTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_taskList_describe"
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="2016-01-26 21:09:32"
+            android:textColor="@color/orange" />
+
+        <TextView
+            android:text="任务时限:"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:layout_below="@+id/tv_taskList_addTime"
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_taskList_addUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_taskList_describe"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:layout_marginRight="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:background="@drawable/shape_transactor_bg"
+            android:text="张静" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_taskList_describe"
+            android:layout_marginTop="@dimen/dimen_18"
+            android:layout_toLeftOf="@+id/tv_taskList_addUser"
+            android:text="添加人：" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
