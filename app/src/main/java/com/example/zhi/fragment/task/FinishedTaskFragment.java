@@ -1,11 +1,13 @@
 package com.example.zhi.fragment.task;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +15,19 @@ import android.widget.Toast;
 
 import com.example.zhi.R;
 import com.example.zhi.adapter.TaskListAdapter;
+import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
+import com.example.zhi.object.renwu;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * 已完任务
@@ -34,7 +42,9 @@ public class FinishedTaskFragment extends Fragment {
     @Bind(R.id.rv_unTake_task)
     RecyclerView unTakeTaskList;
 
-    private List<TaskList> taskLists = new ArrayList<>();
+    private int userId;//当前用户id
+    private TaskList taskList = new TaskList();// 任务列表实体类
+    private List<renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
 
     @Nullable
@@ -55,26 +65,51 @@ public class FinishedTaskFragment extends Fragment {
 
     private void initConstant() {
         this.mContext = getActivity();
+        SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        userId = preferences.getInt("user_id", 0);
+        Log.e("tag", "当前用户的Id---------------->" + userId);
     }
 
     private void initData() {
-        TaskList taskList = new TaskList();
-        taskList.setTitle("今天上午11:20 在展厅召开软件部项目（作品）演示例会。");
-        taskList.setTime("2016-03-26");
-        taskList.setAdduser("张全蛋");
-        taskLists.add(taskList);
-        taskLists.add(taskList);
-        taskLists.add(taskList);
 
-        taskListAdapter = new TaskListAdapter(mContext, taskLists);
-        unTakeTaskList.setAdapter(taskListAdapter);
-        unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
-        taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(mContext, taskLists.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        OkHttpUtils
+                .post()
+                .url(ConstantURL.TASKLIST)
+                .addParams("uid", ""+userId)
+                .addParams("tag",""+3)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("tag", "打印数据------>" + response.toString());
+                        Gson gson = new Gson();
+                        taskList = gson.fromJson(response, TaskList.class);
+
+                        if (taskList != null) {
+                            taskLists = taskList.getRenwu();
+                            Log.e("tag", "打印数组数据------>" + taskLists);
+
+                            // 设置 Adapter
+                            taskListAdapter = new TaskListAdapter(mContext, taskLists);
+                            Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
+                            unTakeTaskList.setAdapter(taskListAdapter);
+                            unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
+                            taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    }
+                });
+
     }
 
     private void initView() {

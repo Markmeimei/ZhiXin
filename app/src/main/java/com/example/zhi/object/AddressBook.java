@@ -3,6 +3,8 @@ package com.example.zhi.object;
 import java.util.List;
 
 /**
+ * 通讯录列表实体类
+ *
  * Author: Eron
  * Date: 2016/3/21 0021
  * Time: 17:21
@@ -10,11 +12,11 @@ import java.util.List;
 public class AddressBook {
     private List<txl> txl;
 
-    public List<com.example.zhi.object.txl> getTxl() {
+    public List<txl> getTxl() {
         return txl;
     }
 
-    public void setTxl(List<com.example.zhi.object.txl> txl) {
+    public void setTxl(List<txl> txl) {
         this.txl = txl;
     }
 }

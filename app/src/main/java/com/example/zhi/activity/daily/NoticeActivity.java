@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +25,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -119,7 +119,6 @@ public class NoticeActivity extends Activity {
                                 Toast.makeText(mContext, noticeBeanList.get(position).getId(), Toast.LENGTH_SHORT).show();
                             }
                         });
-
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
@@ -128,7 +127,6 @@ public class NoticeActivity extends Activity {
     private void initView() {
         headerTitle.setText(R.string.notice_title);
         headerRight.setVisibility(View.GONE);
-
         mSwipeLayout = new SwipeRefreshLayout(mContext);
         swipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

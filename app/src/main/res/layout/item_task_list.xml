@@ -14,53 +14,87 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_taskList_describe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_15"
-            android:text="软件项目演示会，上午11点展厅。"
-            android:textColor="@color/text_normal"
-            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_taskList_addTime"
+            android:id="@+id/tv_taskList_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_taskList_describe"
             android:layout_marginLeft="@dimen/dimen_15"
-            android:layout_marginTop="@dimen/dimen_15"
-            android:text="2016-01-26 21:09:32"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:text="2016-03-28"
             android:textColor="@color/orange" />
 
         <TextView
-            android:text="任务时限:"
-            android:layout_marginBottom="@dimen/dimen_10"
-            android:layout_below="@+id/tv_taskList_addTime"
-            android:layout_marginLeft="@dimen/dimen_15"
-            android:layout_marginTop="@dimen/dimen_5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_9"
+            android:layout_toLeftOf="@+id/tv_taskList_addUser"
+            android:text="添加人：" />
 
         <TextView
             android:id="@+id/tv_taskList_addUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_taskList_describe"
-            android:layout_marginBottom="@dimen/dimen_10"
             android:layout_marginRight="@dimen/dimen_15"
-            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_5"
             android:background="@drawable/shape_transactor_bg"
-            android:text="张静" />
+            android:text="张全蛋" />
+
 
         <TextView
+            android:id="@+id/tv_taskList_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_taskList_date"
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginRight="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:text="软件项目演示会，上午11点展厅。"
+            android:textColor="@color/text_normal"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_taskList_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_taskList_describe"
-            android:layout_marginTop="@dimen/dimen_18"
-            android:layout_toLeftOf="@+id/tv_taskList_addUser"
-            android:text="添加人：" />
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="@string/task_addTime" />
+
+        <TextView
+            android:id="@+id/tv_taskList_addTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_taskList_describe"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_toRightOf="@+id/tv_taskList_add"
+            android:text="2016-01-26 21:09:32"
+            android:textColor="@color/orange" />
+
+        <TextView
+            android:id="@+id/tv_taskList_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_taskList_addTime"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:layout_marginLeft="@dimen/dimen_15"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:text="@string/task_endTime" />
+
+        <TextView
+            android:id="@+id/tv_taskList_endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_taskList_addTime"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_toRightOf="@+id/tv_taskList_end"
+            android:text="无"
+            android:textColor="@color/orangered" />
+
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

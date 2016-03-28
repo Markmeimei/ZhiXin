@@ -12,7 +12,7 @@ public class DateUtils {
     private static final String TAG = "DateUtils";
     private static SimpleDateFormat simpleDateFormat = null;
 
-    public static String getTimeYMDHM(){
+    public static String getTimeYMDHM() {
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
@@ -40,5 +40,12 @@ public class DateUtils {
         simpleDateFormat = new SimpleDateFormat("d");
         Date date = new Date(System.currentTimeMillis());
         return Integer.parseInt(simpleDateFormat.format(date));
+    }
+
+    /*时间戳转换成字符窜*/
+    public static String getDateToString(long time) {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date d = new Date(time);
+        return sf.format(d);
     }
 }

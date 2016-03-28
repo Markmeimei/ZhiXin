@@ -208,6 +208,8 @@
     <string name="task_sms">短信通知</string>
     <string name="task_submit">提交</string>
     <string name="task_clear">清空</string>
+    <string name="task_addTime">添加时间:</string>
+    <string name="task_endTime">任务时限:</string>
 
     <!--签到记录-->
     <string name="sign_name">姓名</string>

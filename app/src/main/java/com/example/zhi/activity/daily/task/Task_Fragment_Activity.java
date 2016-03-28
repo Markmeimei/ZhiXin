@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.example.zhi.R;
 import com.example.zhi.fragment.task.FinishedTaskFragment;
 import com.example.zhi.fragment.task.ReceivedTaskFragment;
-import com.example.zhi.fragment.task.Task_Finished_Fragment;
-import com.example.zhi.fragment.task.Task_Missed_Fragment;
-import com.example.zhi.fragment.task.Task_Take_Fragment;
 import com.example.zhi.fragment.task.UnTakeTaskFragment;
 
 import java.util.ArrayList;

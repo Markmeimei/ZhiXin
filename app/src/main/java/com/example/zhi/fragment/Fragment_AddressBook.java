@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class Fragment_AddressBook extends Fragment {
     private ContactAdapter adapter;
     private List<txl> usersList = new ArrayList<>();//排序前
     private List<txl> usersOrderList = new ArrayList<>();//排序后
-    private AddressBook addressBook;
+    private AddressBook addressBook;// 通讯录实体类
 
     @Nullable
     @Override
@@ -113,6 +114,7 @@ public class Fragment_AddressBook extends Fragment {
                         if (addressBook != null) {
                             // 排序
                             usersList = addressBook.getTxl();
+                            Log.e("tag", "打印数据------>" + usersList);
                             Map<String, txl> users = new HashMap<>();
                             for (int i = 0; i < addressBook.getTxl().size(); i++) {
                                 txl user1 = usersList.get(i);

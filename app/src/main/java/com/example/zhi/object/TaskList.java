@@ -1,47 +1,22 @@
 package com.example.zhi.object;
 
+import java.util.List;
+
 /**
  * 任务列表实体类
  *
  * Author: Eron
- * Date: 2016/3/26
- * Time: 23:36
+ * Date: 2016/3/28 0028
+ * Time: 11:37
  */
 public class TaskList {
-    private String title;
-    private String time;
-    private String adduser;
-    private String endtime;
+    private List<renwu> renwu;
 
-    public String getTitle() {
-        return title;
+    public List<renwu> getRenwu() {
+        return renwu;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getAdduser() {
-        return adduser;
-    }
-
-    public void setAdduser(String adduser) {
-        this.adduser = adduser;
-    }
-
-    public String getEndtime() {
-        return endtime;
-    }
-
-    public void setEndtime(String endtime) {
-        this.endtime = endtime;
+    public void setRenwu(List<renwu> renwu) {
+        this.renwu = renwu;
     }
 }

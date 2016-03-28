@@ -33,7 +33,6 @@
             android:paddingLeft="@dimen/dimen_20"
             android:layout_height="match_parent"
             android:src="@mipmap/ic_delete_file" />
-
     </LinearLayout>
 
 </LinearLayout>

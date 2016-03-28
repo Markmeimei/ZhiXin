@@ -2,14 +2,17 @@ package com.example.zhi.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.zhi.R;
-import com.example.zhi.object.TaskList;
+import com.example.zhi.object.renwu;
+import com.example.zhi.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -20,11 +23,12 @@ import butterknife.ButterKnife;
  * Date: 2016/3/26
  * Time: 23:13
  */
-public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>{
+public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder> {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<TaskList> taskLists;
+    private List<renwu> taskLists = new ArrayList<>();
+//    private renwu renwus;
 
     /**
      * 设置点击接口
@@ -39,7 +43,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    public TaskListAdapter(Context context, List<TaskList> data) {
+    public TaskListAdapter(Context context, List<renwu> data) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.taskLists = data;
@@ -52,14 +56,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
 
     @Override
     public void onBindViewHolder(final TaskListAdapter.TaskListViewHolder holder, final int position) {
-        holder.taskListDescribe.setText(taskLists.get(position).getTitle());
-        holder.taskListAddTime.setText(taskLists.get(position).getTime());
-        holder.taskListAddUser.setText(taskLists.get(position).getAdduser());
+
+        holder.taskListDescribe.setText(taskLists.get(position).getContent());
+        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getContent());
+        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getAddtime());
+        holder.taskListAddTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getAddtime()) * 1000));//添加时间
+        holder.taskListAddUser.setText(taskLists.get(position).getName());
+        holder.taskListDate.setText(taskLists.get(position).getDate());// 添加日期
+        if (taskLists.get(position).getEdate().equals("0")) {
+            holder.taskListEndTime.setText("无");
+        } else {
+            holder.taskListEndTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getEdate()) * 1000));// 任务时限
+        }
         if (mOnItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onItemClick(holder.itemView,position);
+                    mOnItemClickListener.onItemClick(holder.itemView, position);
                 }
             });
         }
@@ -73,11 +86,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
     public class TaskListViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.tv_taskList_describe)
-        TextView taskListDescribe;
+        TextView taskListDescribe;//内容
         @Bind(R.id.tv_taskList_addTime)
         TextView taskListAddTime;
         @Bind(R.id.tv_taskList_addUser)
-        TextView taskListAddUser;
+        TextView taskListAddUser;//添加人
+        @Bind(R.id.tv_taskList_date)
+        TextView taskListDate;//日期
+        @Bind(R.id.tv_taskList_endDate)
+        TextView taskListEndTime;
 
         public TaskListViewHolder(View itemView) {
             super(itemView);
