@@ -87,7 +87,7 @@
     <!--任务管理，字体布局样式-->
     <style name="task_text_style">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textSize">@dimen/dimen_16</item>
+        <item name="android:textSize">@dimen/dimen_15</item>
         <item name="android:textColor">@color/black</item>
     </style>
     

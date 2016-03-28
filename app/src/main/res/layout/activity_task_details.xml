@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/snow">
+
+    <include
+        android:id="@+id/task_header"
+        layout="@layout/activity_task_header" />
+
+    <LinearLayout
+        android:id="@+id/task_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_60"
+        android:layout_alignParentBottom="true"
+        android:background="@color/snow"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/dimen_0.5"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/bt_task_clear"
+                style="@style/task_text_size"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_20"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_negative_button"
+                android:text="@string/task_clear"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/bt_task_submit"
+                style="@style/task_text_size"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_10"
+                android:layout_marginRight="@dimen/dimen_20"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_button"
+                android:text="@string/task_submit"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/task_bottom"
+        android:layout_below="@id/task_header">
+
+        <LinearLayout
+            android:id="@+id/ll_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/task_header"
+            android:background="@color/snow">
+
+            <LinearLayout
+                android:id="@+id/item_task_missed_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:paddingRight="@dimen/dimen_15">
+
+                        <TextView
+                            android:id="@+id/task_detail_time"
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/task_details_addTime" />
+
+                        <TextView
+                            android:id="@+id/tv_add_task_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dimen_5"
+                            android:layout_toRightOf="@+id/task_detail_time"
+                            android:text="2016-03-28"
+                            android:textColor="@color/orange" />
+
+                        <TextView
+                            android:id="@+id/tv_choice_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_toLeftOf="@+id/tv_task_details_addUser"
+                            android:gravity="center"
+                            android:text="@string/task_details_addUser"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tv_task_details_addUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/shape_transactor_bg"
+                            android:text="张全蛋" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:paddingRight="@dimen/dimen_15">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/task_describe" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_add_task_describe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dimen_5"
+                        android:background="@drawable/task_edittext_bg_blue"
+                        android:gravity="start"
+                        android:lineSpacingExtra="@dimen/dimen_4"
+                        android:paddingBottom="@dimen/dimen_10"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:paddingRight="@dimen/dimen_15"
+                        android:textColor="@color/black_low"
+                        android:textSize="@dimen/dimen_15" />
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_15"
+                            android:text="@string/task_details_attachments"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <!--附件列表-->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_attachments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_40"
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:text="@string/task_level" />
+
+                        <TextView
+                            android:id="@+id/tv_add_task_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_30"
+                            android:paddingRight="@dimen/dimen_24"
+                            android:text="无"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/dimen_15">
+
+                        <TextView
+                            style="@style/task_text_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:text="@string/task_transactor" />
+
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_height="@dimen/dimen_0.5"
+                            android:background="@color/line_color" />
+
+                        <TextView
+                            android:id="@+id/tv_task_details_transactor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen_5"
+                            android:layout_marginRight="@dimen/dimen_10"
+                            android:layout_marginTop="@dimen/dimen_5"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="5dp"
+                            android:text="" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_15"
+                            android:text="@string/task_details_acceptList"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_marginLeft="@dimen/dimen_15"
+                            android:layout_height="@dimen/dimen_0.5"
+                            android:background="@color/line_color" />
+
+                        <TextView
+                            android:id="@+id/tv_task_details_acceptList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen_5"
+                            android:layout_marginLeft="@dimen/dimen_15"
+                            android:layout_marginRight="@dimen/dimen_10"
+                            android:layout_marginTop="@dimen/dimen_5"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="5dp"
+                            android:text="" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_15"
+                            android:text="@string/task_details_finishList"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+                        <View
+                            android:layout_width="fill_parent"
+                            android:layout_marginLeft="@dimen/dimen_15"
+                            android:layout_height="@dimen/dimen_0.5"
+                            android:background="@color/line_color" />
+
+                        <TextView
+                            android:id="@+id/tv_task_details_finishList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dimen_5"
+                            android:layout_marginLeft="@dimen/dimen_15"
+                            android:layout_marginRight="@dimen/dimen_10"
+                            android:layout_marginTop="@dimen/dimen_5"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="5dp"
+                            android:text="" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dimen_15"
+                            android:text="@string/task_details_finishTime"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen_15" />
+
+                        <TextView
+                            android:id="@+id/tv_task_details_finishTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dimen_5"
+                            android:text="2016-03-28"
+                            android:textColor="@color/orange"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/dimen_0.5"
+                        android:background="@color/line_color" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
+
+
+
+
