@@ -58,8 +58,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
     public void onBindViewHolder(final TaskListAdapter.TaskListViewHolder holder, final int position) {
 
         holder.taskListDescribe.setText(taskLists.get(position).getContent());
-        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getContent());
-        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getAddtime());
+//        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getContent());
+//        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getAddtime());
         holder.taskListAddTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getAddtime()) * 1000));//添加时间
         holder.taskListAddUser.setText(taskLists.get(position).getName());
         holder.taskListDate.setText(taskLists.get(position).getDate());// 添加日期
@@ -72,6 +72,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e("Adapter Item点击", position + "");
                     mOnItemClickListener.onItemClick(holder.itemView, position);
                 }
             });

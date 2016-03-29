@@ -1,10 +1,12 @@
 package com.example.zhi.fragment.task;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.zhi.R;
+import com.example.zhi.activity.daily.task.TaskDetailsActivity;
 import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
@@ -31,7 +34,7 @@ import okhttp3.Call;
 
 /**
  * 已完任务
- * <p/>
+ * <p>
  * Author: Eron
  * Date: 2016/3/26
  * Time: 22:52
@@ -41,11 +44,14 @@ public class FinishedTaskFragment extends Fragment {
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
     RecyclerView unTakeTaskList;
+    @Bind(R.id.sf_task_list)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private int userId;//当前用户id
     private TaskList taskList = new TaskList();// 任务列表实体类
     private List<renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
+    private SwipeRefreshLayout refreshLayout;// 下拉刷新
 
     @Nullable
     @Override
@@ -75,8 +81,8 @@ public class FinishedTaskFragment extends Fragment {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
-                .addParams("uid", ""+userId)
-                .addParams("tag",""+3)
+                .addParams("uid", "" + userId)
+                .addParams("tag", "" + 3)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -102,9 +108,15 @@ public class FinishedTaskFragment extends Fragment {
                             taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent();
+                                    intent.putExtra("id", taskLists.get(position).getId());//传递当前任务的Id
+                                    intent.putExtra("list", taskLists.get(position).getList());// 传递当前任务的接收人List
+                                    intent.setClass(getActivity(), TaskDetailsActivity.class);
+                                    mContext.startActivity(intent);
                                 }
                             });
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
 
                     }
@@ -114,5 +126,14 @@ public class FinishedTaskFragment extends Fragment {
 
     private void initView() {
 
+        refreshLayout = new SwipeRefreshLayout(mContext);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+                taskLists.clear();// 清空原数据
+            }
+        });
     }
 }
