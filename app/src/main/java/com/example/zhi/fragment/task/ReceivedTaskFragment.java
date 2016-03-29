@@ -16,12 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.zhi.R;
+import com.example.zhi.activity.daily.task.TaskAddActivity;
 import com.example.zhi.activity.daily.task.TaskDetailsActivity;
 import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
 import com.example.zhi.object.renwu;
 import com.google.gson.Gson;
+import com.melnykov.fab.FloatingActionButton;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -45,7 +47,9 @@ public class ReceivedTaskFragment extends Fragment {
     @Bind(R.id.rv_unTake_task)
     RecyclerView unTakeTaskList;
     @Bind(R.id.sf_task_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;//下拉刷新
+    @Bind(R.id.fab_taskList)
+    FloatingActionButton floatingActionButton;
 
     private int userId;//当前用户id
     private TaskList taskList = new TaskList();// 任务列表实体类
@@ -125,6 +129,14 @@ public class ReceivedTaskFragment extends Fragment {
     }
 
     private void initView() {
+
+        floatingActionButton.attachToRecyclerView(unTakeTaskList);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, TaskAddActivity.class));
+            }
+        });
 
         refreshLayout = new SwipeRefreshLayout(mContext);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);

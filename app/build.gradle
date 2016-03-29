@@ -29,9 +29,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+//    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.nineoldandroids:library:2.4.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/nineoldandroids-2.4.0.jar')
+//    compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/xUtils-2.6.14.jar')
     compile files('libs/easemobchat_2.1.5.jar')
     compile 'com.prolificinteractive:material-calendarview:1.2.0' // 日历控件
@@ -46,4 +47,5 @@ dependencies {
     compile 'me.drakeet.materialdialog:library:1.3.0'// darkeet Material Dialog
     compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'// Toast
     compile 'com.github.d-max:spots-dialog:0.4@aar'//登录进度条
+    compile 'com.melnykov:floatingactionbutton:1.3.0'//FloatingActionButton 仿知乎提问上滑隐藏
 }

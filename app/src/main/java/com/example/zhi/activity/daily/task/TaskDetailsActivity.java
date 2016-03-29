@@ -34,11 +34,13 @@ import okhttp3.Call;
  * Date: 2016/3/28
  * Time: 21:49
  */
-public class TaskDetailsActivity extends Activity {
+public class TaskDetailsActivity extends Activity implements View.OnClickListener {
 
     private static final int UPDATE_UI = 1;
 
 
+    @Bind(R.id.task_header_back)
+    TextView headerBack;
     @Bind(R.id.task_header_title)
     TextView headerTitle;
     @Bind(R.id.task_header_right)
@@ -103,10 +105,10 @@ public class TaskDetailsActivity extends Activity {
 
     }
 
-    @OnClick(R.id.task_header_back)
-    void close() {
-        this.finish();
-    }
+//    @OnClick(R.id.task_header_back)
+//    void close() {
+//        this.finish();
+//    }
 
     private void initConstant() {
         mContext = TaskDetailsActivity.this;
@@ -123,6 +125,7 @@ public class TaskDetailsActivity extends Activity {
 
 
     private void initView() {
+        headerBack.setText(R.string.base_back);
         headerTitle.setText(R.string.task_details);
         headerRight.setVisibility(View.GONE);
 
@@ -165,6 +168,15 @@ public class TaskDetailsActivity extends Activity {
     }
 
     private void initEvent() {
+        headerBack.setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.task_header_back:
+                finish();
+                break;
+        }
     }
 }

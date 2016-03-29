@@ -218,6 +218,7 @@
     <string name="task_details_finishList">已完成人</string>
     <string name="task_details_finishTime">完成时间：</string>
     <string name="task_details">任务详情</string>
+    <string name="task_my_add">我添加的任务</string>
 
     <!--签到记录-->
     <string name="sign_name">姓名</string>
