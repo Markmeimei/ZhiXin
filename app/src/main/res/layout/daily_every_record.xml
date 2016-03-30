@@ -49,57 +49,13 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <com.example.zhi.view.AllListView
+                android:id="@+id/lv_daily_record"
+                android:layout_marginLeft="@dimen/dimen_5"
+                android:layout_marginRight="@dimen/dimen_5"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:padding="@dimen/dimen_10">
-
-                <TextView
-                    android:id="@+id/tv_daily_record"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="null" />
-
-                <LinearLayout
-                    android:id="@+id/daily_ip_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_daily_record"
-                    android:layout_marginTop="@dimen/dimen_20"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/every_ip" />
-
-                    <TextView
-                        android:id="@+id/record_daily_ip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_5"
-                        android:text="null" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_20"
-                        android:text="@string/every_add_time" />
-
-                    <TextView
-                        android:id="@+id/record_add_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen_5"
-                        android:text="null" />
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
+                android:layout_height="wrap_content">
+            </com.example.zhi.view.AllListView>
 
         </LinearLayout>
 

@@ -68,7 +68,9 @@ public class UnTakeTaskFragment extends Fragment {
             switch (msg.what) {
                 case 1:
                     initData();
-                    taskLists.clear();// 清空原数据
+                    if (taskLists != null) {
+                        taskLists.clear();// 清空原数据
+                    }
                     mSwipeRefreshLayout.setRefreshing(false);
                     break;
             }

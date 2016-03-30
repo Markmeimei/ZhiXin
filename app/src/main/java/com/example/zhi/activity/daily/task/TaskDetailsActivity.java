@@ -154,10 +154,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                         taskDetails = gson.fromJson(response, TaskDetails.class);
                         if (taskDetails != null) {
                             renwus = taskDetails.getRenwu();
-                            Log.e("tag", "测试网络获取的数据------>" + renwus);
-                            String mContent = renwus.getContent();
-                            String addtime = renwus.getAddtime();
-
+//                            Log.e("tag", "测试网络获取的数据------>" + renwus);
                             Message message = new Message();
                             message.what = UPDATE_UI;
                             handler.sendMessage(message);

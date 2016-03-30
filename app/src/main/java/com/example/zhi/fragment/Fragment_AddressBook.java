@@ -114,7 +114,7 @@ public class Fragment_AddressBook extends Fragment {
                         if (addressBook != null) {
                             // 排序
                             usersList = addressBook.getTxl();
-                            Log.e("tag", "打印数据------>" + usersList);
+//                            Log.e("tag", "打印数据------>" + usersList);
                             Map<String, txl> users = new HashMap<>();
                             for (int i = 0; i < addressBook.getTxl().size(); i++) {
                                 txl user1 = usersList.get(i);

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dimen_5"
+    android:layout_marginRight="@dimen/dimen_5"
+    android:layout_marginTop="@dimen/dimen_5"
+    android:layout_marginBottom="@dimen/dimen_5"
+    android:padding="@dimen/dimen_10">
+
+    <TextView
+        android:id="@+id/tv_daily_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_3"
+        android:layout_marginTop="@dimen/dimen_3"
+        android:lineSpacingExtra="3dp"
+        android:text="无" />
+
+    <RelativeLayout
+        android:id="@+id/daily_ip_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_daily_record"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/daily_record_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/every_ip" />
+
+        <TextView
+            android:id="@+id/tv_daily_record_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_toRightOf="@id/daily_record_ip"
+            android:text="无" />
+
+        <TextView
+            android:id="@+id/daily_record_addTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/daily_record_ip"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:text="@string/every_add_time" />
+
+        <TextView
+            android:id="@+id/tv_daily_record_addTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/daily_record_ip"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_toRightOf="@id/daily_record_addTime"
+            android:text="无"
+            android:textColor="@color/orange" />
+
+    </RelativeLayout>
+</RelativeLayout>
+

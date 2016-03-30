@@ -12,12 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zhi.R;
+import com.example.zhi.adapter.DailyRecordAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.DailyRecord;
+import com.example.zhi.object.Info;
 import com.google.gson.Gson;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -28,7 +31,9 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,38 +43,30 @@ import okhttp3.Call;
  * Author：Mark
  * Date：2015/12/1 0001
  * Tell：15006330640
- * <p>
+ * <p/>
  * 日报记录
  */
 public class Daily_Record_Fragment extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
 
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
-
     private static final String TAG = "Daily_Record_Fragment";
-
-//    private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
-
-    private Display display;
-
-    @Bind(R.id.calendarViewDailyRecord)
-    MaterialCalendarView dailyRecordCalender;
-    @Bind(R.id.tv_daily_record)
-    TextView tv_dailyRecord;//日报显示
-    @Bind(R.id.record_date_show)
-    TextView recordDateShow;
-    @Bind(R.id.record_daily_ip)
-    TextView recordIp;
-    @Bind(R.id.record_add_time)
-    TextView recordAddTime;
 
     private Context mContext;
 
+    @Bind(R.id.calendarViewDailyRecord)
+    MaterialCalendarView dailyRecordCalender;
+    @Bind(R.id.record_date_show)
+    TextView recordDateShow;
+    @Bind(R.id.lv_daily_record)
+    ListView dailyRecordListView;
+
     public String userName;
     public int userId;
-
+    private List<Info> infoList = new ArrayList<>();// 日报内容实体类
+    private DailyRecordAdapter dailyRecordAdapter;
 
     @Nullable
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_every_record, container, false);
         ButterKnife.bind(this, view);
@@ -101,22 +98,9 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
         userId = preferences.getInt("user_id", 0);
-        Log.e(TAG, userName);
-        Log.e(TAG, "" + userId);
-
-
         // 初始化日期
         Calendar mCalendar = Calendar.getInstance();
-
         dailyRecordCalender.setSelectedDate(mCalendar.getTime());
-
-        // 限定日期
-//        mCalendar.set(mCalendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
-//        dailyRecordCalender.setMinimumDate(mCalendar.getTime());
-//
-//        mCalendar.set(mCalendar.get(Calendar.YEAR), Calendar.DECEMBER, 31);
-//        dailyRecordCalender.setMaximumDate(mCalendar.getTime());
-
     }
 
     private void initView() {
@@ -127,13 +111,9 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
 
     @Override
     public void onDateSelected(MaterialCalendarView widget, CalendarDay date, boolean selected) {
-
         recordDateShow.setText(getSelectedDatesString());
-//        oneDayDecorator.setDate(date.getDate());
         widget.invalidateDecorators();
-
         queryFromServer();//查询日报
-
     }
 
     /**
@@ -143,8 +123,8 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
         OkHttpUtils
                 .post()
                 .url(ConstantURL.DAILY_RECORD)
-                .addParams("uid","" + userId)
-                .addParams("date",getSelectedDatesString())
+                .addParams("uid", "" + userId)
+                .addParams("date", getSelectedDatesString())
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -158,14 +138,12 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
                         DailyRecord dailyRecord = gson.fromJson(response, DailyRecord.class);
                         if (dailyRecord != null) {
                             if (dailyRecord.getRb().getState() == 1) {
-                                tv_dailyRecord.setText(Html.fromHtml(dailyRecord.getRb().getInfo().getContent()));//日报内容
-                                recordIp.setText(dailyRecord.getRb().getInfo().getIp());//添加IP
-                                recordAddTime.setText(dailyRecord.getRb().getInfo().getAddtime());//添加时间
+                                infoList = dailyRecord.getRb().getInfo();
+                                // 设置Adapter
+                                dailyRecordAdapter = new DailyRecordAdapter(mContext, infoList);
+                                dailyRecordListView.setAdapter(dailyRecordAdapter);
                             } else if (dailyRecord.getRb().getState() == 0) {
                                 Toast.makeText(mContext, dailyRecord.getRb().getText(), Toast.LENGTH_SHORT).show();
-                                tv_dailyRecord.setText("null");
-                                recordIp.setText("null");
-                                recordAddTime.setText("null");
                             }
                         }
                     }
