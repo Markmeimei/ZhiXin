@@ -314,6 +314,5 @@
 
     <color name="black">#000000</color><!--黑色 -->
     <color name="black_low">#2b2b2b</color><!--黑色 -->
-
     <color name="ripple">#000080</color>
 </resources>

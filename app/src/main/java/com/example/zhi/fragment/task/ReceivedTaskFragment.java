@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -36,7 +38,7 @@ import okhttp3.Call;
 
 /**
  * 已接任务
- *
+ * <p/>
  * Author: Eron
  * Date: 2016/3/26
  * Time: 22:51
@@ -56,12 +58,34 @@ public class ReceivedTaskFragment extends Fragment {
     private List<renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
     private SwipeRefreshLayout refreshLayout;// 下拉刷新
+    private View view;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    initData();
+                    taskLists.clear();// 清空原数据
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_untake_task, container, false);
-        ButterKnife.bind(this, view);
+        if (view == null) {
+            view = inflater.inflate(R.layout.fragment_untake_task, container, false);
+            ButterKnife.bind(this, view);
+        }
+
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if (parent != null) {
+            parent.removeView(view);
+        }
         return view;
     }
 
@@ -85,8 +109,8 @@ public class ReceivedTaskFragment extends Fragment {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
-                .addParams("uid", ""+userId)
-                .addParams("tag",""+2)
+                .addParams("uid", "" + userId)
+                .addParams("tag", "" + 2)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -101,12 +125,13 @@ public class ReceivedTaskFragment extends Fragment {
                         taskList = gson.fromJson(response, TaskList.class);
 
                         if (taskList != null) {
-                            taskLists = taskList.getRenwu();
+                            taskLists.addAll(taskList.getRenwu());
                             Log.e("tag", "打印数组数据------>" + taskLists);
 
                             // 设置 Adapter
                             taskListAdapter = new TaskListAdapter(mContext, taskLists);
                             Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
+                            taskListAdapter.notifyDataSetChanged();
                             unTakeTaskList.setAdapter(taskListAdapter);
                             unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
                             taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
@@ -130,6 +155,7 @@ public class ReceivedTaskFragment extends Fragment {
 
     private void initView() {
 
+        unTakeTaskList.setAdapter(taskListAdapter);
         floatingActionButton.attachToRecyclerView(unTakeTaskList);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,8 +169,8 @@ public class ReceivedTaskFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initData();
-                taskLists.clear();// 清空原数据
+                handler.sendEmptyMessageDelayed(1, 2000);
+
             }
         });
     }
