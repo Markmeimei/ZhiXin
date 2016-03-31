@@ -121,38 +121,43 @@ public class UnTakeTaskFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
 //                        Log.e("tag", "打印数据------>" + response.toString());
-                        Gson gson = new Gson();
-                        taskList = gson.fromJson(response, TaskList.class);
+                        if (response != null) {
+                            Gson gson = new Gson();
+                            taskList = gson.fromJson(response, TaskList.class);
 
-                        if (taskList != null) {
+                            if (taskList != null) {
 //                            taskLists.addAll(taskList.getRenwu());
-                            taskLists=taskList.getRenwu();
+                                taskLists = taskList.getRenwu();
 //                            Log.e("tag", "打印数组数据------>" + taskLists);
 
-                            // 设置 Adapter
-                            taskListAdapter = new TaskListAdapter(mContext, taskLists);
+                                // 设置 Adapter
+                                taskListAdapter = new TaskListAdapter(mContext, taskLists);
 //                            Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
-                            taskListAdapter.notifyDataSetChanged();
-                            unTakeTaskList.setAdapter(taskListAdapter);
-                            unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
-                            taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    Log.e("Fragment Item点击", position + "");
+                                taskListAdapter.notifyDataSetChanged();
+                                unTakeTaskList.setAdapter(taskListAdapter);
+                                unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
+                                taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        Log.e("Fragment Item点击", position + "");
 //                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
 //                                    Intent intent = new Intent();
 //                                    intent.putExtra("id", taskLists.get(position).getId());// 单条任务的Id
 //                                    intent.putExtra("list", taskLists.get(position).getList());// 接收人列表
 //
 //                                    intent.setClass(mContext, TaskDetailsActivity.class);
-                                    startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                    .putExtra("id", taskLists.get(position).getId())
-                                    .putExtra("list", taskLists.get(position).getList())
-                                    .putExtra("status",1));
-                                }
-                            });
-                            mSwipeRefreshLayout.setRefreshing(false);
+                                        startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                                .putExtra("id", taskLists.get(position).getId())
+                                                .putExtra("list", taskLists.get(position).getList())
+                                                .putExtra("status", 1));
+                                    }
+                                });
+                                mSwipeRefreshLayout.setRefreshing(false);
+                            } else {
+                                Toast.makeText(mContext,"无任务",Toast.LENGTH_SHORT).show();
+                            }
                         }
+
 
                     }
                 });

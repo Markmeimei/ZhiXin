@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.example.zhi.R;
 import com.example.zhi.constant.ConstantURL;
+import com.example.zhi.dialog.FinishTaskDialog;
 import com.example.zhi.object.TaskDetails;
 import com.example.zhi.object.renwu;
 import com.example.zhi.utils.DateUtils;
+import com.example.zhi.utils.ToolsUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -77,6 +79,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
     private renwu renwus = new renwu();
     private TaskDetails taskDetails = new TaskDetails();//任务详情类
     private int status = 0;
+    private FinishTaskDialog finishTaskDialog;
 
     private RequestCall mCall;//网络请求
 
@@ -222,32 +225,62 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
      */
     private void finishTask() {
 
+        finishTaskDialog = new FinishTaskDialog(mContext);
+        finishTaskDialog.builder()
+                .setTitle(getString(R.string.task_finish_dialog))
+                .setCancelable(true)
+                .setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finishTaskDialog.dismiss();
+                    }
+                })
+                .setPositiveButton("提交", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        submitTaskFinish();
+                    }
+                })
+                .show();
+
+
+
+
+    }
+
+    /**
+     * 提交完成任务
+     */
+    private void submitTaskFinish() {
+        Log.e("tag", "测试是否获得任务内容------>" + ToolsUtils.taskFinishContent);
         mCall = OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
                 .addParams("uid", "" + userId)
                 .addParams("tag", "over")
                 .addParams("id", taskId)
-//                .addParams("content",)
+                .addParams("content", ToolsUtils.taskFinishContent)
                 .build();
         mCall.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
                 Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                finishTaskDialog.dismiss();
             }
 
             @Override
             public void onResponse(String response) {
                 Log.e("tag", "测试网络获取的数据------>" + response);
-                if(response.equals("1")){
-                    Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(mContext,"接收失败！",Toast.LENGTH_SHORT).show();
+                if (response.equals("1")) {
+                    Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                    finishTaskDialog.dismiss();
+                } else {
+//                    Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
+                    finishTaskDialog.dismiss();
                 }
 
             }
         });
-
     }
 
     /**

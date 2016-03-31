@@ -23,6 +23,9 @@ public class ToolsUtils {
     public static ArrayList<ReceiverObject> checkedUsers = new ArrayList<>();
     public static String update_ID = "" ;
 
+    //完成任务内容全局对象
+    public static String taskFinishContent = "";
+
     /**
      * 跳转页
      *

@@ -70,7 +70,7 @@ public class ReceiverDialog {
 
     public ReceiverDialog(Context context) {
         this.mContext = context;
-        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager manager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         this.display = manager.getDefaultDisplay();
     }
 

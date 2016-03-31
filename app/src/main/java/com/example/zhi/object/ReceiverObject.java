@@ -1,6 +1,8 @@
 package com.example.zhi.object;
 
 /**
+ * 接收人实体类
+ *
  * Author: Eron
  * Date: 2016/3/17 0017
  * Time: 17:40
