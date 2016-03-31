@@ -4,8 +4,9 @@
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:background="@drawable/ripple_notice_item"
+    android:layout_marginTop="@dimen/dimen_3"
+    android:layout_marginBottom="@dimen/dimen_3"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="5dp">

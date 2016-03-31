@@ -93,6 +93,8 @@
         </activity>
         <!--任务详情-->
         <activity android:name=".activity.daily.task.TaskDetailsActivity"/>
+        <!--我添加的任务列表-->
+        <activity android:name=".activity.daily.task.TaskMyAddList" />
         <!-- 选中照片 -->
         <activity android:name=".widget.PicSelectActivity"/>
         <!--明日计划-->

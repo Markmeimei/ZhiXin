@@ -91,7 +91,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     @Bind(R.id.bt_task_clear)
     Button taskClear;
     @Bind(R.id.bt_task_submit)
-    Button taskSubmit;//你没给他添加点击事件？我之前都能用的，可能刚才改什么地方了？wochouchou
+    Button taskSubmit;
 
 
     private Context mContext;

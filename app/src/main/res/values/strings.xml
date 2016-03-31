@@ -13,6 +13,7 @@
     <!-- 基础 -->
     <string name="base_back">返回</string>
     <string name="base_submit">提交</string>
+    <string name="base_cancel">取消</string>
     <string name="loading_press">请稍候，正在提交...</string>
     <string name="login_posting">正在登录，请稍候...</string>
     <!-- 主页 -->
@@ -197,6 +198,7 @@
     <string name="task_manage">任务管理</string>
     <string name="task_deadline">任务时限</string>
     <string name="task_receive">接收</string>
+    <string name="task_finish">完成</string>
     <string name="task_repost">转发</string>
     <string name="task_receive_time">接收时间</string>
     <string name="task_progress">任务进度</string>

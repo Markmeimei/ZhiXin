@@ -57,8 +57,8 @@ public class FinishedTaskFragment extends Fragment {
     private TaskList taskList = new TaskList();// 任务列表实体类
     private List<renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
-    private SwipeRefreshLayout refreshLayout;// 下拉刷新
     private View view;
+//    private boolean isRefreshing = false;//判断是否刷新
 
     private Handler handler = new Handler() {
         @Override
@@ -67,10 +67,8 @@ public class FinishedTaskFragment extends Fragment {
             switch (msg.what) {
                 case 1:
                     initData();
-                    if (taskLists != null) {
-                        taskLists.clear();// 清空原数据
-                    }
                     mSwipeRefreshLayout.setRefreshing(false);
+//                    isRefreshing = false;
                     break;
             }
         }
@@ -126,8 +124,10 @@ public class FinishedTaskFragment extends Fragment {
                         Gson gson = new Gson();
                         taskList = gson.fromJson(response, TaskList.class);
 
+//                        taskLists.clear();// 清空原数据
                         if (taskList != null) {
-                            taskLists.addAll(taskList.getRenwu());
+//                            taskLists.addAll(taskList.getRenwu());
+                            taskLists = taskList.getRenwu();
                             Log.e("tag", "打印数组数据------>" + taskLists);
 
                             // 设置 Adapter
@@ -144,7 +144,10 @@ public class FinishedTaskFragment extends Fragment {
                                     intent.putExtra("id", taskLists.get(position).getId());//传递当前任务的Id
                                     intent.putExtra("list", taskLists.get(position).getList());// 传递当前任务的接收人List
                                     intent.setClass(mContext, TaskDetailsActivity.class);
-                                    getActivity().startActivity(intent);
+                                    startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                            .putExtra("id", taskLists.get(position).getId())
+                                            .putExtra("list", taskLists.get(position).getList())
+                                            .putExtra("status", 3));
                                 }
                             });
                             mSwipeRefreshLayout.setRefreshing(false);
@@ -156,6 +159,26 @@ public class FinishedTaskFragment extends Fragment {
 
     private void initView() {
 
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                handler.sendEmptyMessageDelayed(1, 2000);
+//                isRefreshing = true;//判断是否刷新
+            }
+        });
+
+//        unTakeTaskList.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (isRefreshing) {
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
         unTakeTaskList.setAdapter(taskListAdapter);
         floatingActionButton.attachToRecyclerView(unTakeTaskList);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -165,13 +188,6 @@ public class FinishedTaskFragment extends Fragment {
             }
         });
 
-        refreshLayout = new SwipeRefreshLayout(mContext);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                handler.sendEmptyMessageDelayed(1, 2000);
-            }
-        });
+
     }
 }

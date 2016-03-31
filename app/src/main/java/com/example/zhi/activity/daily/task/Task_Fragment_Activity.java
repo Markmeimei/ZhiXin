@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.zhi.R;
 import com.example.zhi.fragment.task.FinishedTaskFragment;
@@ -161,7 +160,7 @@ public class Task_Fragment_Activity extends FragmentActivity implements View.OnC
                 finish();
                 break;
             case R.id.task_header_right:
-                Toast.makeText(mContext,"我添加的任务",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(mContext,TaskMyAddList.class));
                 break;
 
             case R.id.task_fragment_btn1:

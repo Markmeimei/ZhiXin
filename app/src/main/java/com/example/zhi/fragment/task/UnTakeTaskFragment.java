@@ -68,9 +68,6 @@ public class UnTakeTaskFragment extends Fragment {
             switch (msg.what) {
                 case 1:
                     initData();
-                    if (taskLists != null) {
-                        taskLists.clear();// 清空原数据
-                    }
                     mSwipeRefreshLayout.setRefreshing(false);
                     break;
             }
@@ -128,7 +125,8 @@ public class UnTakeTaskFragment extends Fragment {
                         taskList = gson.fromJson(response, TaskList.class);
 
                         if (taskList != null) {
-                            taskLists.addAll(taskList.getRenwu());
+//                            taskLists.addAll(taskList.getRenwu());
+                            taskLists=taskList.getRenwu();
 //                            Log.e("tag", "打印数组数据------>" + taskLists);
 
                             // 设置 Adapter
@@ -142,11 +140,15 @@ public class UnTakeTaskFragment extends Fragment {
                                 public void onItemClick(View view, int position) {
                                     Log.e("Fragment Item点击", position + "");
 //                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent();
-                                    intent.putExtra("id", taskLists.get(position).getId());// 单条任务的Id
-                                    intent.putExtra("list", taskLists.get(position).getList());// 接收人列表
-                                    intent.setClass(mContext, TaskDetailsActivity.class);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent();
+//                                    intent.putExtra("id", taskLists.get(position).getId());// 单条任务的Id
+//                                    intent.putExtra("list", taskLists.get(position).getList());// 接收人列表
+//
+//                                    intent.setClass(mContext, TaskDetailsActivity.class);
+                                    startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                    .putExtra("id", taskLists.get(position).getId())
+                                    .putExtra("list", taskLists.get(position).getList())
+                                    .putExtra("status",1));
                                 }
                             });
                             mSwipeRefreshLayout.setRefreshing(false);
@@ -179,5 +181,14 @@ public class UnTakeTaskFragment extends Fragment {
         });
 
 
+    }
+
+    /**
+     * 接收后刷新数据
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 }

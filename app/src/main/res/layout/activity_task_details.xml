@@ -22,6 +22,7 @@
             android:background="@color/line_color" />
 
         <LinearLayout
+            android:id="@+id/ll_task_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true">
@@ -37,10 +38,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/ripple_negative_button"
                 android:text="@string/task_clear"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="gone"/>
 
             <Button
-                android:id="@+id/bt_task_submit"
+                android:id="@+id/bt_task_detail_submit"
                 style="@style/task_text_size"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -180,7 +182,7 @@
                             android:text="@string/task_details_attachments"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_15" />
-
+                        <!--附件列表-->
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_task_details_attachment"
                             android:layout_width="match_parent"
@@ -192,13 +194,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/dimen_0.5"
                         android:background="@color/line_color" />
-
-                    <!--附件列表-->
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_taskDetails_attachments"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </android.support.v7.widget.RecyclerView>
 
                     <RelativeLayout
                         android:layout_width="match_parent"

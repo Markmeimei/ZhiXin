@@ -29,23 +29,31 @@ android {
 }
 
 dependencies {
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
+    //    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.nineoldandroids:library:2.4.0'
-//    compile files('libs/nineoldandroids-2.4.0.jar')
+    //    compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/xUtils-2.6.14.jar')
     compile files('libs/easemobchat_2.1.5.jar')
-    compile 'com.prolificinteractive:material-calendarview:1.2.0' // 日历控件
+    compile 'com.prolificinteractive:material-calendarview:1.2.0'
+    // 日历控件
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.zhy:okhttputils:2.3.8' // 张鸿洋封装的okhttp
+        compile 'com.android.support:appcompat-v7:23.1.1'
+    //    compile 'com.android.support:cardview-v7:23.1.1'
+    //    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.zhy:okhttputils:2.3.8'
+    // 张鸿洋封装的okhttp
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile 'me.drakeet.materialdialog:library:1.3.0'// darkeet Material Dialog
-    compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'// Toast
-    compile 'com.github.d-max:spots-dialog:0.4@aar'//登录进度条
-    compile 'com.melnykov:floatingactionbutton:1.3.0'//FloatingActionButton 仿知乎提问上滑隐藏
+    compile 'me.drakeet.materialdialog:library:1.3.0'
+    // darkeet Material Dialog
+    compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
+    // Toast
+    compile 'com.github.d-max:spots-dialog:0.4@aar'
+    //登录进度条
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    //FloatingActionButton 仿知乎提问上滑隐藏
+    compile 'com.android.support:recyclerview-v7:24.0.0-alpha1'
+    compile 'com.android.support:cardview-v7:24.0.0-alpha1'
 }
