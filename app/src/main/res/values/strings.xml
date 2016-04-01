@@ -239,6 +239,8 @@
     <string name="notice_item_title">标题：</string>
     <string name="notice_item_time">添加时间：</string>
     <string name="notice_item_addUser">添加人：</string>
+    <string name="notice_sign_list">签收列表：</string>
+    <string name="notice_details_header">通知详情</string>
 
     <!--Dialog-->
     <string name="dialog_title">接收人</string>

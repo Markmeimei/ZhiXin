@@ -72,7 +72,10 @@
         <!-- 我的请假 -->
         <activity android:name=".activity.daily.leave.Leave_My_Activity">
         </activity>
+        <!--通知列表-->
         <activity android:name=".activity.daily.NoticeActivity" />
+        <!--通知详情-->
+        <activity android:name=".activity.daily.NoticeDetailActivity" />
         <!--添加日常项目-->
         <activity android:name=".activity.daily.AddDailyWork" />
 

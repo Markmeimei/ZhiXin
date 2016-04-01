@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/notice_header"
+        layout="@layout/activity_task_header" />
+
+    <TextView
+        android:id="@+id/tv_notice_details_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40"
+        android:gravity="center"
+        android:text="年会具体安排"
+        android:textColor="@color/text_color1"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_0.5"
+        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginRight="@dimen/dimen_20"
+        android:background="@color/line_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40"
+        android:paddingLeft="@dimen/dimen_15"
+        android:paddingRight="@dimen/dimen_15">
+
+        <TextView
+            android:id="@+id/task_detail_time"
+            style="@style/task_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/task_details_addTime" />
+
+        <TextView
+            android:id="@+id/tv_notice_details_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:layout_toRightOf="@id/task_detail_time"
+            android:text="2016-03-28"
+            android:textColor="@color/orange" />
+
+        <TextView
+            android:id="@+id/tv_notice_details_addUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_transactor_bg"
+            android:text="张全蛋" />
+
+        <TextView
+            android:id="@+id/tv_choice_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/tv_notice_details_addUser"
+            android:gravity="center"
+            android:text="@string/task_details_addUser"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_notice_details_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_5"
+        android:background="@drawable/task_edittext_bg_blue"
+        android:gravity="start"
+        android:lineSpacingExtra="@dimen/dimen_4"
+        android:paddingBottom="@dimen/dimen_10"
+        android:paddingLeft="@dimen/dimen_15"
+        android:paddingRight="@dimen/dimen_15"
+        android:textColor="@color/black_low"
+        android:textSize="@dimen/dimen_15" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_notice_sign_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_40"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_15"
+            android:text="@string/notice_sign_list"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dimen_15" />
+
+        <ListView
+            android:id="@+id/lv_notice_sign_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

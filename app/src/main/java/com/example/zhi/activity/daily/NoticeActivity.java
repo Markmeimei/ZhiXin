@@ -2,6 +2,7 @@ package com.example.zhi.activity.daily;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -116,7 +117,9 @@ public class NoticeActivity extends Activity {
                         noticeAdapter.setOnItemClickListener(new NoticeAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Toast.makeText(mContext, noticeBeanList.get(position).getId(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(mContext, noticeBeanList.get(position).getId(), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(mContext,NoticeDetailActivity.class)
+                                .putExtra("noticeId",noticeBeanList.get(position).getId()));
                             }
                         });
                         swipeRefreshLayout.setRefreshing(false);
