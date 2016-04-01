@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -69,7 +70,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
                     noticeDetailsTime.setText(noticeTime);
                     noticeDetailsAddUser.setText(noticeAddUser);
                     noticeDetailsTitle.setText(noticeTitle);
-                    noticeDetailsContent.setText(noticeContent);
+                    noticeDetailsContent.setText(Html.fromHtml(noticeContent));
                     break;
                 default:
                     break;
@@ -111,7 +112,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void sendRequest() {
-        OkHttpUtils.post()
+        OkHttpUtils.get()
                 .url(ConstantURL.NOTICELIST)
                 .addParams("tag", "view")
                 .addParams("id", noticeId)
@@ -124,6 +125,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void onResponse(String response) {
+                        Log.e("tag", "测试通知详情数据---------->" + response);
                         parseJsonWithJsonObject(response);
 //                            Gson gson = new Gson();
 //                            noticeDetails = gson.fromJson(response, NoticeDetails.class);
@@ -133,14 +135,13 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void parseJsonWithJsonObject(String jsonData) {
         try {
-            JSONArray jsonArray = new JSONArray(jsonData);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                noticeTitle = jsonObject.getString("title");
-                noticeTime = jsonObject.getString("addtime");
-                noticeAddUser = jsonObject.getString("adduser");
-                noticeContent = jsonObject.getString("content");
-            }
+
+            JSONObject jsonObject = new JSONObject(jsonData);
+            noticeTitle = jsonObject.getString("title");
+            noticeTime = jsonObject.getString("addtime");
+            noticeAddUser = jsonObject.getString("adduser");
+            noticeContent = jsonObject.getString("content");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
