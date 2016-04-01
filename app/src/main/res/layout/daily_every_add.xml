@@ -54,10 +54,10 @@
             android:id="@+id/et_add_input"
             android:layout_width="fill_parent"
             android:layout_height="300dp"
-            android:background="@drawable/task_edittext_bg_blue"
-            android:gravity="start"
             android:layout_marginLeft="@dimen/dimen_5"
             android:layout_marginRight="@dimen/dimen_5"
+            android:background="@drawable/task_edittext_bg_blue"
+            android:gravity="start"
             android:hint="@string/every_input"
             android:padding="@dimen/dimen_5"
             android:textColor="@color/text_color1"
@@ -75,31 +75,40 @@
                 android:layout_height="@dimen/dimen_0.5"
                 android:background="@color/line_color" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/dimen_50"
                 android:paddingLeft="@dimen/dimen_15"
                 android:paddingRight="@dimen/dimen_15">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/every_attachment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="选择照片"
                     android:textColor="@color/text_color2"
                     android:textSize="@dimen/dimen_16" />
 
                 <ImageView
-                    android:id="@+id/iv_add_attachment"
+                    android:id="@+id/iv_daily_add_img"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:paddingLeft="@dimen/dimen_20"
-                    android:paddingRight="@dimen/dimen_20"
-                    android:src="@mipmap/add_receiver" />
+                    android:paddingLeft="@dimen/dimen_5"
+                    android:paddingRight="@dimen/dimen_5"
+                    android:src="@mipmap/icon_att_img" />
+
+                <ImageView
+                    android:id="@+id/iv_add_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/dimen_5"
+                    android:paddingRight="@dimen/dimen_5"
+                    android:src="@mipmap/icon_att_file"
+                    android:visibility="gone" />
 
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="fill_parent"
@@ -117,8 +126,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_list_attachment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
@@ -132,14 +140,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_20"
                 android:background="@drawable/ripple_button"
-                android:textColor="@color/white"
-                android:text="提交" />
+                android:text="提交"
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <FrameLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/daily_calendarView"

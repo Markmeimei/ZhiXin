@@ -158,36 +158,39 @@
                         android:layout_height="@dimen/dimen_0.5"
                         android:background="@color/line_color" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_40">
+                        android:layout_height="@dimen/dimen_40"
+                        android:layout_marginLeft="@dimen/dimen_10"
+                        android:layout_marginRight="@dimen/dimen_10">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/dimen_15"
-                            android:text="@string/task_add_attachment"
+                            android:text="选择照片"
                             android:textColor="@color/black"
                             android:textSize="@dimen/dimen_15" />
 
                         <ImageView
                             android:id="@+id/iv_task_add_image"
-                            android:src="@mipmap/icon_att_img"
-                            android:layout_toLeftOf="@+id/iv_task_add_attachment"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dimen_5"
+                            android:layout_marginRight="@dimen/dimen_5"
+                            android:src="@mipmap/icon_att_img" />
 
                         <ImageView
                             android:id="@+id/iv_task_add_attachment"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginLeft="@dimen/dimen_20"
-                            android:layout_marginRight="@dimen/dimen_20"
-                            android:src="@mipmap/icon_att_file" />
+                            android:layout_marginLeft="@dimen/dimen_5"
+                            android:layout_marginRight="@dimen/dimen_5"
+                            android:src="@mipmap/icon_att_file"
+                            android:visibility="gone" />
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <View
                         android:layout_width="fill_parent"
@@ -198,14 +201,13 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_attachments"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    </android.support.v7.widget.RecyclerView>
+                        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
                     <RelativeLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_40"
-                        android:paddingLeft="@dimen/dimen_15">
+                        android:paddingLeft="@dimen/dimen_15"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/task_text_style"
@@ -276,15 +278,14 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/dimen_15"
-                        android:minHeight="@dimen/dimen_50">
+                        android:minHeight="@dimen/dimen_50"
+                        android:padding="@dimen/dimen_15">
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_list_transactor"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/white">
-                        </android.support.v7.widget.RecyclerView>
+                            android:background="@color/white"></android.support.v7.widget.RecyclerView>
                     </RelativeLayout>
 
                     <View

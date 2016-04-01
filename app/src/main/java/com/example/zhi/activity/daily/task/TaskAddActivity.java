@@ -130,9 +130,9 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     }
 
     private void initConstant() {
-        ImageBean imageBean = new ImageBean();
-        imageBean.setDisplayName("1458697594252oJirk.jpg");
-        imageBeans.add(imageBean);
+//        ImageBean imageBean = new ImageBean();
+//        imageBean.setDisplayName("1458697594252oJirk.jpg");
+//        imageBeans.add(imageBean);
         mContext = TaskAddActivity.this;
         // 初始化时间
         taskSubmitDate = DateUtils.getDateYMD();
@@ -217,19 +217,14 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
             imageBeans = (List<ImageBean>) intent
                     .getSerializableExtra("images");
             for (ImageBean b : imageBeans) {
-
                 displayName = b.getDisplayName();
                 imagePath = b.getPath();
                 imageBeanList.add(b);
-
                 Log.e("tag", "选中的图片------>" + displayName + imagePath + imageBeans.size());
-
             }
             attachmentsAdapter.notifyDataSetChanged();
         }
         super.onActivityResult(requestCode, resultCode, data);
-
-
     }
 
     private void initEvent() {

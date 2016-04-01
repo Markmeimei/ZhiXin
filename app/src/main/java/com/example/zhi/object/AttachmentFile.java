@@ -8,6 +8,7 @@ package com.example.zhi.object;
 public class AttachmentFile {
     private String fileName;
     private String path;
+    private int fileId;
 
     public String getFileName() {
         return fileName;
@@ -23,5 +24,13 @@ public class AttachmentFile {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public int getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(int fileId) {
+        this.fileId = fileId;
     }
 }
