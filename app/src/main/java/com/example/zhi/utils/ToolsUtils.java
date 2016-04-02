@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.zhi.activity.daily.AddDailyWork;
-import com.example.zhi.activity.daily.MailActivity;
-import com.example.zhi.activity.daily.NoticeActivity;
-import com.example.zhi.activity.daily.TestActivity;
+import com.example.zhi.activity.daily.mail.MailActivity;
+import com.example.zhi.activity.daily.notice.NoticeActivity;
+import com.example.zhi.activity.daily.extraWork.ExtraWorkManageActivity;
 import com.example.zhi.activity.daily.leave.Leave_FragmentActivity;
 import com.example.zhi.activity.daily.task.Task_Fragment_Activity;
+import com.example.zhi.activity.daily.timetableManage.TimetableManageActivity;
 import com.example.zhi.object.ReceiverObject;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ToolsUtils {
         Log.e("-------",index+"");
         switch (index){
             case 0:
-                return new Intent(context, TestActivity.class);
+                return new Intent(context, TimetableManageActivity.class);
             case 1:
                 return new Intent(context, MailActivity.class);
             case 2:
@@ -45,7 +46,7 @@ public class ToolsUtils {
             case 3:
                 return new Intent(context, Leave_FragmentActivity.class);
             case 4:
-                return new Intent(context, TestActivity.class);
+                return new Intent(context, ExtraWorkManageActivity.class);
             case 5:
                 return new Intent(context, NoticeActivity.class);
             case 6:

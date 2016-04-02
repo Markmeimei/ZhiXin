@@ -8,6 +8,7 @@ package com.example.zhi.object;
 public class Login {
     private int code;
     private String message;
+    private String sid;
     private User User;
 
     public int getCode() {
@@ -24,6 +25,14 @@ public class Login {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
     public User getUser() {

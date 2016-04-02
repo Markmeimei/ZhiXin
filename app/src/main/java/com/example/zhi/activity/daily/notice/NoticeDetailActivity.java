@@ -1,4 +1,4 @@
-package com.example.zhi.activity.daily;
+package com.example.zhi.activity.daily.notice;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,13 +15,9 @@ import android.widget.Toast;
 import com.example.zhi.R;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.NoticeDetails;
-import com.example.zhi.object.TaskDetails;
-import com.example.zhi.utils.DateUtils;
-import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import butterknife.Bind;

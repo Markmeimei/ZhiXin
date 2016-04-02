@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 
 import com.example.zhi.R;
 import com.example.zhi.activity.daily.EveryDayActivity;
-import com.example.zhi.activity.daily.MailActivity;
+import com.example.zhi.activity.daily.mail.MailActivity;
 import com.example.zhi.activity.daily.Sign_RecordActivity;
 import com.example.zhi.activity.daily.TestActivity;
 import com.example.zhi.activity.daily.TomorrowPlanActivity;

@@ -5,13 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +18,7 @@ import com.example.zhi.adapter.DailyRecordAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.DailyRecord;
 import com.example.zhi.object.Info;
+import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -29,7 +27,6 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +58,7 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
 
     public String userName;
     public int userId;
+    private String md5UserSID;
     private List<Info> infoList = new ArrayList<>();// 日报内容实体类
     private DailyRecordAdapter dailyRecordAdapter;
 
@@ -98,6 +96,8 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
         userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
+        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
         // 初始化日期
         Calendar mCalendar = Calendar.getInstance();
         dailyRecordCalender.setSelectedDate(mCalendar.getTime());
@@ -124,6 +124,7 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
                 .post()
                 .url(ConstantURL.DAILY_RECORD)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("date", getSelectedDatesString())
                 .build()
                 .execute(new StringCallback() {
@@ -134,6 +135,7 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
 
                     @Override
                     public void onResponse(String response) {
+//                        Log.e("tag", "测试sid------------------->" + response);
                         Gson gson = new Gson();
                         DailyRecord dailyRecord = gson.fromJson(response, DailyRecord.class);
                         if (dailyRecord != null) {

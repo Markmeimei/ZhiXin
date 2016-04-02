@@ -275,7 +275,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                     Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
                     finishTaskDialog.dismiss();
                 } else {
-//                    Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
                     finishTaskDialog.dismiss();
                 }
 
@@ -306,7 +306,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                 if(response.equals("1")){
                     Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(mContext,"接收失败！",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
                 }
 
             }

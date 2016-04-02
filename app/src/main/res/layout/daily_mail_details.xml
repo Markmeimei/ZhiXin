@@ -32,7 +32,7 @@
             <ImageView
                 android:layout_width="@dimen/dimen_30"
                 android:layout_height="@dimen/dimen_30"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_mail_reply" />
 
             <TextView
                 android:id="@+id/tv_mail_detail_reply"
@@ -59,7 +59,7 @@
             <ImageView
                 android:layout_width="@dimen/dimen_30"
                 android:layout_height="@dimen/dimen_30"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_mail_repost" />
 
             <TextView
                 android:id="@+id/tv_mail_detail_forward"
@@ -78,6 +78,7 @@
             android:background="@color/line_color" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"

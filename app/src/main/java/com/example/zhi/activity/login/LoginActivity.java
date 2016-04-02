@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,8 +21,8 @@ import com.example.zhi.MainActivity;
 import com.example.zhi.R;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.Login;
-import com.example.zhi.utils.DemoUtils;
-import com.example.zhi.utils.ECProgressDialog;
+import com.example.zhi.utils.ASimpleCache;
+import com.example.zhi.utils.CipherUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -154,7 +155,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                     @Override
                     public void onResponse(String response) {
                         Gson gson = new Gson();
-//                        Log.e("LoginActivity---->", response);
+                        Log.e("LoginActivity---->", response);
 
                         Login login = gson.fromJson(response, Login.class);
 
@@ -181,6 +182,12 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                         editor.putString("user_name", login.getUser().getName().toString());
                         editor.putInt("user_id", login.getUser().getId());
                         editor.commit();
+
+                        String userSid = login.getSid();
+//                        Log.e("tag", "md5_32加密前登录SID打印--------->" + userSid);
+                        String md5UserId = CipherUtils.MD5_32(userSid);
+                        ASimpleCache.get(mContext).put("md5_sid", md5UserId);
+//                        Log.e("tag", "加密后登录SID打印--------->" + md5UserId);
                     }
                 });
     }

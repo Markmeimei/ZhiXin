@@ -1,6 +1,7 @@
 package com.example.zhi.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zhi.R;
+import com.example.zhi.object.Mails;
 import com.example.zhi.utils.BaseViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author：Mark
@@ -19,30 +24,33 @@ import com.example.zhi.utils.BaseViewHolder;
 public class MailAdapter extends BaseAdapter {
     private static final String TAG = "MailAdapter";
     private Context context;
-    private int count;
-    public MailAdapter(Context context,int count){
+    private List<Mails.Info> infoList = new ArrayList<>();//邮件列表实体类
+    private Mails.Info infos;//邮件实体类
+    private static int status = 0;
+    public MailAdapter(Context context,List<Mails.Info> data,int status){
         this.context = context;
-        this.count = count;
+        this.infoList = data;
+        this.status = status;
     }
     @Override
     public int getCount() {
-        return count;
+        return infoList == null ? 0 : infoList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return infoList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if(convertView == null){
+        ViewHolder viewHolder = null;
+        if(viewHolder == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_received_mail,null);
             viewHolder = new ViewHolder();
             viewHolder.item_img = BaseViewHolder.getViewHolder(convertView,R.id.item_img);
@@ -53,6 +61,19 @@ public class MailAdapter extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        infos = infoList.get(position);
+        switch (status) {
+            case 1:
+                viewHolder.item_name.setText(infos.getFa_id());
+                break;
+            case 2:
+                viewHolder.item_name.setText(infos.getShou_id());
+                break;
+        }
+        viewHolder.item_time.setText(infos.getDate());
+        viewHolder.item_text.setText(infos.getTitle());
+        Log.e("tag", TAG + "------------------->" + infos.getTitle());
         return convertView;
     }
     class ViewHolder{

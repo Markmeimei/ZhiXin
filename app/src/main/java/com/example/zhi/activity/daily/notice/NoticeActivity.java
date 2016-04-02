@@ -1,4 +1,4 @@
-package com.example.zhi.activity.daily;
+package com.example.zhi.activity.daily.notice;
 
 import android.app.Activity;
 import android.content.Context;

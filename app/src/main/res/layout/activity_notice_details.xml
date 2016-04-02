@@ -21,12 +21,13 @@
                 android:id="@+id/tv_notice_details_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dimen_10"
-                android:layout_marginLeft="@dimen/dimen_5"
-                android:layout_marginRight="@dimen/dimen_5"
-                android:layout_marginTop="@dimen/dimen_10"
+                android:paddingBottom="@dimen/dimen_10"
+                android:paddingLeft="@dimen/dimen_5"
+                android:paddingRight="@dimen/dimen_5"
+                android:paddingTop="@dimen/dimen_10"
                 android:gravity="center"
-                android:text="年会具体安排"
+                android:background="@color/white"
+                android:text=""
                 android:textColor="@color/text_color1"
                 android:textSize="23sp" />
 
@@ -57,7 +58,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dimen_5"
                     android:layout_toRightOf="@id/task_detail_time"
-                    android:text="2016-03-28"
+                    android:text=""
                     android:textColor="@color/orange" />
 
                 <TextView
@@ -67,7 +68,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/shape_transactor_bg"
-                    android:text="张全蛋" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_choice_date"

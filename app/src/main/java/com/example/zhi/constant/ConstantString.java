@@ -11,6 +11,7 @@ public class ConstantString {
     public static final String USER = "user";
     public static final String IS_FIRST = "is_first";
     public static final String USER_NAME = "user_name";
+    public static final String SID = "sid";//全局SID，用于TOKEN处理
 
     public static final int DAILY_MANAGE = 0;//日程管理
     public static final int MAIL_MANAGE = 1;//邮件管理

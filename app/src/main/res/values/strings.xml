@@ -223,6 +223,13 @@
     <string name="task_my_add">我添加的任务</string>
     <string name="task_finish_dialog">光荣完成任务</string>
 
+    <!--加班管理-->
+    <string name="extra_header">加班管理</string>
+
+    <!--日程管理-->
+    <string name="tt_manage_header">日程管理</string>
+    <string name="tt_manage_"></string>
+
     <!--签到记录-->
     <string name="sign_name">姓名</string>
     <string name="sign_time">签到时间</string>

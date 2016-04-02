@@ -17,6 +17,9 @@ public class ConstantURL {
     public static final String ADDRESSLIST = BASIC_URL + "txl.php"; // 通讯录
     public static final String NOTICELIST = BASIC_URL + "tongzhi.php"; // 通知
     public static final String TASKLIST = BASIC_URL + "renwu.php"; // 任务列表
+    public static final String MAILLIST = BASIC_URL + "email.php"; // 邮件列表
+    //tomorrow-plan.php
+//    week-plan.php
 
 
 

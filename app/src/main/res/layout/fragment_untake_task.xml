@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/dimen_15"
-        android:src="@mipmap/ic_add_white_24dp"
+        android:src="@mipmap/ic_float_btn"
         fab:fab_colorNormal="@color/main_color"
         fab:fab_colorPressed="@color/blue"
         fab:fab_colorRipple="@color/ripple" />

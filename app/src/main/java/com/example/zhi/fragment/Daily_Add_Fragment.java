@@ -80,6 +80,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     public CalenderDialogFragment mCalenderDialogFragment;// 日历
     public String userName;
     public int userId;
+    private String md5UserSID;
     public String dailyReportTime;//时间
     public String currentDate;
     private String selectDate = "";//DialogDatePicker 选择的时间
@@ -358,6 +359,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     public void postFile(List<ImageBean> beanList) {
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("uid", "" + userId);
+//        requestParams.put("token", "" + md5UserSID);//md5加密后SID
         requestParams.put("date", currentDate);
         requestParams.put("text", add_daily_report.getText().toString());
         Log.e("tag", "提交日报内容------->" + add_daily_report.getText().toString());

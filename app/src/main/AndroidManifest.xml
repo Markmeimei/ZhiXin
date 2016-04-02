@@ -61,7 +61,7 @@
         <activity android:name=".activity.daily.Sign_RecordActivity">
         </activity>
         <!-- 邮件管理 -->
-        <activity android:name=".activity.daily.MailActivity">
+        <activity android:name=".activity.daily.mail.MailActivity">
         </activity>
         <!-- 邮件详情 -->
         <activity android:name=".activity.daily.mail.MailDetailsActivity">
@@ -73,9 +73,9 @@
         <activity android:name=".activity.daily.leave.Leave_My_Activity">
         </activity>
         <!--通知列表-->
-        <activity android:name=".activity.daily.NoticeActivity" />
+        <activity android:name=".activity.daily.notice.NoticeActivity" />
         <!--通知详情-->
-        <activity android:name=".activity.daily.NoticeDetailActivity" />
+        <activity android:name=".activity.daily.notice.NoticeDetailActivity" />
         <!--添加日常项目-->
         <activity android:name=".activity.daily.AddDailyWork" />
 
@@ -104,6 +104,10 @@
         <activity android:name=".activity.daily.TomorrowPlanActivity" />
         <!--每周计划-->
         <activity android:name=".activity.daily.WeeklyPlanActivity" />
+        <!--加班管理-->
+        <activity android:name=".activity.daily.extraWork.ExtraWorkManageActivity" />
+        <!--日程管理-->
+        <activity android:name=".activity.daily.timetableManage.TimetableManageActivity" />
     </application>
 
 </manifest>
