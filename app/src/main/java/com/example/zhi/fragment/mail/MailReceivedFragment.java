@@ -92,7 +92,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
 
 
     private void initView() {
-        adapter = new MailAdapter(mContext,infoList,status);
+        adapter = new MailAdapter(mContext,infoList);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
         fragment_list.setAdapter(adapter);

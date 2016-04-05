@@ -2,14 +2,13 @@ package com.example.zhi.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.zhi.R;
-import com.example.zhi.object.renwu;
+import com.example.zhi.object.TaskList;
 import com.example.zhi.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -27,8 +26,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<renwu> taskLists = new ArrayList<>();
-//    private renwu renwus;
+    private List<TaskList.Renwu> taskLists = new ArrayList<>();
 
     /**
      * 设置点击接口
@@ -43,7 +41,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    public TaskListAdapter(Context context, List<renwu> data) {
+    public TaskListAdapter(Context context, List<TaskList.Renwu> data) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.taskLists = data;
@@ -65,17 +63,18 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
         holder.taskListDate.setText(taskLists.get(position).getDate());// 添加日期
 
         try {
-            // 此处报空指针
-            if (taskLists.get(position).getEdate().equals("0")) {
-                holder.taskListEndTime.setText("无");
-            } else {
+            // 此处报空指针*****先把null放前边，不然还是会报空******
+            if (null != taskLists.get(position).getEdate() && !taskLists.get(position).getEdate().equals("0")) {
                 holder.taskListEndTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getEdate()) * 1000));// 任务时限
+
+            } else {
+                holder.taskListEndTime.setText("无");
             }
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("Adapter Item点击", position + "");
+//                        Log.e("Adapter Item点击", position + "");
                         mOnItemClickListener.onItemClick(holder.itemView, position);
                     }
                 });

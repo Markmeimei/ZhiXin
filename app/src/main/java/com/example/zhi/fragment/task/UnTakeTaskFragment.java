@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,13 +21,11 @@ import com.example.zhi.activity.daily.task.TaskDetailsActivity;
 import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
-import com.example.zhi.object.renwu;
 import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.melnykov.fab.FloatingActionButton;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-import com.zhy.http.okhttp.request.RequestCall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +41,7 @@ import okhttp3.Call;
  * Date: 2016/3/26
  * Time: 22:37
  */
-public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class UnTakeTaskFragment extends Fragment {
 
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
@@ -58,26 +54,9 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
     private int userId;//当前用户id
     private String md5UserSID;
     private TaskList taskList = new TaskList();// 任务列表实体类
-    private List<renwu> taskLists = new ArrayList<>();//任务列表
+    private List<TaskList.Renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
-    private SwipeRefreshLayout refreshLayout;// 下拉刷新
     private View view;
-
-    private RequestCall mCall;//网络请求
-
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    initData();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    break;
-            }
-        }
-    };
 
     @Nullable
     @Override
@@ -138,10 +117,10 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
                                 taskList = gson.fromJson(response, TaskList.class);
 
                                 if (taskList != null) {
-//                            taskLists.addAll(taskList.getRenwu());
-                                    taskLists = taskList.getRenwu();
+                                    List<TaskList.Renwu> list = taskList.getRenwu();
+                                    taskLists.clear();
+                                    taskLists.addAll(list);
 //                            Log.e("tag", "打印数组数据------>" + taskLists);
-
                                     // 设置 Adapter
                                     taskListAdapter = new TaskListAdapter(mContext, taskLists);
 //                            Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
@@ -152,12 +131,6 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
                                         @Override
                                         public void onItemClick(View view, int position) {
                                             Log.e("Fragment Item点击", position + "");
-//                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
-//                                    Intent intent = new Intent();
-//                                    intent.putExtra("id", taskLists.get(position).getId());// 单条任务的Id
-//                                    intent.putExtra("list", taskLists.get(position).getList());// 接收人列表
-//
-//                                    intent.setClass(mContext, TaskDetailsActivity.class);
                                             startActivity(new Intent(mContext, TaskDetailsActivity.class)
                                                     .putExtra("id", taskLists.get(position).getId())
                                                     .putExtra("list", taskLists.get(position).getList())
@@ -188,17 +161,14 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
             }
         });
 
-        refreshLayout = new SwipeRefreshLayout(mContext);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                handler.sendEmptyMessageDelayed(1, 2000);
-
+                initData();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-
-
     }
 
     /**
@@ -208,10 +178,5 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
     public void onResume() {
         super.onResume();
         initData();
-    }
-
-    @Override
-    public void onRefresh() {
-
     }
 }

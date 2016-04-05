@@ -6,13 +6,13 @@ package com.example.zhi.object;
  * Time: 15:44
  */
 public class TaskDetails {
-    private renwu renwu;
+    private TaskList.Renwu renwu;
 
-    public com.example.zhi.object.renwu getRenwu() {
+    public TaskList.Renwu getRenwu() {
         return renwu;
     }
 
-    public void setRenwu(com.example.zhi.object.renwu renwu) {
+    public void setRenwu(TaskList.Renwu renwu) {
         this.renwu = renwu;
     }
 }

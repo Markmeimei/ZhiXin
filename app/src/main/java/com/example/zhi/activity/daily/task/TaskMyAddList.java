@@ -16,7 +16,6 @@ import com.example.zhi.R;
 import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
-import com.example.zhi.object.renwu;
 import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.JsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -52,7 +51,7 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
 
     private int userId;//当前用户id
     private String md5UserSID;
-    private List<renwu> renwuList;
+    private List<TaskList.Renwu> renwuList;
     private TaskListAdapter taskListAdapter;
     private RequestCall mCall;//OkHttpCall
 
@@ -108,28 +107,33 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
 
             @Override
             public void onResponse(String response) {
-                TaskList taskList = JsonUtils.fromJoson(response, TaskList.class);
-                if (taskList != null) {
-                    List<renwu> list = taskList.getRenwu();
-                    renwuList.clear();
-                    renwuList.addAll(list);
-                    taskListAdapter.notifyDataSetChanged();
-                    refreshLayout.setRefreshing(false);
-                    taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            Intent intent = new Intent();
-                            intent.putExtra("id", renwuList.get(position).getId());// 单条任务的Id
-                            intent.putExtra("list", renwuList.get(position).getList());// 接收人列表
+                try {
+                    TaskList taskList = JsonUtils.fromJoson(response, TaskList.class);
+                    if (taskList != null) {
+                        List<TaskList.Renwu> list = taskList.getRenwu();
+                        renwuList.clear();
+                        renwuList.addAll(list);
+                        taskListAdapter.notifyDataSetChanged();
+                        refreshLayout.setRefreshing(false);
+                        taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent();
+                                intent.putExtra("id", renwuList.get(position).getId());// 单条任务的Id
+                                intent.putExtra("list", renwuList.get(position).getList());// 接收人列表
 //                            intent.putExtra("hide", "2");
-                            intent.setClass(mContext, TaskDetailsActivity.class);
-                            startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                    .putExtra("id", renwuList.get(position).getId())
-                                    .putExtra("list", renwuList.get(position).getList())
-                                    .putExtra("status",4));
-                        }
-                    });
+                                intent.setClass(mContext, TaskDetailsActivity.class);
+                                startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                        .putExtra("id", renwuList.get(position).getId())
+                                        .putExtra("list", renwuList.get(position).getList())
+                                        .putExtra("status", 4));
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
             }
         });
     }

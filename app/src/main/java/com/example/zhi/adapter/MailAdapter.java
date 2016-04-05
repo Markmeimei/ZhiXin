@@ -26,12 +26,12 @@ public class MailAdapter extends BaseAdapter {
     private Context context;
     private List<Mails.Info> infoList = new ArrayList<>();//邮件列表实体类
     private Mails.Info infos;//邮件实体类
-    private static int status = 0;
-    public MailAdapter(Context context,List<Mails.Info> data,int status){
+
+    public MailAdapter(Context context, List<Mails.Info> data) {
         this.context = context;
         this.infoList = data;
-        this.status = status;
     }
+
     @Override
     public int getCount() {
         return infoList == null ? 0 : infoList.size();
@@ -50,33 +50,27 @@ public class MailAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if(viewHolder == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_received_mail,null);
+        if (viewHolder == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_received_mail, null);
             viewHolder = new ViewHolder();
-            viewHolder.item_img = BaseViewHolder.getViewHolder(convertView,R.id.item_img);
-            viewHolder.item_name = BaseViewHolder.getViewHolder(convertView,R.id.item_name);
-            viewHolder.item_time = BaseViewHolder.getViewHolder(convertView,R.id.item_time);
-            viewHolder.item_text = BaseViewHolder.getViewHolder(convertView,R.id.item_text);
+            viewHolder.item_img = BaseViewHolder.getViewHolder(convertView, R.id.item_img);
+            viewHolder.item_name = BaseViewHolder.getViewHolder(convertView, R.id.item_name);
+            viewHolder.item_time = BaseViewHolder.getViewHolder(convertView, R.id.item_time);
+            viewHolder.item_text = BaseViewHolder.getViewHolder(convertView, R.id.item_text);
             convertView.setTag(viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         infos = infoList.get(position);
-        switch (status) {
-            case 1:
-                viewHolder.item_name.setText(infos.getFa_id());
-                break;
-            case 2:
-                viewHolder.item_name.setText(infos.getShou_id());
-                break;
-        }
+        viewHolder.item_name.setText(infos.getFa_id());
         viewHolder.item_time.setText(infos.getDate());
         viewHolder.item_text.setText(infos.getTitle());
         Log.e("tag", TAG + "------------------->" + infos.getTitle());
         return convertView;
     }
-    class ViewHolder{
+
+    class ViewHolder {
         ImageView item_img;
         TextView item_name;
         TextView item_time;

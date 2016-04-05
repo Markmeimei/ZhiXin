@@ -124,6 +124,7 @@ public class Task_Fragment_Activity extends FragmentActivity implements View.OnC
 
     private void initViews() {
 
+        task_fragment_viewPager.setOffscreenPageLimit(3);//*********设置页面数目*******解决复用报空的问题
         task_header_right.setText(R.string.task_my_add);
 
         UnTakeTaskFragment unTakeTaskFragment = new UnTakeTaskFragment();

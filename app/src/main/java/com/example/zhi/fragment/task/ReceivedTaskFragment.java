@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,7 +21,6 @@ import com.example.zhi.activity.daily.task.TaskDetailsActivity;
 import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
-import com.example.zhi.object.renwu;
 import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.melnykov.fab.FloatingActionButton;
@@ -44,7 +41,7 @@ import okhttp3.Call;
  * Date: 2016/3/26
  * Time: 22:51
  */
-public class ReceivedTaskFragment extends Fragment {
+public class ReceivedTaskFragment extends Fragment{
 
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
@@ -57,23 +54,10 @@ public class ReceivedTaskFragment extends Fragment {
     private int userId;//当前用户id
     private String md5UserSID;
     private TaskList taskList = new TaskList();// 任务列表实体类
-    private List<renwu> taskLists = new ArrayList<>();//任务列表
+    private List<TaskList.Renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
-    private SwipeRefreshLayout refreshLayout;// 下拉刷新
     private View view;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    initData();
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    break;
-            }
-        }
-    };
 
     @Nullable
     @Override
@@ -129,8 +113,9 @@ public class ReceivedTaskFragment extends Fragment {
                             taskList = gson.fromJson(response, TaskList.class);
 
                             if (taskList != null) {
-//                            taskLists.addAll(taskList.getRenwu());
-                                taskLists = taskList.getRenwu();
+                                List<TaskList.Renwu> list = taskList.getRenwu();
+                                taskLists.clear();
+                                taskLists.addAll(list);
                                 Log.e("tag", "打印数组数据------>" + taskLists);
 
                                 // 设置 Adapter
@@ -176,13 +161,12 @@ public class ReceivedTaskFragment extends Fragment {
             }
         });
 
-        refreshLayout = new SwipeRefreshLayout(mContext);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                handler.sendEmptyMessageDelayed(1, 2000);
-
+                initData();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }

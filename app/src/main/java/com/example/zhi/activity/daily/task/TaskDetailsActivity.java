@@ -19,7 +19,7 @@ import com.example.zhi.R;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.dialog.FinishTaskDialog;
 import com.example.zhi.object.TaskDetails;
-import com.example.zhi.object.renwu;
+import com.example.zhi.object.TaskList;
 import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.ToolsUtils;
@@ -78,7 +78,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
     private String taskId;// 单条任务Id
     private String taskReceiverList;// 任务接收人
     private static int hideButton;
-    private renwu renwus = new renwu();
+    private TaskList.Renwu renwus;
     private TaskDetails taskDetails = new TaskDetails();//任务详情类
     private int status = 0;
     private FinishTaskDialog finishTaskDialog;

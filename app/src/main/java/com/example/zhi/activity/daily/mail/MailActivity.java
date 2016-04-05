@@ -42,7 +42,7 @@ public class MailActivity extends FragmentActivity implements View.OnClickListen
     @Bind(R.id.mail_received)
     Button mail_received;
     // 已发
-    @Bind(R.id.mail_have)
+    @Bind(R.id.mail_send)
     Button mail_have;
     @Bind(R.id.vp_viewpager)
     ViewPager vp_viewpager;
@@ -130,17 +130,18 @@ public class MailActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.mail_have:
+            case R.id.mail_received:
                 // 已收邮件
                 vp_viewpager.setCurrentItem(0);
                 break;
-            case R.id.mail_received:
-            // 已发邮件
-            vp_viewpager.setCurrentItem(1);
-            break;
             case R.id.header_back:
                 finish();
                 break;
+            case R.id.mail_send:
+                // 已发邮件
+                vp_viewpager.setCurrentItem(1);
+                break;
+
         }
     }
 }

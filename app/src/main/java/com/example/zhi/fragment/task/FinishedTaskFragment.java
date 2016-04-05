@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +20,6 @@ import com.example.zhi.activity.daily.task.TaskDetailsActivity;
 import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
-import com.example.zhi.object.renwu;
 import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.melnykov.fab.FloatingActionButton;
@@ -57,24 +53,9 @@ public class FinishedTaskFragment extends Fragment {
     private int userId;//当前用户id
     private String md5UserSID;
     private TaskList taskList = new TaskList();// 任务列表实体类
-    private List<renwu> taskLists = new ArrayList<>();//任务列表
+    private List<TaskList.Renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
     private View view;
-//    private boolean isRefreshing = false;//判断是否刷新
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    initData();
-                    mSwipeRefreshLayout.setRefreshing(false);
-//                    isRefreshing = false;
-                    break;
-            }
-        }
-    };
 
     @Nullable
     @Override
@@ -104,7 +85,7 @@ public class FinishedTaskFragment extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e("tag", "当前用户的Id---------------->" + userId);
+//        Log.e("tag", "当前用户的Id---------------->" + userId);
     }
 
     private void initData() {
@@ -125,25 +106,28 @@ public class FinishedTaskFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.e("tag", "打印数据------>" + response.toString());
+//                            Log.e("tag", "打印数据------>" + response.toString());
                             Gson gson = new Gson();
                             taskList = gson.fromJson(response, TaskList.class);
 //                        taskLists.clear();// 清空原数据
                             if (taskList != null) {
-//                            taskLists.addAll(taskList.getRenwu());
-                                taskLists = taskList.getRenwu();
-                                Log.e("tag", "打印数组数据------>" + taskLists);
+                                List<TaskList.Renwu> list = taskList.getRenwu();
+                                taskLists.clear();
+                                taskLists.addAll(list);
+//                                Log.e("tag", "打印数组数据------>" + taskLists);
 
                                 // 设置 Adapter
                                 taskListAdapter = new TaskListAdapter(mContext, taskLists);
-                                Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
+//                                Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
                                 taskListAdapter.notifyDataSetChanged();
                                 unTakeTaskList.setAdapter(taskListAdapter);
                                 unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
+
                                 taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(View view, int position) {
 //                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
+//                                        Log.e("tag", "打印ID------------------》》》》" + taskLists.get(position).getId());
                                         Intent intent = new Intent();
                                         intent.putExtra("id", taskLists.get(position).getId());//传递当前任务的Id
                                         intent.putExtra("list", taskLists.get(position).getList());// 传递当前任务的接收人List
@@ -159,39 +143,26 @@ public class FinishedTaskFragment extends Fragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
     }
 
     private void initView() {
-
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                handler.sendEmptyMessageDelayed(1, 2000);
-//                isRefreshing = true;//判断是否刷新
-            }
-        });
-
-//        unTakeTaskList.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (isRefreshing) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//        });
         unTakeTaskList.setAdapter(taskListAdapter);
         floatingActionButton.attachToRecyclerView(unTakeTaskList);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, TaskAddActivity.class));
+            }
+        });
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 

@@ -32,7 +32,7 @@
                 android:textColor="@color/white"
                 android:background="@drawable/shape_left_press"/>
             <Button
-                android:id="@+id/mail_have"
+                android:id="@+id/mail_send"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
