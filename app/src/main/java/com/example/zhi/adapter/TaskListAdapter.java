@@ -63,20 +63,27 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
         holder.taskListAddTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getAddtime()) * 1000));//添加时间
         holder.taskListAddUser.setText(taskLists.get(position).getName());
         holder.taskListDate.setText(taskLists.get(position).getDate());// 添加日期
-        if (taskLists.get(position).getEdate().equals("0")) {
-            holder.taskListEndTime.setText("无");
-        } else {
-            holder.taskListEndTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getEdate()) * 1000));// 任务时限
+
+        try {
+            // 此处报空指针
+            if (taskLists.get(position).getEdate().equals("0")) {
+                holder.taskListEndTime.setText("无");
+            } else {
+                holder.taskListEndTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getEdate()) * 1000));// 任务时限
+            }
+            if (mOnItemClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.e("Adapter Item点击", position + "");
+                        mOnItemClickListener.onItemClick(holder.itemView, position);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (mOnItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.e("Adapter Item点击", position + "");
-                    mOnItemClickListener.onItemClick(holder.itemView, position);
-                }
-            });
-        }
+
     }
 
     @Override

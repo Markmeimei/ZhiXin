@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.zhi.R;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.NoticeDetails;
+import com.example.zhi.utils.ASimpleCache;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -50,6 +51,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
     @Bind(R.id.tv_notice_details_content)
     TextView noticeDetailsContent;
 
+    private String md5UserSID;
     private Context mContext;
     private NoticeDetails noticeDetails = new NoticeDetails();
     private String noticeId;//通知ID
@@ -88,6 +90,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void initConstant() {
         mContext = NoticeDetailActivity.this;
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
         noticeId = intent.getStringExtra("noticeId");
         Log.e("tag", "测试Intent接收的数据---------->" + noticeId);
@@ -110,6 +113,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
     private void sendRequest() {
         OkHttpUtils.get()
                 .url(ConstantURL.NOTICELIST)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "view")
                 .addParams("id", noticeId)
                 .build()
@@ -121,23 +125,23 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("tag", "测试通知详情数据---------->" + response);
-                        parseJsonWithJsonObject(response);
-//                            Gson gson = new Gson();
-//                            noticeDetails = gson.fromJson(response, NoticeDetails.class);
+                        try {
+                            Log.e("tag", "测试通知详情数据---------->" + response);
+                            parseJsonWithJsonObject(response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
 
     private void parseJsonWithJsonObject(String jsonData) {
         try {
-
             JSONObject jsonObject = new JSONObject(jsonData);
             noticeTitle = jsonObject.getString("title");
             noticeTime = jsonObject.getString("addtime");
             noticeAddUser = jsonObject.getString("adduser");
             noticeContent = jsonObject.getString("content");
-
         } catch (Exception e) {
             e.printStackTrace();
         }

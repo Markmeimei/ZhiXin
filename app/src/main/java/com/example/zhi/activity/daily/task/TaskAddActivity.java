@@ -29,6 +29,7 @@ import com.example.zhi.object.AttachmentFile;
 import com.example.zhi.object.DailyReport;
 import com.example.zhi.object.ImageBean;
 import com.example.zhi.object.ReceiverObject;
+import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.ToolsUtils;
 import com.example.zhi.view.FullyGridLayoutManager;
@@ -99,6 +100,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     private MaterialDialog clearAllDialog;//Material Dialog
     private ReceiverDialog receiverDialog;//接收人Dialog
     private int userId;
+    private String md5UserSID;
     private String userName;
     public String taskSubmitDate;//时间
     private String selectDate = "";//DialogDatePicker 选择的时间
@@ -187,6 +189,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
         userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
 
     }
 
@@ -441,6 +444,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
         Log.e("tag", "------测试接收人" + submitUser);
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("uid", "" + userId);
+        requestParams.put("token", "" + md5UserSID);
         requestParams.put("jsr", "" + submitUser);
         requestParams.put("content", taskDescribe.getText().toString());
         requestParams.put("date", taskSubmitDate);//添加任务的日期

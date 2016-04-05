@@ -12,7 +12,7 @@ public class ConstantURL {
     // 每日一报
     public static final String DAILY_REPORT = BASIC_URL + "rbadd.php"; // 添加日报
     public static final String DAILY_RECORD = BASIC_URL + "rb.php"; // 日报记录
-    public static final String PLAN_REPORT = BASIC_URL + "tomorrow.php"; // 添加明日计划
+    public static final String PLAN_REPORT = BASIC_URL + "tomorrow-plan-add.php"; // 添加明日计划
     public static final String PLAN_RECORD = BASIC_URL + "tomorrow-plan.php"; // 查看明日计划
     public static final String WEEKLY_REPORT = BASIC_URL + "week.php"; // 添加周计划
     public static final String WEEKLY_RECORD = BASIC_URL + "week-plan.php"; // 查看周计划

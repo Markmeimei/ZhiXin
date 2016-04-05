@@ -36,15 +36,12 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * 查看每日计划记录
+ * 每周计划记录
  * Author: Eron
- * Date: 2016/3/21 0021
- * Time: 16:33
+ * Date: 2016/4/5 0005
+ * Time: 10:31
  */
-public class PlanRecordFragment extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
-
-    private static final String TAG = "Daily_Record_Fragment";
-
+public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
     private Context mContext;
 
     @Bind(R.id.calendarViewDailyRecord)
@@ -121,7 +118,7 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
     private void queryFromServer() {
         OkHttpUtils
                 .post()
-                .url(ConstantURL.PLAN_RECORD)
+                .url(ConstantURL.WEEKLY_RECORD)
                 .addParams("uid", "" + userId)
                 .addParams("token", "" + md5UserSID)
                 .addParams("date", getSelectedDatesString())
@@ -174,5 +171,4 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(recordDate.getDate());
     }
-
 }

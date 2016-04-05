@@ -20,6 +20,7 @@ import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.dialog.FinishTaskDialog;
 import com.example.zhi.object.TaskDetails;
 import com.example.zhi.object.renwu;
+import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.ToolsUtils;
 import com.google.gson.Gson;
@@ -73,6 +74,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
 
     private Context mContext;
     private int userId;//当前用户的id
+    private String md5UserSID;
     private String taskId;// 单条任务Id
     private String taskReceiverList;// 任务接收人
     private static int hideButton;
@@ -129,7 +131,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
 
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
-
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
         taskId = intent.getStringExtra("id");
         taskReceiverList = intent.getStringExtra("list");
@@ -172,6 +174,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
         OkHttpUtils.post()
                 .url(ConstantURL.TASKLIST)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "view")
                 .addParams("id", taskId)
                 .build()
@@ -183,16 +186,21 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
 
                     @Override
                     public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        taskDetails = gson.fromJson(response, TaskDetails.class);
-                        if (taskDetails != null) {
-                            renwus = taskDetails.getRenwu();
+                        try {
+                            Gson gson = new Gson();
+                            taskDetails = gson.fromJson(response, TaskDetails.class);
+                            if (taskDetails != null) {
+                                renwus = taskDetails.getRenwu();
 //                            Log.e("tag", "测试网络获取的数据------>" + renwus);
-                            Message message = new Message();
-                            message.what = UPDATE_UI;
+                                Message message = new Message();
+                                message.what = UPDATE_UI;
 //                            message.what = hideButton;
-                            handler.sendMessage(message);
+                                handler.sendMessage(message);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+
                     }
                 });
 

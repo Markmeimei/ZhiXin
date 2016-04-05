@@ -16,6 +16,7 @@ import com.example.zhi.R;
 import com.example.zhi.adapter.NoticeAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.NoticeBean;
+import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -53,6 +54,7 @@ public class NoticeActivity extends Activity {
     @Bind(R.id.rv_notice_list)
     RecyclerView noticeList;
 
+    private String md5UserSID;
     private SwipeRefreshLayout mSwipeLayout;
     private List<NoticeBean> noticeBeanList = new ArrayList<>();
     private NoticeBean noticeBean = new NoticeBean();
@@ -73,12 +75,14 @@ public class NoticeActivity extends Activity {
 
     private void initConstant() {
         mContext = NoticeActivity.this;
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
     }
 
     private void initData() {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.NOTICELIST)
+                .addParams("token", "" + md5UserSID)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -88,41 +92,45 @@ public class NoticeActivity extends Activity {
 
                     @Override
                     public void onResponse(String response) {
-
-                        Gson gson = new Gson();
-                        //创建一个JsonParser
-                        JsonParser parser = new JsonParser();
-                        //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
-                        JsonElement el = parser.parse(response);
-                        //把JsonElement对象转换成JsonArray
-                        JsonArray jsonArray = null;
-                        if (el.isJsonArray()) {
-                            jsonArray = el.getAsJsonArray();
-                        }
-                        //遍历JsonArray对象
-                        Iterator it = jsonArray.iterator();
-                        while (it.hasNext()) {
-                            JsonElement e = (JsonElement) it.next();
-                            //JsonElement转换为JavaBean对象
-                            noticeBean = gson.fromJson(e, NoticeBean.class);
-                            noticeBeanList.add(noticeBean);
-//                            Log.e("tag", "通知--------->" + noticeBean.getTitle());
-                        }
-
-                        noticeAdapter = new NoticeAdapter(mContext, noticeBeanList);
-//                        Log.e("tag", "通知--------->" + noticeBeanList.size());
-                        noticeList.setAdapter(noticeAdapter);
-                        noticeList.setLayoutManager(new LinearLayoutManager(mContext));
-                        // Adapter 点击事件
-                        noticeAdapter.setOnItemClickListener(new NoticeAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-//                                Toast.makeText(mContext, noticeBeanList.get(position).getId(), Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(mContext,NoticeDetailActivity.class)
-                                .putExtra("noticeId",noticeBeanList.get(position).getId()));
+                        try {
+                            Gson gson = new Gson();
+                            //创建一个JsonParser
+                            JsonParser parser = new JsonParser();
+                            //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
+                            JsonElement el = parser.parse(response);
+                            //把JsonElement对象转换成JsonArray
+                            JsonArray jsonArray = null;
+                            if (el.isJsonArray()) {
+                                jsonArray = el.getAsJsonArray();
                             }
-                        });
-                        swipeRefreshLayout.setRefreshing(false);
+                            //遍历JsonArray对象
+                            Iterator it = jsonArray.iterator();
+                            while (it.hasNext()) {
+                                JsonElement e = (JsonElement) it.next();
+                                //JsonElement转换为JavaBean对象
+                                noticeBean = gson.fromJson(e, NoticeBean.class);
+                                noticeBeanList.add(noticeBean);
+//                            Log.e("tag", "通知--------->" + noticeBean.getTitle());
+                            }
+
+                            noticeAdapter = new NoticeAdapter(mContext, noticeBeanList);
+//                        Log.e("tag", "通知--------->" + noticeBeanList.size());
+                            noticeList.setAdapter(noticeAdapter);
+                            noticeList.setLayoutManager(new LinearLayoutManager(mContext));
+                            // Adapter 点击事件
+                            noticeAdapter.setOnItemClickListener(new NoticeAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+//                                Toast.makeText(mContext, noticeBeanList.get(position).getId(), Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(mContext, NoticeDetailActivity.class)
+                                            .putExtra("noticeId", noticeBeanList.get(position).getId()));
+                                }
+                            });
+                            swipeRefreshLayout.setRefreshing(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
     }

@@ -92,6 +92,7 @@ public class WeeklyPlanActivity extends FragmentActivity implements View.OnClick
     private void initView() {
         plan_header_title.setText(R.string.weekly_plan_add);
         plan_header_right.setVisibility(View.GONE);
+        btn_plan_add.setText(R.string.weekly_plan_add);
     }
 
     private void initEvent() {

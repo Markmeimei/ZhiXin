@@ -17,6 +17,7 @@ import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
 import com.example.zhi.object.renwu;
+import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.JsonUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -50,6 +51,7 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
     RecyclerView taskMyList;
 
     private int userId;//当前用户id
+    private String md5UserSID;
     private List<renwu> renwuList;
     private TaskListAdapter taskListAdapter;
     private RequestCall mCall;//OkHttpCall
@@ -69,6 +71,7 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
 
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         renwuList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         taskListAdapter = new TaskListAdapter(mContext, renwuList);
@@ -93,6 +96,7 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
                 .post()
                 .url(ConstantURL.TASKLIST)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "" + 4)
                 .build();
         mCall.execute(new StringCallback() {

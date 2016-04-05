@@ -24,6 +24,7 @@ import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
 import com.example.zhi.object.renwu;
+import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.melnykov.fab.FloatingActionButton;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -54,6 +55,7 @@ public class FinishedTaskFragment extends Fragment {
     FloatingActionButton floatingActionButton;
 
     private int userId;//当前用户id
+    private String md5UserSID;
     private TaskList taskList = new TaskList();// 任务列表实体类
     private List<renwu> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
@@ -101,6 +103,7 @@ public class FinishedTaskFragment extends Fragment {
         this.mContext = getActivity();
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Log.e("tag", "当前用户的Id---------------->" + userId);
     }
 
@@ -110,6 +113,7 @@ public class FinishedTaskFragment extends Fragment {
                 .post()
                 .url(ConstantURL.TASKLIST)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "" + 3)
                 .build()
                 .execute(new StringCallback() {
@@ -120,37 +124,40 @@ public class FinishedTaskFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("tag", "打印数据------>" + response.toString());
-                        Gson gson = new Gson();
-                        taskList = gson.fromJson(response, TaskList.class);
-
+                        try {
+                            Log.e("tag", "打印数据------>" + response.toString());
+                            Gson gson = new Gson();
+                            taskList = gson.fromJson(response, TaskList.class);
 //                        taskLists.clear();// 清空原数据
-                        if (taskList != null) {
+                            if (taskList != null) {
 //                            taskLists.addAll(taskList.getRenwu());
-                            taskLists = taskList.getRenwu();
-                            Log.e("tag", "打印数组数据------>" + taskLists);
+                                taskLists = taskList.getRenwu();
+                                Log.e("tag", "打印数组数据------>" + taskLists);
 
-                            // 设置 Adapter
-                            taskListAdapter = new TaskListAdapter(mContext, taskLists);
-                            Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
-                            taskListAdapter.notifyDataSetChanged();
-                            unTakeTaskList.setAdapter(taskListAdapter);
-                            unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
-                            taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
+                                // 设置 Adapter
+                                taskListAdapter = new TaskListAdapter(mContext, taskLists);
+                                Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
+                                taskListAdapter.notifyDataSetChanged();
+                                unTakeTaskList.setAdapter(taskListAdapter);
+                                unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
+                                taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
 //                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent();
-                                    intent.putExtra("id", taskLists.get(position).getId());//传递当前任务的Id
-                                    intent.putExtra("list", taskLists.get(position).getList());// 传递当前任务的接收人List
-                                    intent.setClass(mContext, TaskDetailsActivity.class);
-                                    startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                            .putExtra("id", taskLists.get(position).getId())
-                                            .putExtra("list", taskLists.get(position).getList())
-                                            .putExtra("status", 3));
-                                }
-                            });
-                            mSwipeRefreshLayout.setRefreshing(false);
+                                        Intent intent = new Intent();
+                                        intent.putExtra("id", taskLists.get(position).getId());//传递当前任务的Id
+                                        intent.putExtra("list", taskLists.get(position).getList());// 传递当前任务的接收人List
+                                        intent.setClass(mContext, TaskDetailsActivity.class);
+                                        startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                                .putExtra("id", taskLists.get(position).getId())
+                                                .putExtra("list", taskLists.get(position).getList())
+                                                .putExtra("status", 3));
+                                    }
+                                });
+                                mSwipeRefreshLayout.setRefreshing(false);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                     }

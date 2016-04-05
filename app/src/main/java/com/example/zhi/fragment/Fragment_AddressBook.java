@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.example.zhi.adapter.ContactAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.AddressBook;
 import com.example.zhi.object.txl;
+import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.view.Sidebar;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
@@ -58,6 +58,7 @@ public class Fragment_AddressBook extends Fragment {
     @ViewInject(R.id.floating_header)
     TextView floating_header;
     // 对象
+    private String md5UserSID;
     private ContactAdapter adapter;
     private List<txl> usersList = new ArrayList<>();//排序前
     private List<txl> usersOrderList = new ArrayList<>();//排序后
@@ -75,6 +76,7 @@ public class Fragment_AddressBook extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mContext = getActivity();
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         initView();
         initList();
         initEvent();
@@ -100,6 +102,7 @@ public class Fragment_AddressBook extends Fragment {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.ADDRESSLIST)
+                .addParams("token", "" + md5UserSID)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -109,49 +112,54 @@ public class Fragment_AddressBook extends Fragment {
 
                     @Override
                     public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        addressBook = gson.fromJson(response, AddressBook.class);
-                        if (addressBook != null) {
-                            // 排序
-                            usersList = addressBook.getTxl();
+                        try {
+                            Gson gson = new Gson();
+                            addressBook = gson.fromJson(response, AddressBook.class);
+                            if (addressBook != null) {
+                                // 排序
+                                usersList = addressBook.getTxl();
 //                            Log.e("tag", "打印数据------>" + usersList);
-                            Map<String, txl> users = new HashMap<>();
-                            for (int i = 0; i < addressBook.getTxl().size(); i++) {
-                                txl user1 = usersList.get(i);
-                                String headerName = user1.getName();
-                                String phone = user1.getPhone();
+                                Map<String, txl> users = new HashMap<>();
+                                for (int i = 0; i < addressBook.getTxl().size(); i++) {
+                                    txl user1 = usersList.get(i);
+                                    String headerName = user1.getName();
+                                    String phone = user1.getPhone();
 
 //                                Log.e("tag", "user1用户名---------------->" + headerName+"----"+phone);
 
-                                if (headerName == null || headerName.equals("")) {
-                                    headerName = "至信";
-                                }
-                                if (Character.isDigit(headerName.charAt(0))) {
-                                    user1.setHeader("#");
-                                } else {
-                                    user1.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1))
-                                            .get(0).target.substring(0, 1).toUpperCase());
-                                    char header = user1.getHeader().toLowerCase().charAt(0);
-                                    if (header < 'a' || header > 'z') {
-                                        user1.setHeader("#");
+                                    if (headerName == null || headerName.equals("")) {
+                                        headerName = "至信";
                                     }
+                                    if (Character.isDigit(headerName.charAt(0))) {
+                                        user1.setHeader("#");
+                                    } else {
+                                        user1.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1))
+                                                .get(0).target.substring(0, 1).toUpperCase());
+                                        char header = user1.getHeader().toLowerCase().charAt(0);
+                                        if (header < 'a' || header > 'z') {
+                                            user1.setHeader("#");
+                                        }
+                                    }
+                                    users.put(String.valueOf(i), user1);
                                 }
-                                users.put(String.valueOf(i), user1);
+                                if (!usersOrderList.isEmpty()) {
+                                    usersOrderList.clear();
+                                }
+                                Iterator<Map.Entry<String, txl>> iterator = users.entrySet().iterator();
+                                while (iterator.hasNext()) {
+                                    Map.Entry<String, txl> entry = iterator.next();
+                                    usersOrderList.add(entry.getValue());
+                                }
+                                // 对list进行排序
+                                Collections.sort(usersOrderList, new PinyinComparator() {
+                                });
+                                // 刷新Adapter
+                                adapter.notifyDataSetChanged();
                             }
-                            if (!usersOrderList.isEmpty()) {
-                                usersOrderList.clear();
-                            }
-                            Iterator<Map.Entry<String, txl>> iterator = users.entrySet().iterator();
-                            while (iterator.hasNext()) {
-                                Map.Entry<String, txl> entry = iterator.next();
-                                usersOrderList.add(entry.getValue());
-                            }
-                            // 对list进行排序
-                            Collections.sort(usersOrderList, new PinyinComparator() {
-                            });
-                            // 刷新Adapter
-                            adapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+
                     }
                 });
     }

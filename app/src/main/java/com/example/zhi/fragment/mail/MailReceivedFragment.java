@@ -19,6 +19,7 @@ import com.example.zhi.activity.daily.mail.MailDetailsActivity;
 import com.example.zhi.adapter.MailAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.Mails;
+import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -47,6 +48,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
 
     // 对象
     private int userId;//当前用户的id
+    private String md5UserSID;
     private MailAdapter adapter;
     private Context mContext;
     private Mails mails = new Mails();//邮件实体类
@@ -83,6 +85,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
 
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
 
         onRefresh();
     }
@@ -110,6 +113,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
         mCall = OkHttpUtils.get()
                 .url(ConstantURL.MAILLIST)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "" + 1)
                 .build();
         mCall.execute(new StringCallback() {

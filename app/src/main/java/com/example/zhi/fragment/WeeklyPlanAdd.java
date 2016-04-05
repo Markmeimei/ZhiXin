@@ -52,14 +52,14 @@ import me.drakeet.materialdialog.MaterialDialog;
 import okhttp3.Call;
 
 /**
- * 添加每日计划
+ * 添加每周计划
+ *
  * Author: Eron
- * Date: 2016/3/1 0001
- * Time: 14:51
+ * Date: 2016/4/5 0005
+ * Time: 10:31
  */
-public class Plan_Add_Fragment extends Fragment implements View.OnClickListener {
+public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "Daily_Add_Fragment";
 
     @Bind(R.id.add_time_chose)
     TextView add_time_chose;//选择日起
@@ -137,7 +137,6 @@ public class Plan_Add_Fragment extends Fragment implements View.OnClickListener 
         userId = preferences.getInt("user_id", 0);
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         dailyReportTime = DateUtils.getDateYMD();
-        Log.e(TAG, dailyReportTime);
         currentDate = DateUtils.getTimeYMDHM();
     }
 
@@ -295,7 +294,7 @@ public class Plan_Add_Fragment extends Fragment implements View.OnClickListener 
                 files.add(new PostFormBuilder.FileInput("myfile", bean.getDisplayName(), new File(bean.getPath())));
             }
         }
-        RequestCall call = new PostFormRequest(ConstantURL.PLAN_REPORT, null, requestParams, null, files).build();
+        RequestCall call = new PostFormRequest(ConstantURL.WEEKLY_REPORT, null, requestParams, null, files).build();
         call.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -330,4 +329,5 @@ public class Plan_Add_Fragment extends Fragment implements View.OnClickListener 
             }
         });
     }
+
 }
