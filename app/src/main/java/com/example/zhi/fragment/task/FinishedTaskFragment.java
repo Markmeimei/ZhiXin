@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,22 +123,20 @@ public class FinishedTaskFragment extends Fragment {
                                 taskListAdapter.notifyDataSetChanged();
                                 unTakeTaskList.setAdapter(taskListAdapter);
                                 unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
-
-                                taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-//                                    Toast.makeText(mContext, taskLists.get(position).getContent(), Toast.LENGTH_SHORT).show();
-//                                        Log.e("tag", "打印ID------------------》》》》" + taskLists.get(position).getId());
-                                        Intent intent = new Intent();
-                                        intent.putExtra("id", taskLists.get(position).getId());//传递当前任务的Id
-                                        intent.putExtra("list", taskLists.get(position).getList());// 传递当前任务的接收人List
-                                        intent.setClass(mContext, TaskDetailsActivity.class);
-                                        startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                                .putExtra("id", taskLists.get(position).getId())
-                                                .putExtra("list", taskLists.get(position).getList())
-                                                .putExtra("status", 3));
-                                    }
-                                });
+                                if (null != taskLists) {
+                                    taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(View view, int position) {
+                                            Log.e("Fragment Item点击", position + "");
+                                            startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                                    .putExtra("id", taskLists.get(position).getId())
+                                                    .putExtra("list", taskLists.get(position).getList())
+                                                    .putExtra("status", 1));
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(mContext,"没有任务",Toast.LENGTH_SHORT).show();
+                                }
                                 mSwipeRefreshLayout.setRefreshing(false);
                             }
                         } catch (Exception e) {

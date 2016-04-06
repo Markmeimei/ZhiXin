@@ -2,6 +2,7 @@ package com.example.zhi.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.example.zhi.R;
 import com.example.zhi.adapter.ReceiverAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.ReceiverObject;
+import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.ToolsUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -61,6 +63,8 @@ public class ReceiverDialog {
     Button dialogPositive;
 
     private ReceiverAdapter receiverAdapter;
+    private int userId;//当前用户的id
+    private String md5UserSID;
 
     private static final boolean SELECTALL = false;
     private static final boolean CANCEL = false;
@@ -81,6 +85,12 @@ public class ReceiverDialog {
         dialog = new Dialog(mContext, R.style.AlertDialogStyle);
         dialog.setContentView(view);
         ButterKnife.bind(this, view);
+
+        SharedPreferences preferences = mContext.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
+        Log.e("办理人------ID------>", userId+"");
+        Log.e("办理人------md5------>", md5UserSID);
 
         receiverAdapter = new ReceiverAdapter(mContext, objects);
         receiverList.setAdapter(receiverAdapter);
@@ -112,9 +122,12 @@ public class ReceiverDialog {
     }
 
     public ReceiverDialog readData() {
+
         OkHttpUtils
                 .post()
                 .url(ConstantURL.RECEIVER)
+                .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -124,27 +137,31 @@ public class ReceiverDialog {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("办理人------>", response);
-                        Gson gson = new Gson();
-                        //创建一个JsonParser
-                        JsonParser parser = new JsonParser();
-                        //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
-                        JsonElement el = parser.parse(response);
-                        //把JsonElement对象转换成JsonArray
-                        JsonArray jsonArray = null;
-                        if (el.isJsonArray()) {
-                            jsonArray = el.getAsJsonArray();
+                        try {
+                            Log.e("办理人------>", response);
+                            Gson gson = new Gson();
+                            //创建一个JsonParser
+                            JsonParser parser = new JsonParser();
+                            //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
+                            JsonElement el = parser.parse(response);
+                            //把JsonElement对象转换成JsonArray
+                            JsonArray jsonArray = null;
+                            if (el.isJsonArray()) {
+                                jsonArray = el.getAsJsonArray();
+                            }
+                            //遍历JsonArray对象
+                            Iterator it = jsonArray.iterator();
+                            while (it.hasNext()) {
+                                JsonElement e = (JsonElement) it.next();
+                                //JsonElement转换为JavaBean对象
+                                receivers = gson.fromJson(e, ReceiverObject.class);
+                                objects.add(receivers);
+                                System.out.println(receivers.getName() + " === " + receivers.getId());
+                            }
+                            receiverAdapter.notifyDataSetChanged();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        //遍历JsonArray对象
-                        Iterator it = jsonArray.iterator();
-                        while (it.hasNext()) {
-                            JsonElement e = (JsonElement) it.next();
-                            //JsonElement转换为JavaBean对象
-                            receivers = gson.fromJson(e, ReceiverObject.class);
-                            objects.add(receivers);
-                            System.out.println(receivers.getName() + " === " + receivers.getId());
-                        }
-                        receiverAdapter.notifyDataSetChanged();
                     }
                 });
 

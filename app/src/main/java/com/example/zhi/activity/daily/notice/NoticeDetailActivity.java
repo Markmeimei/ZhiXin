@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,8 +48,10 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
     TextView noticeDetailsTime;
     @Bind(R.id.tv_notice_details_addUser)
     TextView noticeDetailsAddUser;
-    @Bind(R.id.tv_notice_details_content)
-    TextView noticeDetailsContent;
+    //    @Bind(R.id.tv_notice_details_content)
+//    TextView noticeDetailsContent;
+    @Bind(R.id.wv_notice_details_content)
+    WebView noticeDetailsContent;
 
     private String md5UserSID;
     private Context mContext;
@@ -68,7 +70,8 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
                     noticeDetailsTime.setText(noticeTime);
                     noticeDetailsAddUser.setText(noticeAddUser);
                     noticeDetailsTitle.setText(noticeTitle);
-                    noticeDetailsContent.setText(Html.fromHtml(noticeContent));
+//                    noticeDetailsContent.setText(Html.fromHtml(noticeContent));
+                    noticeDetailsContent.loadDataWithBaseURL(null, noticeContent, "text/html", "UTF-8", null);
                     break;
                 default:
                     break;
@@ -93,7 +96,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
         noticeId = intent.getStringExtra("noticeId");
-        Log.e("tag", "测试Intent接收的数据---------->" + noticeId);
+//        Log.e("tag", "测试Intent接收的数据---------->" + noticeId);
         sendRequest();// 发送网络请求
 
     }
@@ -145,7 +148,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("tag", "测试通知详情数据---------->" + noticeTitle);
+//        Log.e("tag", "测试通知详情数据---------->" + noticeContent);
         Message message = new Message();
         message.what = UPDATE_UI;
         handler.sendMessage(message);

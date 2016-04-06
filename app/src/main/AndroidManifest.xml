@@ -66,6 +66,8 @@
         <!-- 邮件详情 -->
         <activity android:name=".activity.daily.mail.MailDetailsActivity">
         </activity>
+        <!--添加邮件-->
+        <activity android:name=".activity.daily.mail.MailAddActivity" />
         <!-- 请假管理 -->
         <activity android:name=".activity.daily.leave.Leave_FragmentActivity">
         </activity>

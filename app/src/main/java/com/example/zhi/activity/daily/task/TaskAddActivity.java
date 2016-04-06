@@ -333,8 +333,8 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
             case R.id.iv_add_transactor:
                 // 添加接收人
                 new ReceiverDialog(mContext)
-                        .readData()
                         .builder()
+                        .readData()
                         .setCancelable(false)
                         .setNegativeButton(new View.OnClickListener() {
                             @Override

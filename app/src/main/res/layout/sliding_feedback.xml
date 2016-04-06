@@ -6,6 +6,7 @@
     android:background="@color/snow">
     <include layout="@layout/activity_header"/>
     <EditText
+        android:id="@+id/et_feedback_content"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
         android:layout_marginTop="@dimen/dimen_20"
@@ -16,6 +17,7 @@
         android:background="@drawable/shape_edit"
         android:layout_margin="@dimen/dimen_5"/>
     <Button
+        android:id="@+id/btn_feedback_submit"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/dimen_40"
         android:layout_margin="@dimen/dimen_10"

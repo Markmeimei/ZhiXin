@@ -265,6 +265,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                 .post()
                 .url(ConstantURL.TASKLIST)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "over")
                 .addParams("id", taskId)
                 .addParams("content", ToolsUtils.taskFinishContent)
@@ -282,6 +283,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                 if (response.equals("1")) {
                     Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
                     finishTaskDialog.dismiss();
+                    TaskDetailsActivity.this.finish();
                 } else {
                     Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
                     finishTaskDialog.dismiss();
@@ -299,6 +301,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                 .post()
                 .url(ConstantURL.TASKLIST)
                 .addParams("uid", "" + userId)
+                .addParams("token", "" + md5UserSID)
                 .addParams("tag", "jie")
                 .addParams("id", taskId)
                 .build();
@@ -313,6 +316,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                 Log.e("tag", "测试网络获取的数据------>" + response);
                 if(response.equals("1")){
                     Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
+                    TaskDetailsActivity.this.finish();
                 }else {
                     Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
                 }

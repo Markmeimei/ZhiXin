@@ -15,7 +15,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dimen_10"
         android:text="张全蛋"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@color/text_color2"/>
 
     <CheckBox
         android:id="@+id/cb_select_user"
@@ -23,6 +24,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:focusable="false"
-        android:paddingLeft="@dimen/dimen_8" />
+        android:paddingLeft="@dimen/dimen_8"
+        />
 
 </LinearLayout>

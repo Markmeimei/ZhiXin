@@ -111,33 +111,41 @@ public class UnTakeTaskFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
-//                        Log.e("tag", "打印数据------>" + response.toString());
-                            if (response != null) {
+                        Log.e("tag", "打印数据------>" + response.toString());
+                            if (null != response) {
                                 Gson gson = new Gson();
                                 taskList = gson.fromJson(response, TaskList.class);
 
-                                if (taskList != null) {
+                                if (null != taskList) {
                                     List<TaskList.Renwu> list = taskList.getRenwu();
-                                    taskLists.clear();
-                                    taskLists.addAll(list);
+                                    if (null == list) {
+                                        Toast.makeText(mContext, "没有任务", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        taskLists.clear();
+                                        taskLists.addAll(list);
 //                            Log.e("tag", "打印数组数据------>" + taskLists);
-                                    // 设置 Adapter
-                                    taskListAdapter = new TaskListAdapter(mContext, taskLists);
+                                        // 设置 Adapter
+                                        taskListAdapter = new TaskListAdapter(mContext, taskLists);
 //                            Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
-                                    taskListAdapter.notifyDataSetChanged();
-                                    unTakeTaskList.setAdapter(taskListAdapter);
-                                    unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
-                                    taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(View view, int position) {
-                                            Log.e("Fragment Item点击", position + "");
-                                            startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                                    .putExtra("id", taskLists.get(position).getId())
-                                                    .putExtra("list", taskLists.get(position).getList())
-                                                    .putExtra("status", 1));
+                                        taskListAdapter.notifyDataSetChanged();
+                                        unTakeTaskList.setAdapter(taskListAdapter);
+                                        unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
+                                        if (null != taskLists) {
+                                            taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(View view, int position) {
+                                                    Log.e("Fragment Item点击", position + "");
+                                                    startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                                            .putExtra("id", taskLists.get(position).getId())
+                                                            .putExtra("list", taskLists.get(position).getList())
+                                                            .putExtra("status", 1));
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(mContext, "没有任务", Toast.LENGTH_SHORT).show();
                                         }
-                                    });
-                                    mSwipeRefreshLayout.setRefreshing(false);
+                                        mSwipeRefreshLayout.setRefreshing(false);
+                                    }
                                 } else {
                                     Toast.makeText(mContext, "无任务", Toast.LENGTH_SHORT).show();
                                 }
@@ -177,6 +185,7 @@ public class UnTakeTaskFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        taskLists.clear();
         initData();
     }
 }

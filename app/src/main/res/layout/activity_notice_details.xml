@@ -80,19 +80,27 @@
                     android:textColor="@color/black" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_notice_details_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <!--<TextView-->
+                <!--android:id="@+id/tv_notice_details_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="@dimen/dimen_5"-->
+                <!--android:background="@drawable/task_edittext_bg_blue"-->
+                <!--android:gravity="start"-->
+                <!--android:lineSpacingExtra="@dimen/dimen_4"-->
+                <!--android:paddingBottom="@dimen/dimen_10"-->
+                <!--android:paddingLeft="@dimen/dimen_15"-->
+                <!--android:paddingRight="@dimen/dimen_15"-->
+                <!--android:textColor="@color/black_low"-->
+                <!--android:textSize="@dimen/dimen_15" />-->
+
+            <WebView
+                android:id="@+id/wv_notice_details_content"
                 android:layout_margin="@dimen/dimen_5"
-                android:background="@drawable/task_edittext_bg_blue"
-                android:gravity="start"
-                android:lineSpacingExtra="@dimen/dimen_4"
-                android:paddingBottom="@dimen/dimen_10"
-                android:paddingLeft="@dimen/dimen_15"
-                android:paddingRight="@dimen/dimen_15"
-                android:textColor="@color/black_low"
-                android:textSize="@dimen/dimen_15" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </WebView>
 
             <LinearLayout
                 android:id="@+id/ll_notice_sign_list"

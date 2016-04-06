@@ -3,8 +3,10 @@ package com.example.zhi.activity.daily.mail;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,14 +14,21 @@ import android.widget.Toast;
 
 import com.example.zhi.R;
 import com.example.zhi.adapter.MailAttachmentAdapter;
+import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.AttachmentFile;
+import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.view.FullyLinearLayoutManager;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.RequestCall;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 /**
  * 邮件详情
@@ -53,6 +62,10 @@ public class MailDetailsActivity extends Activity {
     // 附件Adapter
     MailAttachmentAdapter mailAttachmentAdapter;
     private ArrayList<AttachmentFile> attachmentFiles;
+    private int userId;//当前用户的id
+    private String md5UserSID;
+    private String emailId;
+    private RequestCall mCall;//网络请求
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,23 +82,49 @@ public class MailDetailsActivity extends Activity {
 
     private void initConstant() {
         mContext = MailDetailsActivity.this;
+        SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        userId = preferences.getInt("user_id", 0);
+        md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
+        emailId = intent.getStringExtra("eMailId");
     }
 
 
 
     private void initData() {
 
-        attachmentFiles = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            AttachmentFile attachmentFile = new AttachmentFile();
-            attachmentFile.setFileName("详情请见附件" + i);
-            attachmentFile.setPath("");
-            attachmentFiles.add(attachmentFile);
-        }
+//        attachmentFiles = new ArrayList<>();
+//        for (int i = 0; i < 3; i++) {
+//            AttachmentFile attachmentFile = new AttachmentFile();
+//            attachmentFile.setFileName("详情请见附件" + i);
+//            attachmentFile.setPath("");
+//            attachmentFiles.add(attachmentFile);
+//        }
+        Log.e("tag", "打印------邮件ID-------->" + emailId);
+        mCall = OkHttpUtils.post()
+                .url(ConstantURL.MAILLIST)
+                .addParams("id", emailId)
+                .addParams("tag", "view")
+                .addParams("token", "" + md5UserSID)
+                .build();
+        mCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tag", "打印邮件详情数据-------->" + response);
+                    Gson gson = new Gson();
 
 
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
 
     }

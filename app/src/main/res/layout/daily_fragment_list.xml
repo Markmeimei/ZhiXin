@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/snow">
@@ -14,10 +14,21 @@
             android:id="@+id/fragment_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:listSelector="@null"
+            android:cacheColorHint="@null"
             android:divider="@null"
-            android:cacheColorHint="@null"/>
+            android:listSelector="@null" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab_taskList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/dimen_15"
+        android:src="@mipmap/ic_float_btn"
+        fab:fab_colorNormal="@color/main_color"
+        fab:fab_colorPressed="@color/blue"
+        fab:fab_colorRipple="@color/ripple" />
+
+</FrameLayout>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.zhi.R;
+import com.example.zhi.activity.daily.mail.MailAddActivity;
 import com.example.zhi.activity.daily.mail.MailDetailsActivity;
-import com.example.zhi.adapter.MailAdapter;
+import com.example.zhi.adapter.MailReceivedAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.Mails;
 import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
+import com.melnykov.fab.FloatingActionButton;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.request.RequestCall;
@@ -45,12 +48,14 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
     ListView fragment_list;
     @Bind(R.id.srl_mail_list)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.fab_taskList)
+    FloatingActionButton floatingActionButton;
     private static int status = 1;
 
     // 对象
     private int userId;//当前用户的id
     private String md5UserSID;
-    private MailAdapter adapter;
+    private MailReceivedAdapter adapter;
     private Context mContext;
     private Mails mails = new Mails();//邮件实体类
     private List<Mails.Info> infoList = new ArrayList<>();//邮件列表信息
@@ -91,7 +96,7 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
     private void initView() {
-        adapter = new MailAdapter(mContext,infoList,status);
+        adapter = new MailReceivedAdapter(mContext,infoList,2);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
         fragment_list.setAdapter(adapter);
@@ -99,6 +104,14 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(new Intent(mContext, MailDetailsActivity.class));
+            }
+        });
+
+        floatingActionButton.attachToListView(fragment_list);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, MailAddActivity.class));
             }
         });
     }
@@ -124,6 +137,7 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onResponse(String response) {
                 try {
+                    Log.e("tag", "发件箱数据---------->" + response);
                     Gson gson = new Gson();
                     mails = gson.fromJson(response, Mails.class);
                     if (mails != null) {
