@@ -1,4 +1,4 @@
-package com.example.zhi.fragment;
+package com.example.zhi.fragment.dailyManage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,10 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zhi.R;
-import com.example.zhi.adapter.DailyRecordAdapter;
+import com.example.zhi.adapter.DailyPlanAdapter;
 import com.example.zhi.constant.ConstantURL;
-import com.example.zhi.object.DailyRecord;
-import com.example.zhi.object.Info;
+import com.example.zhi.object.DailyPlan;
 import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -37,16 +36,12 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * Author：Mark
- * Date：2015/12/1 0001
- * Tell：15006330640
- * <p/>
- * 日报记录
+ * 每周计划记录
+ * Author: Eron
+ * Date: 2016/4/5 0005
+ * Time: 10:31
  */
-public class Daily_Record_Fragment extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
-
-    private static final String TAG = "Daily_Record_Fragment";
-
+public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
     private Context mContext;
 
     @Bind(R.id.calendarViewDailyRecord)
@@ -59,8 +54,8 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     public String userName;
     public int userId;
     private String md5UserSID;
-    private List<Info> infoList = new ArrayList<>();// 日报内容实体类
-    private DailyRecordAdapter dailyRecordAdapter;
+    private List<DailyPlan.Plan.Info> infoList = new ArrayList<>();// 计划内容实体类
+    private DailyPlanAdapter planAdapter;
 
     @Nullable
     @Override
@@ -106,7 +101,8 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     private void initView() {
 //        dailyRecordCalender.setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth()*0.99), (int) (display.getHeight() * 0.6)));
         recordDateShow.setText(getSelectedDatesString());
-
+        planAdapter = new DailyPlanAdapter(mContext,infoList);
+        dailyRecordListView.setAdapter(planAdapter);
     }
 
     @Override
@@ -122,7 +118,7 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     private void queryFromServer() {
         OkHttpUtils
                 .post()
-                .url(ConstantURL.DAILY_RECORD)
+                .url(ConstantURL.WEEKLY_RECORD)
                 .addParams("uid", "" + userId)
                 .addParams("token", "" + md5UserSID)
                 .addParams("date", getSelectedDatesString())
@@ -135,19 +131,24 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
 
                     @Override
                     public void onResponse(String response) {
-//                        Log.e("tag", "测试sid------------------->" + response);
-                        Gson gson = new Gson();
-                        DailyRecord dailyRecord = gson.fromJson(response, DailyRecord.class);
-                        if (dailyRecord != null) {
-                            if (dailyRecord.getRb().getState() == 1) {
-                                infoList = dailyRecord.getRb().getInfo();
-                                // 设置Adapter
-                                dailyRecordAdapter = new DailyRecordAdapter(mContext, infoList);
-                                dailyRecordListView.setAdapter(dailyRecordAdapter);
-                            } else if (dailyRecord.getRb().getState() == 0) {
-                                Toast.makeText(mContext, dailyRecord.getRb().getText(), Toast.LENGTH_SHORT).show();
+                        try {
+                            Log.e("tag", "------测试每日计划返回数据------------------->" + response);
+                            Gson gson = new Gson();
+                            DailyPlan dailyPlan = gson.fromJson(response, DailyPlan.class);
+                            if (dailyPlan != null) {
+                                if (dailyPlan.getPlan().getState() == 1) {
+                                    List<DailyPlan.Plan.Info> infos = dailyPlan.getPlan().getInfo();
+                                    infoList.clear();
+                                    infoList.addAll(infos);
+                                    planAdapter.notifyDataSetChanged();
+                                } else if (dailyPlan.getPlan().getState() == 0) {
+                                    Toast.makeText(mContext,dailyPlan.getPlan().getText(),Toast.LENGTH_SHORT).show();
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+//
                     }
                 });
     }
@@ -170,5 +171,4 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(recordDate.getDate());
     }
-
 }

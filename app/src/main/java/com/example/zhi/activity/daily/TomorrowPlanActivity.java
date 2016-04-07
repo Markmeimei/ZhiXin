@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.zhi.R;
-import com.example.zhi.fragment.Plan_Add_Fragment;
-import com.example.zhi.fragment.PlanRecordFragment;
+import com.example.zhi.fragment.dailyManage.Plan_Add_Fragment;
+import com.example.zhi.fragment.dailyManage.PlanRecordFragment;
 
 import java.util.ArrayList;
 import java.util.List;

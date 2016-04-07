@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.example.zhi.R;
@@ -12,6 +13,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 日程管理
+ *
  * Author: Eron
  * Date: 2016/4/2 0002
  * Time: 8:59
@@ -30,6 +33,7 @@ public class TimetableManageActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉ToolBar
         setContentView(R.layout.activity_timetable_manage);
         ButterKnife.bind(this);
 

@@ -1,4 +1,4 @@
-package com.example.zhi.fragment;
+package com.example.zhi.fragment.dailyManage;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -25,6 +25,7 @@ import com.example.zhi.R;
 import com.example.zhi.adapter.AttachmentsRecyclerViewAdapter;
 import com.example.zhi.adapter.DailyAttAdapter;
 import com.example.zhi.constant.ConstantURL;
+import com.example.zhi.fragment.CalenderDialogFragment;
 import com.example.zhi.object.DailyReport;
 import com.example.zhi.object.ImageBean;
 import com.example.zhi.utils.ASimpleCache;

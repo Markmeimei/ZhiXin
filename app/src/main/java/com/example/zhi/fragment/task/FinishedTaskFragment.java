@@ -131,7 +131,7 @@ public class FinishedTaskFragment extends Fragment {
                                             startActivity(new Intent(mContext, TaskDetailsActivity.class)
                                                     .putExtra("id", taskLists.get(position).getId())
                                                     .putExtra("list", taskLists.get(position).getList())
-                                                    .putExtra("status", 1));
+                                                    .putExtra("status", 3));
                                         }
                                     });
                                 } else {

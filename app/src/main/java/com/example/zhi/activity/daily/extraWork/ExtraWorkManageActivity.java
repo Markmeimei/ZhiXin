@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.example.zhi.R;
@@ -32,6 +33,7 @@ public class ExtraWorkManageActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉ToolBar
         setContentView(R.layout.activity_extra_work);
         ButterKnife.bind(this);
 

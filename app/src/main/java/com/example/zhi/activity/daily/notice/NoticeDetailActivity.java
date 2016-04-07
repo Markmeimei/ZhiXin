@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,6 +83,7 @@ public class NoticeDetailActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉ToolBar
         setContentView(R.layout.activity_notice_details);
 
         ButterKnife.bind(this);

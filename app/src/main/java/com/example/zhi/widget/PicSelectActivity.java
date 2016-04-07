@@ -150,12 +150,12 @@ public class PicSelectActivity extends FragmentActivity implements
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
 			fileName = getFileName();
-			System.out.println(Environment.getExternalStorageDirectory()
-					.toString());
-			System.out.println(Environment.getExternalStorageDirectory()
-					.getAbsolutePath());
+//			System.out.println(Environment.getExternalStorageDirectory()
+//					.toString());
+//			System.out.println(Environment.getExternalStorageDirectory()
+//					.getAbsolutePath());
 			dirPath = Environment.getExternalStorageDirectory().getPath()
-					+ Config.getSavePath();
+					+ Config.getSavePath();// 照片保存地址
 			File tempFile = new File(dirPath);
 			if (!tempFile.exists()) {
 				tempFile.mkdirs();

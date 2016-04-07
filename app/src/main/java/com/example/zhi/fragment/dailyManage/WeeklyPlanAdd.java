@@ -1,4 +1,4 @@
-package com.example.zhi.fragment;
+package com.example.zhi.fragment.dailyManage;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -25,6 +25,7 @@ import com.example.zhi.R;
 import com.example.zhi.adapter.AttachmentsRecyclerViewAdapter;
 import com.example.zhi.adapter.DailyAttAdapter;
 import com.example.zhi.constant.ConstantURL;
+import com.example.zhi.fragment.CalenderDialogFragment;
 import com.example.zhi.object.DailyReport;
 import com.example.zhi.object.ImageBean;
 import com.example.zhi.utils.ASimpleCache;
@@ -32,7 +33,6 @@ import com.example.zhi.utils.DateUtils;
 import com.example.zhi.view.FullyLinearLayoutManager;
 import com.example.zhi.widget.PicSelectActivity;
 import com.google.gson.Gson;
-import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.request.PostFormRequest;
@@ -53,21 +53,20 @@ import me.drakeet.materialdialog.MaterialDialog;
 import okhttp3.Call;
 
 /**
- * 添加日报
- * <p>
+ * 添加每周计划
+ *
  * Author: Eron
- * Date: 2016/3/28
- * Time: 21:49
+ * Date: 2016/4/5 0005
+ * Time: 10:31
  */
-public class Daily_Add_Fragment extends Fragment implements View.OnClickListener {
+public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "Daily_Add_Fragment";
 
     @Bind(R.id.add_time_chose)
     TextView add_time_chose;//选择日起
     @Bind(R.id.add_date_show)
     TextView add_date_show;
-//    @Bind(R.id.iv_add_attachment)
+    //    @Bind(R.id.iv_add_attachment)
 //    ImageView add_attachment;//添加附件
     @Bind(R.id.et_add_input)
     EditText add_daily_report;
@@ -75,6 +74,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     RecyclerView daily_attachment;//附件列表
     @Bind(R.id.btn_report_submit)
     Button btn_report_submit;//提交日报
+
     // 对象
     private Context mContext;
     public CalenderDialogFragment mCalenderDialogFragment;// 日历
@@ -84,19 +84,23 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     public String dailyReportTime;//时间
     public String currentDate;
     private String selectDate = "";//DialogDatePicker 选择的时间
+
     // 附件对象
     private List<String> pathList = new ArrayList<>();//附件路径List
     private List<String> nameList = new ArrayList<>();//附件名List
     private List<String> fileId = new ArrayList<>();//文件Id转发时直接传id，不需要再传一遍文件
     private DailyAttAdapter dailyAttAdapter;//附件Adapter
     private static final int FILE_SELECT_CODE = 6;
+
     // 图片对象
     private List<ImageBean> imageBeans = new ArrayList<>();// 图片
     private List<ImageBean> imageBeanList = new ArrayList<>();// 选中图片
     private String displayName;
     private String imagePath;//照片存放路径
     private AttachmentsRecyclerViewAdapter attachmentsAdapter;//附件Adapter
+
     private MaterialDialog mMaterialDialog;//Material Dialog
+
     public final String TESTTIME = "2016-03-14";
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
@@ -133,10 +137,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
         userName = preferences.getString("user_name", "");
         userId = preferences.getInt("user_id", 0);
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e(TAG, userName);
-        Log.e(TAG, "" + userId);
         dailyReportTime = DateUtils.getDateYMD();
-        Log.e(TAG, dailyReportTime);
         currentDate = DateUtils.getTimeYMDHM();
     }
 
@@ -145,7 +146,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
         mCalenderDialogFragment = new CalenderDialogFragment();
         mMaterialDialog = new MaterialDialog(mContext)
                 .setTitle("提交")
-                .setMessage("确定提交日报？")
+                .setMessage("确定提交计划？")
                 .setPositiveButton("确认", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -248,46 +249,6 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     }
 
     /**
-     * 文件选择器
-     */
-    private void showFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        try {
-            startActivityForResult(Intent.createChooser(intent, "选择文件上传"), FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(mContext, "请安装文件管理器", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        switch (requestCode) {
-//            case FILE_SELECT_CODE:
-//                if (requestCode == getActivity().RESULT_OK) {
-//                    Uri uri = data.getData();
-//                    Log.e("tag", "选择的文件--------->" + uri.toString());
-//                    // 从路径获得文件名
-//                    StringTokenizer tokenizer = new StringTokenizer(uri.toString(), "/");
-//                    String fileName = "";
-//                    if (tokenizer.hasMoreTokens()) {
-//                        fileName = tokenizer.nextToken();
-//                    }
-//                    pathList.add(uri.toString());
-//                    nameList.add(fileName);
-//
-//                    Message msg = handler.obtainMessage();
-//                    msg.what = 1;
-//                    handler.sendMessage(msg);
-//                }
-//        }
-//    }
-
-    /**
      * 选中的照片
      *
      * @param requestCode
@@ -311,36 +272,6 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
         }
     }
 
-    private void submitDailyReport() {
-        // http://xtbg.zxxxkj.com/android/rbadd.php?uid=279&date=2016-03-03&text=测试
-        OkHttpUtils
-                .post()
-                .url(ConstantURL.DAILY_REPORT)
-                .addParams("uid", "" + userId)
-                .addParams("date", currentDate)//当前时间
-                .addParams("text", add_daily_report.getText().toString())
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e) {
-                        Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
-                        if (dailyReport != null) {
-                            if (dailyReport.getCode() == 1) {
-                                Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
-                            } else if (dailyReport.getCode() == 2) {
-                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-    }
-
     /**
      * 提交任务 带附件
      *
@@ -352,9 +283,9 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
         requestParams.put("token", "" + md5UserSID);//md5加密后SID
         requestParams.put("date", currentDate);
         requestParams.put("text", add_daily_report.getText().toString());
-        Log.e("tag", "提交日报内容------->" + add_daily_report.getText().toString());
+        Log.e("tag", "提交计划内容------->" + add_daily_report.getText().toString());
         Log.e("tag", "提交照片数量------->" + beanList.size());
-
+        Log.e("tag", "打印每日计划------token------->" + md5UserSID);
         List<PostFormBuilder.FileInput> files = new ArrayList<>();
         if (beanList != null && !beanList.isEmpty()) {
 //            for (String fileName : fileMap.keySet()) {
@@ -364,7 +295,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
                 files.add(new PostFormBuilder.FileInput("myfile", bean.getDisplayName(), new File(bean.getPath())));
             }
         }
-        RequestCall call = new PostFormRequest(ConstantURL.DAILY_REPORT, null, requestParams, null, files).build();
+        RequestCall call = new PostFormRequest(ConstantURL.WEEKLY_REPORT, null, requestParams, null, files).build();
         call.execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -380,7 +311,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "添加每日计划返回数据----------->" + response);
+                    Log.e("tag", "添加 明日计划 返回数据------------->" + response);
                     Gson gson = new Gson();
                     DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                     if (dailyReport != null) {

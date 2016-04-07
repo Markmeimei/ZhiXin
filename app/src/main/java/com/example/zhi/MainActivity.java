@@ -3,6 +3,7 @@ package com.example.zhi;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,18 +24,26 @@ import android.widget.Toast;
 
 import com.example.zhi.activity.sliding.AccountActivity;
 import com.example.zhi.activity.sliding.FeedbackActivity;
-import com.example.zhi.activity.sliding.NoticesActivity;
 import com.example.zhi.activity.sliding.QR_Activity;
 import com.example.zhi.activity.sliding.SettingActivity;
 import com.example.zhi.fragment.FragmentDailyMain;
 import com.example.zhi.fragment.Fragment_AddressBook;
 import com.example.zhi.fragment.Fragment_Manage;
 import com.example.zhi.fragment.Fragment_Tool;
+import com.example.zhi.utils.updateUtil.VersionUpdateUtil;
 import com.example.zhi.view.DragLayout;
 import com.nineoldandroids.view.ViewHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+/**
+ * 主页面Activity
+ * <p>
+ * Author: Eron
+ * Date: 2016/4/7 0007
+ * Time: 9:42
+ */
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     // 日常
@@ -69,7 +78,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Bind(R.id.dl)
     DragLayout main_dl;
     /**
-     *  侧栏
+     * 侧栏
      */
     // 页面
     @Bind(R.id.sliding_rl)
@@ -103,8 +112,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageView header_icon;
     // 对象
     private Fragment[] fragments;
-//    private Fragment_Daily fragment_daily; // 日常工作
-    private FragmentDailyMain fragment_daily;
+    private FragmentDailyMain fragment_daily;// 日常工作
     private Fragment_Manage fragment_manage; // 管理
     private Fragment_AddressBook fragment_addressBook; // 通讯录
     private Fragment_Tool fragment_tool; // 工具
@@ -113,7 +121,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private int index;
     private int fragment_index; // 当前 Fragment 下标
     private long exitTime = 0; // 两次点击相隔时间
-    private Context context;
+
+    private String userName;//用户名
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +152,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         ButterKnife.bind(this);
 
         initConstants();
+        initData();
         initDragLayout();
         initFragment(); // 初始化 Fragment
         iniView();
@@ -161,17 +173,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     *  初始化变量
+     * 初始化变量
      */
     private void initConstants() {
-        context = MainActivity.this;
+        mContext = MainActivity.this;
     }
 
     /**
      * 初始化 Draglayout
      */
     private void initDragLayout() {
-        //TODO 初始Draglayout
+        //TODO 初始DragLayout
         main_dl.setDragListener(new DragLayout.DragListener() {
             @Override
             public void onOpen() {
@@ -190,66 +202,75 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
     }
 
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        userName = preferences.getString("user_name", "");
+    }
+
     private void initFragment() {
         fragment_daily = new FragmentDailyMain();
         fragment_manage = new Fragment_Manage();
         fragment_addressBook = new Fragment_AddressBook();
         fragment_tool = new Fragment_Tool();
-        fragments = new Fragment[]{fragment_daily,fragment_manage,fragment_addressBook,fragment_tool};
-        imageViews = new ImageView[]{iv_daily,iv_manage,iv_book,iv_tool};
+        fragments = new Fragment[]{fragment_daily, fragment_manage, fragment_addressBook, fragment_tool};
+        imageViews = new ImageView[]{iv_daily, iv_manage, iv_book, iv_tool};
         imageViews[0].setSelected(true);
-        textViews = new TextView[]{tv_daily,tv_manage,tv_book,tv_tool};
+        textViews = new TextView[]{tv_daily, tv_manage, tv_book, tv_tool};
         textViews[0].setTextColor(getResources().getColor(R.color.main_color));
         // 添加显示 第一个Fragment
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container,fragment_daily)
-                .add(R.id.fragment_container,fragment_manage)
-                .add(R.id.fragment_container,fragment_addressBook)
-                .add(R.id.fragment_container,fragment_tool)
+                .add(R.id.fragment_container, fragment_daily)
+                .add(R.id.fragment_container, fragment_manage)
+                .add(R.id.fragment_container, fragment_addressBook)
+                .add(R.id.fragment_container, fragment_tool)
                 .hide(fragment_manage).hide(fragment_addressBook).hide(fragment_tool)
                 .show(fragment_daily).commit();
     }
 
     /**
-     *  初始化 控件
+     * 初始化 控件
      */
     private void iniView() {
         header_title.setText("日常工作");
+        sliding_username.setText(userName);
         header_icon.setOnClickListener(this);
         sliding_lv.setAdapter(new ArrayAdapter<String>(MainActivity.this,
-                R.layout.item_text, new String[]{"通知公告", "建言献策",
-                "协同反馈", "公司制度"}));
+                R.layout.item_text, new String[]{"建言献策",
+                "协同反馈", "公司制度", "关于"}));
         sliding_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
-                Toast.makeText(context, "点击" + position, Toast.LENGTH_SHORT).show();
-                if(position == 0){
-                    // 通知公告
-                    startActivity(new Intent(context, NoticesActivity.class));
-                }else if(position == 1){
+                if (position == 0) {
                     // 建言献策
-                    startActivity(new Intent(context, FeedbackActivity.class));
-                }else if(position == 2){
+                    startActivity(new Intent(mContext, FeedbackActivity.class));
+                } else if (position == 1) {
                     // 协同反馈
-                    startActivity(new Intent(context, FeedbackActivity.class));
-                }else {
+                    startActivity(new Intent(mContext, FeedbackActivity.class));
+                } else if (position == 2) {
                     // 公司制度
+//                    Toast.makeText(mContext, "公司制度", Toast.LENGTH_SHORT).show();
+                    new VersionUpdateUtil(mContext);
+                } else {
+                    // 关于
 
                 }
             }
         });
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) sliding_rl.getLayoutParams();
-        lp.width =this.getWindowManager().getDefaultDisplay().getWidth()*2/3;
-        lp.height = this.getWindowManager().getDefaultDisplay().getHeight()*5/6;
+        lp.width = this.getWindowManager().getDefaultDisplay().getWidth() * 2 / 3;
+        lp.height = this.getWindowManager().getDefaultDisplay().getHeight() * 5 / 6;
         sliding_rl.setLayoutParams(lp);
         sliding_ll.setOnClickListener(this);
         sliding_setting.setOnClickListener(this);
         sliding_qr.setOnClickListener(this);
     }
 
-    public void onTabClicked(View view){
-        switch (view.getId()){
+    public void onTabClicked(View view) {
+        switch (view.getId()) {
             case R.id.re_daily:
                 index = 0;
                 header_icon.setVisibility(View.VISIBLE);
@@ -271,11 +292,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 header_title.setText(getString(R.string.tool_title));
                 break;
         }
-        if(fragment_index != index){
+        if (fragment_index != index) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.hide(fragments[fragment_index]);
-            if(!fragments[index].isAdded()){
-                ft.add(R.id.fragment_container,fragments[index]);
+            if (!fragments[index].isAdded()) {
+                ft.add(R.id.fragment_container, fragments[index]);
             }
             ft.show(fragments[index]).commit();
         }
@@ -289,13 +310,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN){
-            if(System.currentTimeMillis() - exitTime > 2000){
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (System.currentTimeMillis() - exitTime > 2000) {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序",
                         Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
-            }else {
+            } else {
                 moveTaskToBack(false);
                 finish();
             }
@@ -305,7 +326,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     *  头像震动
+     * 头像震动
      */
     private void shake() {
         header_icon.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
@@ -313,21 +334,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.header_icon:
                 main_dl.open();
                 break;
             case R.id.sliding_ll:
                 // 账户详情
-                startActivity(new Intent(context, AccountActivity.class));
+                startActivity(new Intent(mContext, AccountActivity.class));
                 break;
             case R.id.sliding_qr:
                 // 我的二维码
-                startActivity(new Intent(context, QR_Activity.class));
+                startActivity(new Intent(mContext, QR_Activity.class));
                 break;
             case R.id.sliding_setting:
                 // 设置
-                startActivity(new Intent(context, SettingActivity.class));
+                startActivity(new Intent(mContext, SettingActivity.class));
                 break;
         }
     }

@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.example.zhi.R;
 import com.example.zhi.adapter.EveryDayAdapter;
-import com.example.zhi.fragment.Daily_Add_Fragment;
-import com.example.zhi.fragment.Daily_Record_Fragment;
+import com.example.zhi.fragment.dailyManage.Daily_Add_Fragment;
+import com.example.zhi.fragment.dailyManage.Daily_Record_Fragment;
 
 import java.util.ArrayList;
 import java.util.List;

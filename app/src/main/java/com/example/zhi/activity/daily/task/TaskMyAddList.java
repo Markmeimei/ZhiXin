@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
+ * 我添加的任务列表
+ *
  * Author: Eron
  * Date: 2016/3/31 0031
  * Time: 14:16
@@ -58,6 +61,7 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉ToolBar
         setContentView(R.layout.activity_task_my_add_list);
         ButterKnife.bind(this);
 
@@ -67,7 +71,6 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
 
     private void initConstant() {
         mContext = TaskMyAddList.this;
-
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -115,7 +114,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
             case R.id.login_btn:
                 if (checkInput()) {
                     login();
-                    new SpotsDialog(this, "登录中···").show();
+                    spotsDialog = new SpotsDialog(this);
+                    spotsDialog.setMessage("登录中···");
+                    spotsDialog.show();
                 }
                 break;
         }
@@ -155,7 +156,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                     @Override
                     public void onResponse(String response) {
                         Gson gson = new Gson();
-                        Log.e("LoginActivity---->", response);
+//                        Log.e("LoginActivity---->", response);
 
                         Login login = gson.fromJson(response, Login.class);
 
@@ -205,5 +206,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         } else {
             mSharedPreferences.edit().putBoolean("ISCHECKED", false).commit();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        spotsDialog.dismiss();
     }
 }

@@ -16,11 +16,12 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
+ * 管理
+ *
  * Author：Mark
  * Date：2015/11/24 0024
  * Tell：15006330640
  *
- *  管理
  */
 public class Fragment_Manage extends Fragment implements View.OnClickListener {
     // 项目管理

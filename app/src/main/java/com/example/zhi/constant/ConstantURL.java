@@ -7,6 +7,7 @@ package com.example.zhi.constant;
  */
 public class ConstantURL {
     private static final String BASIC_URL = "http://xtbg.sdzxkj.cn/android/";
+    public static final String UPDATE_URL = "http://10.9.17.193:8080/msmhaircut/download/version.xml";
     // 登录
     public static final String LOGIN_URL = BASIC_URL + "login.php";
     // 每日一报

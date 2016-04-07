@@ -1,4 +1,4 @@
-package com.example.zhi.fragment;
+package com.example.zhi.fragment.dailyManage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,12 +36,15 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 
 /**
- * 每周计划记录
+ * 查看每日计划记录
  * Author: Eron
- * Date: 2016/4/5 0005
- * Time: 10:31
+ * Date: 2016/3/21 0021
+ * Time: 16:33
  */
-public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
+public class PlanRecordFragment extends Fragment implements OnDateSelectedListener, OnMonthChangedListener {
+
+    private static final String TAG = "Daily_Record_Fragment";
+
     private Context mContext;
 
     @Bind(R.id.calendarViewDailyRecord)
@@ -118,7 +121,7 @@ public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener
     private void queryFromServer() {
         OkHttpUtils
                 .post()
-                .url(ConstantURL.WEEKLY_RECORD)
+                .url(ConstantURL.PLAN_RECORD)
                 .addParams("uid", "" + userId)
                 .addParams("token", "" + md5UserSID)
                 .addParams("date", getSelectedDatesString())
@@ -171,4 +174,5 @@ public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(recordDate.getDate());
     }
+
 }
