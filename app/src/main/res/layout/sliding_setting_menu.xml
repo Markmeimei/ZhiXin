@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/snow"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_sliding_setting"
+        android:background="@color/main_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.Toolbar>
+
+    <ListView
+        android:id="@+id/lv_set_menu"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_height="wrap_content">
+    </ListView>
+
+    <Button
+        android:id="@+id/btn_sliding_set_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_margin="@dimen/dimen_20"
+        android:background="@drawable/ripple_button"
+        android:text="@string/sliding_exit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen_18" />
+
+</LinearLayout>

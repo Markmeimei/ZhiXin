@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zhi.activity.sliding.AboutUsActivity;
 import com.example.zhi.activity.sliding.AccountActivity;
 import com.example.zhi.activity.sliding.FeedbackActivity;
 import com.example.zhi.activity.sliding.QR_Activity;
@@ -30,7 +31,6 @@ import com.example.zhi.fragment.FragmentDailyMain;
 import com.example.zhi.fragment.Fragment_AddressBook;
 import com.example.zhi.fragment.Fragment_Manage;
 import com.example.zhi.fragment.Fragment_Tool;
-import com.example.zhi.utils.updateUtil.VersionUpdateUtil;
 import com.example.zhi.view.DragLayout;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -252,11 +252,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     startActivity(new Intent(mContext, FeedbackActivity.class));
                 } else if (position == 2) {
                     // 公司制度
-//                    Toast.makeText(mContext, "公司制度", Toast.LENGTH_SHORT).show();
-                    new VersionUpdateUtil(mContext);
+                    Toast.makeText(mContext, "公司制度", Toast.LENGTH_SHORT).show();
                 } else {
                     // 关于
-
+                    startActivity(new Intent(mContext, AboutUsActivity.class));
                 }
             }
         });
@@ -265,7 +264,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         lp.height = this.getWindowManager().getDefaultDisplay().getHeight() * 5 / 6;
         sliding_rl.setLayoutParams(lp);
         sliding_ll.setOnClickListener(this);
-        sliding_setting.setOnClickListener(this);
+        sliding_setting.setOnClickListener(this);// 设置
         sliding_qr.setOnClickListener(this);
     }
 

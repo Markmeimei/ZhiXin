@@ -43,6 +43,8 @@
         <!-- 反馈 -->
         <activity android:name=".activity.sliding.FeedbackActivity">
         </activity>
+        <!--关于我们-->
+        <activity android:name=".activity.sliding.AboutUsActivity" />
         <!-- 账户详情 -->
         <activity android:name=".activity.sliding.AccountActivity">
         </activity>

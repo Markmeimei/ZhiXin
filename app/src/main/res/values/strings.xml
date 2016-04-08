@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">至信协同</string>
+    <string name="app_about_us">至信协同办公系统</string>
+    <string name="about_us_header">关于</string>
+    <string name="about_us_content">地址：山东省日照市烟台北路16号\n电话：8787558</string>
     <string name="button_product_tour">product tour</string>
 
     <string name="welcom_head_01">Spreadsheets on the go</string>
@@ -26,8 +29,8 @@
     <string name="sliding_mobile">手机号</string>
     <string name="sliding_safe">安全设置</string>
     <string name="sliding_notice">信息通知</string>
-    <string name="sliding_exit">退出登录</string>
-    <string name="sliding_about">关于</string>
+    <string name="sliding_clean">清空缓存</string>
+    <string name="sliding_exit">退出帐号</string>
     <string name="sliding_head">头像</string>
     <string name="sliding_qr">二维码</string>
     <string name="sliding_qr_my">我的二维码</string>

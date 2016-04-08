@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:background="@color/snow"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_about_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        toolbar:popupTheme="@style/Theme.ToolBar.Base"
+        android:background="@color/main_color">
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_50"
+            android:src="@mipmap/company_logo" />
+
+        <TextView
+            android:id="@+id/tv_about_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_logo"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:gravity="center"
+            android:text="至信科技协同办公平台"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_about_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_about_name"
+            android:gravity="center"
+            android:text="Version 1.0.1"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/lv_about_function"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginRight="@dimen/dimen_20"
+            android:background="@color/white"
+            android:layout_below="@id/tv_about_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+        <TextView
+            android:id="@+id/tv_about_copyright"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dimen_40"
+            android:gravity="center"
+            android:text="版权所有：山东至信信息科技有限公司"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_about_copyright_en"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:text="© 2005-2016 All Rights Reserved"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
