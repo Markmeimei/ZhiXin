@@ -94,7 +94,7 @@ public class UnTakeTaskFragment extends Fragment {
     }
 
     private void initData() {
-
+        Log.e("tag", "未接任务打印md5------>" + md5UserSID);
         OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
@@ -111,7 +111,7 @@ public class UnTakeTaskFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
-                        Log.e("tag", "打印数据------>" + response.toString());
+                        Log.e("tag", "打印数据------>" + response);
                             if (null != response) {
                                 Gson gson = new Gson();
                                 taskList = gson.fromJson(response, TaskList.class);
