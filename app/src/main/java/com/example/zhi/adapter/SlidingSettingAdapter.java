@@ -1,10 +1,13 @@
 package com.example.zhi.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.zhi.R;
 
 import java.util.List;
 
@@ -18,10 +21,12 @@ import java.util.List;
 public class SlidingSettingAdapter extends BaseAdapter {
 
     private Context mContext;
+    private LayoutInflater mInflater;
     private List<String> menus;
+    private String menu;
 
     public SlidingSettingAdapter(Context context, List<String> data) {
-        this.mContext = context;
+        mInflater = LayoutInflater.from(context);
         this.menus = data;
     }
 
@@ -42,11 +47,19 @@ public class SlidingSettingAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-
+        ViewHolder viewHolder = null;
+        if (viewHolder == null) {
+            convertView = mInflater.inflate(R.layout.item_sliding_setting, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.menuItem = (TextView) convertView.findViewById(R.id.tv_item_slid_set);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        return null;
+
+        menu = menus.get(position);
+        viewHolder.menuItem.setText(menu);
+        return convertView;
     }
 
     class ViewHolder {

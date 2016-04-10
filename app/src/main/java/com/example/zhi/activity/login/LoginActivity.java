@@ -59,6 +59,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     private SpotsDialog spotsDialog;
 
     private boolean mDisplayFlg = false;
+    private int status = 0;// 用于判断从设置登出清空用户名密码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     private void initData() {
         et_login_password.setSelection(0);
         mSharedPreferences = getSharedPreferences("login_info", Context.MODE_PRIVATE);
+        // 判断是否从设置页登出
+        Intent intent = getIntent();
+        status = intent.getIntExtra("logout", 0);
         // CheckBox
         if (mSharedPreferences.getBoolean("ISCHECKED", false)) {
             // 默认记住密码
@@ -84,6 +88,11 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
             et_login_username.setText(mSharedPreferences.getString("USER_NAME", ""));
             et_login_password.setText(mSharedPreferences.getString("PASSWORD", ""));
             et_login_password.setSelection((mSharedPreferences.getString("PASSWORD", "")).length());// 设置光标位置在文字最后
+
+            if (status == 1) {
+                et_login_username.setText("");
+                et_login_password.setText("");
+            }
         }
     }
 
@@ -211,6 +220,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        spotsDialog = new SpotsDialog(this);
         spotsDialog.dismiss();
     }
 }

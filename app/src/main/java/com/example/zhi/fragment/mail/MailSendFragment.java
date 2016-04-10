@@ -50,7 +50,6 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.fab_taskList)
     FloatingActionButton floatingActionButton;
-    private static int status = 1;
 
     // 对象
     private int userId;//当前用户的id
@@ -66,14 +65,9 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_fragment_list, container, false);
         ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         initConstants();
         initView();
+        return view;
     }
 
     @Override
@@ -103,7 +97,9 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
         fragment_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(mContext, MailDetailsActivity.class));
+                startActivity(new Intent(mContext, MailDetailsActivity.class)
+                        .putExtra("eMailId", infoList.get(position).getId())
+                        .putExtra("status", 2));// 2代表查询 已发 邮件详情
             }
         });
 
@@ -141,7 +137,6 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
                     Gson gson = new Gson();
                     mails = gson.fromJson(response, Mails.class);
                     if (mails != null) {
-
                         List<Mails.Info> list = mails.getInfo();
                         infoList.clear();
                         infoList.addAll(list);

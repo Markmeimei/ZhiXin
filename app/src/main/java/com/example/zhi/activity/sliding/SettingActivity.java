@@ -1,16 +1,25 @@
 package com.example.zhi.activity.sliding;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.zhi.MyApplication;
 import com.example.zhi.R;
+import com.example.zhi.activity.login.LoginActivity;
+import com.example.zhi.adapter.SlidingSettingAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,11 +41,15 @@ public class SettingActivity extends AppCompatActivity {
     @Bind(R.id.btn_sliding_set_logout)
     Button logoutBtn;
 
+    private List<String> menus = new ArrayList<>();
+    private SlidingSettingAdapter menuAdapter;
+
     private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉ToolBar
         super.setContentView(R.layout.sliding_setting_menu);
         ButterKnife.bind(this);
 
@@ -51,17 +64,18 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
+        menus.add("修改密码");
+        menus.add("安全设置");
+        menus.add("手机号");
+        menus.add("清空缓存");
     }
 
     private void initView() {
         settingToolbar.setNavigationIcon(R.mipmap.ic_toolbar_back);
         settingToolbar.setTitle("设置");
         settingToolbar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
-
-//        setMenuListView.setAdapter(new ArrayAdapter<>(mContext, R.layout.item_sliding_setting, new String[]{"修改密码", "安全设置", "手机号", "清空缓存"}));
-//        setMenuListView.addFooterView(new ArrayAdapter<>(mContext,R.layout.item_sliding_setting_footer, new String[]{"清空缓存"}));
-
+        menuAdapter = new SlidingSettingAdapter(mContext, menus);
+        setMenuListView.setAdapter(menuAdapter);
     }
 
     private void initEvent() {
@@ -71,25 +85,20 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-//        setMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == 0) {
-//                    // 修改密码
-//                    Toast.makeText(mContext,"修改密码",Toast.LENGTH_SHORT).show();
-//                } else if (position == 1) {
-//                    // 安全设置
-//                    Toast.makeText(mContext,"安全设置",Toast.LENGTH_SHORT).show();
-//                } else if (position == 2) {
-//                    // 手机号
-//                    Toast.makeText(mContext,"手机号",Toast.LENGTH_SHORT).show();
-//                } else if (position == 3) {
-//                    // 清空缓存
-//                    Toast.makeText(mContext,"清空缓存",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+        setMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    Toast.makeText(mContext, "修改密码", Toast.LENGTH_SHORT).show();
+                } else if (position == 1) {
+                    Toast.makeText(mContext, "安全设置", Toast.LENGTH_SHORT).show();
+                } else if (position == 2) {
+                    Toast.makeText(mContext, "手机号", Toast.LENGTH_SHORT).show();
+                } else if (position == 3) {
+                    Toast.makeText(mContext, "清空缓存", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**
@@ -97,6 +106,8 @@ public class SettingActivity extends AppCompatActivity {
      */
     @OnClick(R.id.btn_sliding_set_logout)
     public void onClick() {
-        Toast.makeText(mContext,"登出",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(mContext, LoginActivity.class)
+                .putExtra("logout", 1));
+        MyApplication.getInstance().exitAll(mContext);
     }
 }

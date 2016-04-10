@@ -66,6 +66,7 @@ public class MailDetailsActivity extends Activity {
     private String md5UserSID;
     private String emailId;
     private RequestCall mCall;//网络请求
+    private int status = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,6 @@ public class MailDetailsActivity extends Activity {
         ButterKnife.bind(this);
 
         initConstant();
-        initData();
         initView();
         initEvent();
     }
@@ -87,24 +87,24 @@ public class MailDetailsActivity extends Activity {
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
         emailId = intent.getStringExtra("eMailId");
+        status = intent.getIntExtra("status", 0);
+        if (status == 1) {
+            requestReceivedDetail();
+        } else if (status == 2) {
+            requestSendDetail();
+        }
     }
 
-
-
-    private void initData() {
-
-//        attachmentFiles = new ArrayList<>();
-//        for (int i = 0; i < 3; i++) {
-//            AttachmentFile attachmentFile = new AttachmentFile();
-//            attachmentFile.setFileName("详情请见附件" + i);
-//            attachmentFile.setPath("");
-//            attachmentFiles.add(attachmentFile);
-//        }
+    /**
+     * 查看已发邮件详情
+     */
+    private void requestSendDetail() {
         Log.e("tag", "打印------邮件ID-------->" + emailId);
         mCall = OkHttpUtils.post()
                 .url(ConstantURL.MAILLIST)
                 .addParams("id", emailId)
                 .addParams("tag", "view")
+                .addParams("from", "fa")
                 .addParams("token", "" + md5UserSID)
                 .build();
         mCall.execute(new StringCallback() {
@@ -116,7 +116,7 @@ public class MailDetailsActivity extends Activity {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "打印邮件详情数据-------->" + response);
+                    Log.e("tag", "打印已发邮件详情数据-------->" + response);
                     Gson gson = new Gson();
 
 
@@ -125,9 +125,40 @@ public class MailDetailsActivity extends Activity {
                 }
             }
         });
-
-
     }
+
+    /**
+     * 查看已收邮件详情
+     */
+    private void requestReceivedDetail() {
+        Log.e("tag", "打印------邮件ID-------->" + emailId);
+        mCall = OkHttpUtils.post()
+                .url(ConstantURL.MAILLIST)
+                .addParams("id", emailId)
+                .addParams("tag", "view")
+                .addParams("from", "shou")
+                .addParams("token", "" + md5UserSID)
+                .build();
+        mCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tag", "打印--已收--邮件详情数据-------->" + response);
+                    Gson gson = new Gson();
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     private void initView() {
         headerBack.setText(R.string.base_back);

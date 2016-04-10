@@ -1,6 +1,7 @@
 package com.example.zhi.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class MailReceivedAdapter extends BaseAdapter {
             }
             viewHolder.mail_item_time.setText(infos.getDate());
             viewHolder.mail_item_title.setText(infos.getTitle());
+            Log.e("tag", "发件箱邮件------ID---------->" + infoList.get(position).getId());
 
         } catch (Exception e) {
             e.printStackTrace();

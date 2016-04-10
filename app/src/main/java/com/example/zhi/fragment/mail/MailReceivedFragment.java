@@ -65,15 +65,11 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_fragment_list, container, false);
         ButterKnife.bind(this, view);
+        initConstants();
+        initView();
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initConstants();
-        initView();
-    }
 
     @Override
     public void onDestroyView() {
@@ -90,9 +86,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getInt("user_id", 0);
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-
         onRefresh();
-
     }
 
 
@@ -105,8 +99,8 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(new Intent(mContext, MailDetailsActivity.class)
-                        .putExtra("eMailId", infoList.get(position).getId()));
-
+                        .putExtra("eMailId", infoList.get(position).getId())
+                        .putExtra("status", 1));// 1代表查询 已收 邮件详情
             }
         });
 
@@ -122,7 +116,6 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        Log.e("tag", "打印收件箱--token---------->" + md5UserSID);
         swipeRefreshLayout.setRefreshing(true);
         infoList.clear();
         mCall = OkHttpUtils.get()

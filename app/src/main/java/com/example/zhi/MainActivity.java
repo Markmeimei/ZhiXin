@@ -135,6 +135,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //            tintManager.setStatusBarTintResource(R.color.main_color);//通知栏所需颜色
 //        }
         setContentView(R.layout.activity_main);
+
+        // 退出是关闭所有Activity
+        MyApplication.getInstance().addActivity(this);
+
 //        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            //透明状态栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
