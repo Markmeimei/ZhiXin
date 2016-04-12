@@ -11,9 +11,11 @@ import com.example.zhi.activity.daily.extraWork.ExtraWorkManageActivity;
 import com.example.zhi.activity.daily.leave.Leave_FragmentActivity;
 import com.example.zhi.activity.daily.task.Task_Fragment_Activity;
 import com.example.zhi.activity.daily.timetableManage.TimetableManageActivity;
+import com.example.zhi.object.Receiver;
 import com.example.zhi.object.ReceiverObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Eron
@@ -21,7 +23,7 @@ import java.util.ArrayList;
  * Time: 8:41
  */
 public class ToolsUtils {
-    public static ArrayList<ReceiverObject> checkedUsers = new ArrayList<>();
+    public static List<Receiver.Data> checkedUsers = new ArrayList<>();
     public static String update_ID = "" ;
 
     //完成任务内容全局对象

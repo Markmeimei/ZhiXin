@@ -28,6 +28,7 @@ import com.example.zhi.dialog.ReceiverDialog;
 import com.example.zhi.object.AttachmentFile;
 import com.example.zhi.object.DailyReport;
 import com.example.zhi.object.ImageBean;
+import com.example.zhi.object.Receiver;
 import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.DateUtils;
@@ -99,7 +100,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     private MaterialDialog mMaterialDialog;//Material Dialog
     private MaterialDialog clearAllDialog;//Material Dialog
     private ReceiverDialog receiverDialog;//接收人Dialog
-    private int userId;
+    private String userId;
     private String md5UserSID;
     private String userName;
     public String taskSubmitDate;//时间
@@ -188,7 +189,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     private void initData() {
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
 
     }
@@ -385,7 +386,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
         // 接收人
         StringBuilder builder = new StringBuilder();
-        for (ReceiverObject o : ToolsUtils.checkedUsers) {
+        for (Receiver.Data o : ToolsUtils.checkedUsers) {
             builder.append(o.getId())
                     .append(",");
         }
@@ -414,10 +415,10 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
                         Gson gson = new Gson();
                         DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                         if (dailyReport != null) {
-                            if (dailyReport.getCode() == 2) {
+                            if (dailyReport.getData().getState() == 2) {
                                 Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                            } else if (dailyReport.getCode() == 0) {
-                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
                             }
                         }
                         taskDescribe.setText("");// 清空输入框
@@ -435,7 +436,7 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
     public void postFile(List<ImageBean> beanList) {
         // 接收人
         StringBuilder builder = new StringBuilder();
-        for (ReceiverObject o : ToolsUtils.checkedUsers) {
+        for (Receiver.Data o : ToolsUtils.checkedUsers) {
             builder.append(o.getId())
                     .append(",");
         }
@@ -476,18 +477,23 @@ public class TaskAddActivity extends Activity implements View.OnClickListener, C
 
             @Override
             public void onResponse(String response) {
-                Log.e("tag", "Response>>>>>>>>>>>>>>>>>>" + response);
-                Gson gson = new Gson();
-                DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
-                if (dailyReport != null) {
-                    if (dailyReport.getCode() == 2) {
-                        Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                    } else if (dailyReport.getCode() == 0) {
-                        Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                try {
+                    Log.e("tag", "添加任务Response-------------------->" + response);
+                    Gson gson = new Gson();
+                    DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
+                    if (dailyReport != null) {
+                        if (dailyReport.getData().getState() == 2) {
+                            Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
+                        }
                     }
+                    taskDescribe.setText("");// 清空输入框
+                    transactorAdapter.removeAll();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                taskDescribe.setText("");// 清空输入框
-                transactorAdapter.removeAll();
+
             }
         });
     }

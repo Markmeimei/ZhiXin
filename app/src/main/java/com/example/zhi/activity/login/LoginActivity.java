@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -98,6 +99,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
     private void initConstants() {
         mContext = LoginActivity.this;
+        spotsDialog = new SpotsDialog(this);
     }
 
     private void initEvent() {
@@ -123,7 +125,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
             case R.id.login_btn:
                 if (checkInput()) {
                     login();
-                    spotsDialog = new SpotsDialog(this);
                     spotsDialog.setMessage("登录中···");
                     spotsDialog.show();
                 }
@@ -137,10 +138,10 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
      * @return
      */
     private boolean checkInput() {
-        if (et_login_username.getText().toString() == null || et_login_username.getText().toString().equals("")) {
+        if (null == et_login_username.getText() || et_login_username.getText().toString().equals("")) {
             Toast.makeText(mContext, "请输入用户名！", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (et_login_password.getText().toString() == null || et_login_password.getText().toString().equals("")) {
+        } else if (null == et_login_password.getText() || et_login_password.getText().toString().equals("")) {
             Toast.makeText(mContext, "请输入密码！", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -149,7 +150,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
 
     private void login() {
-
         OkHttpUtils
                 .post()
                 .url(ConstantURL.LOGIN_URL)
@@ -164,40 +164,43 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
                     @Override
                     public void onResponse(String response) {
-                        Gson gson = new Gson();
-//                        Log.e("LoginActivity---->", response);
-
-                        Login login = gson.fromJson(response, Login.class);
-
-                        if (login != null) {
-                            if (login.getCode() == 5) {
-                                if (login_check.isChecked()) {
-                                    SharedPreferences.Editor mEditor = mSharedPreferences.edit();
-                                    mEditor.putString("USER_NAME", et_login_username.getText().toString());
-                                    mEditor.putString("PASSWORD", et_login_password.getText().toString());
-                                    mEditor.commit();
+                        try {
+//                            Log.e("tag", "LoginActivity--------------->" + response);
+                            if (null != response) {
+                                Gson gson = new Gson();
+                                Login login = gson.fromJson(response, Login.class);
+                                if (login.getData().getState() == 1) {
+                                    Toast.makeText(mContext, "用户名不存在", Toast.LENGTH_SHORT).show();
+                                } else if (login.getData().getState() == 2) {
+                                    Toast.makeText(mContext, "密码错误", Toast.LENGTH_SHORT).show();
+                                } else if (login.getData().getState() == 5) {
+                                    if (login_check.isChecked()) {
+                                        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+                                        mEditor.putString("USER_NAME", et_login_username.getText().toString());
+                                        mEditor.putString("PASSWORD", et_login_password.getText().toString());
+                                        mEditor.apply();
+                                    }
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    Toast.makeText(mContext, "欢迎您，" + login.getData().getInfo().getName(), Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                Toast.makeText(mContext, "欢迎您，" + login.getUser().getName(), Toast.LENGTH_SHORT).show();
-                                finish();
-                            } else if (login.getCode() == 1) {
-                                Toast.makeText(mContext, login.getMessage(), Toast.LENGTH_SHORT).show();
-                            } else if (login.getCode() == 2) {
-                                Toast.makeText(mContext, login.getMessage(), Toast.LENGTH_SHORT).show();
+                                //将登录个人信息保存到本地
+                                SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
+                                editor.putString("user_name", login.getData().getInfo().getName());
+                                editor.putString("user_id", login.getData().getInfo().getId());
+                                editor.apply();
+
+                                String userSid = login.getData().getSid();
+//                                Log.e("tag", "md5_32加密前登录SID打印--------->" + userSid);
+                                String md5UserId = CipherUtils.MD5_32(userSid).toLowerCase();// 转小写
+                                ASimpleCache.get(mContext).put("md5_sid", md5UserId);
+//                                Log.e("tag", "加密后登录SID打印--------->" + md5UserId);
                             }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
-                        //将登录个人信息保存到本地
-                        SharedPreferences.Editor editor = getSharedPreferences("user_info", MODE_PRIVATE).edit();
-                        editor.putString("user_name", login.getUser().getName().toString());
-                        editor.putInt("user_id", login.getUser().getId());
-                        editor.commit();
-
-                        String userSid = login.getSid();
-//                        Log.e("tag", "md5_32加密前登录SID打印--------->" + userSid);
-                        String md5UserId = CipherUtils.MD5_32(userSid);
-                        ASimpleCache.get(mContext).put("md5_sid", md5UserId);
-//                        Log.e("tag", "加密后登录SID打印--------->" + md5UserId);
                     }
                 });
     }
@@ -220,7 +223,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        spotsDialog = new SpotsDialog(this);
         spotsDialog.dismiss();
     }
 }

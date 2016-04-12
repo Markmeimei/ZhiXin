@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * 侧滑设置页Activity
@@ -43,6 +44,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private List<String> menus = new ArrayList<>();
     private SlidingSettingAdapter menuAdapter;
+    private MaterialDialog mMaterialDialog;
 
     private Context mContext;
 
@@ -76,6 +78,7 @@ public class SettingActivity extends AppCompatActivity {
         settingToolbar.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
         menuAdapter = new SlidingSettingAdapter(mContext, menus);
         setMenuListView.setAdapter(menuAdapter);
+        mMaterialDialog = new MaterialDialog(mContext);
     }
 
     private void initEvent() {
@@ -106,8 +109,21 @@ public class SettingActivity extends AppCompatActivity {
      */
     @OnClick(R.id.btn_sliding_set_logout)
     public void onClick() {
-        startActivity(new Intent(mContext, LoginActivity.class)
-                .putExtra("logout", 1));
-        MyApplication.getInstance().exitAll(mContext);
+        mMaterialDialog.setTitle("退出？");
+        mMaterialDialog.setNegativeButton("取消", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMaterialDialog.dismiss();
+            }
+        });
+        mMaterialDialog.setPositiveButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, LoginActivity.class)
+                        .putExtra("logout", 1));
+                MyApplication.getInstance().exitAll(mContext);
+            }
+        });
+        mMaterialDialog.show();
     }
 }

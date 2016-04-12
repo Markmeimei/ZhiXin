@@ -18,6 +18,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 任务列表Adapter
+ *
  * Author: Eron
  * Date: 2016/3/26
  * Time: 23:13
@@ -26,7 +28,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<TaskList.Renwu> taskLists = new ArrayList<>();
+    private List<TaskList.Data.Info> taskLists = new ArrayList<>();
 
     /**
      * 设置点击接口
@@ -41,7 +43,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    public TaskListAdapter(Context context, List<TaskList.Renwu> data) {
+    public TaskListAdapter(Context context, List<TaskList.Data.Info> data) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.taskLists = data;

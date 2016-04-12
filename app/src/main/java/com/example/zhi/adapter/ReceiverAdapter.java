@@ -10,9 +10,11 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.zhi.R;
+import com.example.zhi.object.Receiver;
 import com.example.zhi.object.ReceiverObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,9 +29,9 @@ import butterknife.ButterKnife;
 public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.DialogViewHolder> {
 
     private LayoutInflater mInflater;
-    protected ArrayList<ReceiverObject> receiverObjects;//Dialog传过来的办理人对象
+    protected List<Receiver.Data> receiverObjects;//Dialog传过来的办理人对象
 
-    public ReceiverAdapter(Context context, ArrayList<ReceiverObject> datas) {
+    public ReceiverAdapter(Context context, List<Receiver.Data> datas) {
         this.mInflater = LayoutInflater.from(context);
         this.receiverObjects = datas;
     }
@@ -39,7 +41,7 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.Dialog
      */
     public void checkAll() {
         if (receiverObjects == null) return;
-        for (ReceiverObject o : receiverObjects) {
+        for (Receiver.Data o : receiverObjects) {
             o.setIsSelected(true);
         }
         notifyDataSetChanged();
@@ -47,7 +49,7 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.Dialog
 
     public void unCheckAll() {
         if (receiverObjects == null) return;
-        for (ReceiverObject o : receiverObjects) {
+        for (Receiver.Data o : receiverObjects) {
             o.setIsSelected(false);
         }
         notifyDataSetChanged();
@@ -60,7 +62,7 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.Dialog
 
     @Override
     public void onBindViewHolder(final ReceiverAdapter.DialogViewHolder holder, final int position) {
-        final ReceiverObject userObject = receiverObjects.get(position);
+        final Receiver.Data userObject = receiverObjects.get(position);
         // 设置每个Item的文本
         holder.itemUser.setText(receiverObjects.get(position).getName());
         holder.checkBox.setOnCheckedChangeListener(null);

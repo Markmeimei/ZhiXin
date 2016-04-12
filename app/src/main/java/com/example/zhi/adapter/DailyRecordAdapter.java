@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.zhi.R;
-import com.example.zhi.object.Info;
+import com.example.zhi.object.DailyRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,10 @@ import java.util.List;
 public class DailyRecordAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<Info> infoList = new ArrayList<>();
-    private Info info = new Info();
+    private List<DailyRecord.Data.Info> infoList = new ArrayList<>();
+    private DailyRecord.Data.Info info;
 
-    public DailyRecordAdapter(Context context, List<Info> data) {
+    public DailyRecordAdapter(Context context, List<DailyRecord.Data.Info> data) {
         mInflater = LayoutInflater.from(context);
         this.infoList = data;
     }

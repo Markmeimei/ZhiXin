@@ -19,6 +19,7 @@ import com.example.zhi.R;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.dialog.FinishTaskDialog;
 import com.example.zhi.object.TaskDetails;
+import com.example.zhi.object.TaskFinished;
 import com.example.zhi.object.TaskList;
 import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.DateUtils;
@@ -73,13 +74,13 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
     Button taskDetailBottom;
 
     private Context mContext;
-    private int userId;//当前用户的id
+    private String userId;//当前用户的id
     private String md5UserSID;
     private String taskId;// 单条任务Id
     private String taskReceiverList;// 任务接收人
-    private static int hideButton;
-    private TaskList.Renwu renwus;
+    private TaskDetails.Data.Info renwus;
     private TaskDetails taskDetails = new TaskDetails();//任务详情类
+    private TaskFinished taskFinished;//提交接收、完成任务 返回数据类
     private int status = 0;
     private FinishTaskDialog finishTaskDialog;
 
@@ -100,8 +101,6 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                         taskDetailsFinishTime.setText(DateUtils.getDateToString(Long.valueOf(renwus.getOvertime()) * 1000));
                     }
                     break;
-//                case hideButton:
-//                    taskDetail.setVisibility(View.GONE);
                 default:
                     break;
             }
@@ -130,7 +129,7 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
         mContext = TaskDetailsActivity.this;
 
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
         taskId = intent.getStringExtra("id");
@@ -139,7 +138,6 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
         Log.e("当前状态", status + "");
 //        hideButton = Integer.valueOf(intent.getStringExtra("hide"));
 
-        Log.e("tag", "测试Intent接收的数据---------->" + hideButton);
 //        Log.e("tag", "测试Intent接收的数据---------->" + taskReceiverList);
     }
 
@@ -187,14 +185,13 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                     @Override
                     public void onResponse(String response) {
                         try {
+                            Log.e("tag", "任务详情数据--------------->" + response);
                             Gson gson = new Gson();
                             taskDetails = gson.fromJson(response, TaskDetails.class);
-                            if (taskDetails != null) {
-                                renwus = taskDetails.getRenwu();
-//                            Log.e("tag", "测试网络获取的数据------>" + renwus);
+                            if (null != taskDetails) {
+                                renwus = taskDetails.getData().getInfo();
                                 Message message = new Message();
                                 message.what = UPDATE_UI;
-//                            message.what = hideButton;
                                 handler.sendMessage(message);
                             }
                         } catch (Exception e) {
@@ -252,8 +249,6 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
                 .show();
 
 
-
-
     }
 
     /**
@@ -280,15 +275,21 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String response) {
                 Log.e("tag", "测试网络获取的数据------>" + response);
-                if (response.equals("1")) {
-                    Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                    finishTaskDialog.dismiss();
-                    TaskDetailsActivity.this.finish();
-                } else {
-                    Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                    finishTaskDialog.dismiss();
+                try {
+                    Gson gson = new Gson();
+                    taskFinished = gson.fromJson(response, TaskFinished.class);
+                    if (null != taskFinished) {
+                        TaskFinished.Data data = taskFinished.getData();
+                        if (data.getState() == 0) {
+                            Toast.makeText(mContext, "提交失败！请检查网络！", Toast.LENGTH_SHORT).show();
+                        } else if (data.getState() == 1) {
+                            Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                            finishTaskDialog.dismiss();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
             }
         });
     }
@@ -314,13 +315,21 @@ public class TaskDetailsActivity extends Activity implements View.OnClickListene
             @Override
             public void onResponse(String response) {
                 Log.e("tag", "测试网络获取的数据------>" + response);
-                if(response.equals("1")){
-                    Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
-                    TaskDetailsActivity.this.finish();
-                }else {
-                    Toast.makeText(mContext,"接收成功！",Toast.LENGTH_SHORT).show();
+                try {
+                    Gson gson = new Gson();
+                    taskFinished = gson.fromJson(response, TaskFinished.class);
+                    if (null != taskFinished) {
+                        TaskFinished.Data data = taskFinished.getData();
+                        if (data.getState() == 0) {
+                            Toast.makeText(mContext, "提交失败！请检查网络！", Toast.LENGTH_SHORT).show();
+                        } else if (data.getState() == 1) {
+                            Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                            finishTaskDialog.dismiss();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
             }
         });
     }

@@ -2,6 +2,9 @@ package com.example.zhi.object;
 
 import java.io.Serializable;
 
+/**
+ * 图片实体类
+ */
 public class ImageBean implements Serializable {
 
 	public String parentName;

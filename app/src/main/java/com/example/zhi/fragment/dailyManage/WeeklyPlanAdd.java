@@ -79,7 +79,7 @@ public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
     private Context mContext;
     public CalenderDialogFragment mCalenderDialogFragment;// 日历
     public String userName;
-    public int userId;
+    public String userId;
     private String md5UserSID;
     public String dailyReportTime;//时间
     public String currentDate;
@@ -135,7 +135,7 @@ public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
     private void initData() {
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         dailyReportTime = DateUtils.getDateYMD();
         currentDate = DateUtils.getTimeYMDHM();
@@ -315,10 +315,10 @@ public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
                     Gson gson = new Gson();
                     DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                     if (dailyReport != null) {
-                        if (dailyReport.getCode() == 2) {
+                        if (dailyReport.getData().getState() == 2) {
                             Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                        } else if (dailyReport.getCode() == 0) {
-                            Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
                         }
                     }
                     add_daily_report.setText("");// 清空输入框

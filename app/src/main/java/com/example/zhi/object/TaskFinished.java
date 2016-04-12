@@ -1,13 +1,14 @@
 package com.example.zhi.object;
 
 /**
- * 提交日报返回
+ * 提交接收、完成任务 返回数据
  *
- * Author: Eron
- * Date: 2016/3/5 0005
- * Time: 11:15
+ * Author:Eron
+ * Date: 2016/4/12 0012
+ * Time: 14:55
  */
-public class DailyReport {
+public class TaskFinished {
+
     private Data data;
 
     public Data getData() {

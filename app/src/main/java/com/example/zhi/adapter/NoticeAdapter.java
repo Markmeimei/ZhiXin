@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.zhi.R;
 import com.example.zhi.object.NoticeBean;
+import com.example.zhi.object.NoticeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<NoticeBean> noticeBeanList = new ArrayList<>();
+    private List<NoticeList.Data> noticeBeanList = new ArrayList<>();
 
     /**
      * 设置点击接口
@@ -44,7 +45,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.NoticeView
     }
 
 
-    public NoticeAdapter(Context context, List<NoticeBean> data) {
+    public NoticeAdapter(Context context, List<NoticeList.Data> data) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.noticeBeanList = data;

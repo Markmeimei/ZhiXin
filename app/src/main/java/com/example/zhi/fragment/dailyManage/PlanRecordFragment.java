@@ -55,9 +55,9 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
     ListView dailyRecordListView;
 
     public String userName;
-    public int userId;
+    public String userId;
     private String md5UserSID;
-    private List<DailyPlan.Plan.Info> infoList = new ArrayList<>();// 计划内容实体类
+    private List<DailyPlan.Data.Info> infoList = new ArrayList<>();// 计划内容实体类
     private DailyPlanAdapter planAdapter;
 
     @Nullable
@@ -93,9 +93,9 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
 
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
+//        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
         // 初始化日期
         Calendar mCalendar = Calendar.getInstance();
         dailyRecordCalender.setSelectedDate(mCalendar.getTime());
@@ -104,8 +104,7 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
     private void initView() {
 //        dailyRecordCalender.setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth()*0.99), (int) (display.getHeight() * 0.6)));
         recordDateShow.setText(getSelectedDatesString());
-        planAdapter = new DailyPlanAdapter(mContext,infoList);
-        dailyRecordListView.setAdapter(planAdapter);
+
     }
 
     @Override
@@ -135,17 +134,18 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.e("tag", "------测试每日计划返回数据------------------->" + response);
+//                            Log.e("tag", "------测试每日计划返回数据------------------->" + response);
                             Gson gson = new Gson();
                             DailyPlan dailyPlan = gson.fromJson(response, DailyPlan.class);
                             if (dailyPlan != null) {
-                                if (dailyPlan.getPlan().getState() == 1) {
-                                    List<DailyPlan.Plan.Info> infos = dailyPlan.getPlan().getInfo();
+                                if (dailyPlan.getData().getState() == 1) {
+                                    infoList = dailyPlan.getData().getInfo();
+                                    planAdapter = new DailyPlanAdapter(mContext,infoList);
+                                    dailyRecordListView.setAdapter(planAdapter);
+                                } else if (dailyPlan.getData().getState() == 0) {
+                                    Toast.makeText(mContext, "无数据！", Toast.LENGTH_SHORT).show();
                                     infoList.clear();
-                                    infoList.addAll(infos);
                                     planAdapter.notifyDataSetChanged();
-                                } else if (dailyPlan.getPlan().getState() == 0) {
-                                    Toast.makeText(mContext,dailyPlan.getPlan().getText(),Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } catch (Exception e) {

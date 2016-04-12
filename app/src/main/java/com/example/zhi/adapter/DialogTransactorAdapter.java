@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.zhi.R;
+import com.example.zhi.object.Receiver;
 import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.ToolsUtils;
 
@@ -35,8 +36,8 @@ public class DialogTransactorAdapter extends RecyclerView.Adapter<DialogTransact
 
     private Context mContext;
     private LayoutInflater mInflater;
-    protected ArrayList<ReceiverObject> receiverObjects;//Dialog传过来的办理人对象
-    protected ReceiverObject userObject;
+    protected ArrayList<Receiver.Data> receiverObjects;//Dialog传过来的办理人对象
+    protected Receiver.Data userObject;
     private List<Integer> checkPositionList;//记录CheckBox是否选中，解决复用的问题
 
 
@@ -56,7 +57,7 @@ public class DialogTransactorAdapter extends RecyclerView.Adapter<DialogTransact
         }
     }
 
-    public DialogTransactorAdapter(Context context, ArrayList<ReceiverObject> datas) {
+    public DialogTransactorAdapter(Context context, ArrayList<Receiver.Data> datas) {
         this.mInflater = LayoutInflater.from(context);
         this.receiverObjects = datas;
 //        configCheckMap(false);

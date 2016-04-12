@@ -62,7 +62,7 @@ public class MailDetailsActivity extends Activity {
     // 附件Adapter
     MailAttachmentAdapter mailAttachmentAdapter;
     private ArrayList<AttachmentFile> attachmentFiles;
-    private int userId;//当前用户的id
+    private String userId;//当前用户的id
     private String md5UserSID;
     private String emailId;
     private RequestCall mCall;//网络请求
@@ -83,7 +83,7 @@ public class MailDetailsActivity extends Activity {
     private void initConstant() {
         mContext = MailDetailsActivity.this;
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Intent intent = getIntent();
         emailId = intent.getStringExtra("eMailId");

@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.zhi.R;
+import com.example.zhi.object.Receiver;
 import com.example.zhi.object.ReceiverObject;
 import com.example.zhi.utils.ToolsUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +30,7 @@ public class TransactorRecyclerViewAdapter extends RecyclerView.Adapter<Transact
 
     protected Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<ReceiverObject> taskTransactors;//办理人
+    private List<Receiver.Data> taskTransactors;//办理人
 
     /**
      * 设置点击接口
@@ -43,7 +45,7 @@ public class TransactorRecyclerViewAdapter extends RecyclerView.Adapter<Transact
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
-    public TransactorRecyclerViewAdapter(Context context, ArrayList<ReceiverObject> datas) {
+    public TransactorRecyclerViewAdapter(Context context, List<Receiver.Data> datas) {
         this.mInflater = LayoutInflater.from(context);
         this.taskTransactors = datas;
     }

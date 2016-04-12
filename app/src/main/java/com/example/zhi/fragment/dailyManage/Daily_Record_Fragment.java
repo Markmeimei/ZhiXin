@@ -57,9 +57,9 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     ListView dailyRecordListView;
 
     public String userName;
-    public int userId;
+    public String userId;
     private String md5UserSID;
-    private List<Info> infoList = new ArrayList<>();// 日报内容实体类
+    private List<DailyRecord.Data.Info> infoList;// 日报内容实体类
     private DailyRecordAdapter dailyRecordAdapter;
 
     @Nullable
@@ -68,17 +68,12 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_every_record, container, false);
         ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
         initConstant();
         initData();
         initView();
         initEvent();
+        return view;
     }
 
     private void initEvent() {
@@ -89,15 +84,16 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
 
     private void initConstant() {
         mContext = getActivity();
+        infoList = new ArrayList<>();
     }
 
     private void initData() {
 
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
+//        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
         // 初始化日期
         Calendar mCalendar = Calendar.getInstance();
         dailyRecordCalender.setSelectedDate(mCalendar.getTime());
@@ -135,19 +131,25 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
 
                     @Override
                     public void onResponse(String response) {
-//                        Log.e("tag", "测试sid------------------->" + response);
-                        Gson gson = new Gson();
-                        DailyRecord dailyRecord = gson.fromJson(response, DailyRecord.class);
-                        if (dailyRecord != null) {
-                            if (dailyRecord.getRb().getState() == 1) {
-                                infoList = dailyRecord.getRb().getInfo();
-                                // 设置Adapter
-                                dailyRecordAdapter = new DailyRecordAdapter(mContext, infoList);
-                                dailyRecordListView.setAdapter(dailyRecordAdapter);
-                            } else if (dailyRecord.getRb().getState() == 0) {
-                                Toast.makeText(mContext, dailyRecord.getRb().getText(), Toast.LENGTH_SHORT).show();
+                        try {
+//                            Log.e("tag", "每日一报记录---------------->" + response);
+                            Gson gson = new Gson();
+                            DailyRecord dailyRecord = gson.fromJson(response, DailyRecord.class);
+                            if (null != dailyRecord) {
+                                if (dailyRecord.getData().getState() == 1) {
+                                    infoList = dailyRecord.getData().getInfo();
+                                    dailyRecordAdapter = new DailyRecordAdapter(mContext, infoList);
+                                    dailyRecordListView.setAdapter(dailyRecordAdapter);
+                                }else if (dailyRecord.getData().getState() == 0) {
+                                    Toast.makeText(mContext, "无数据！", Toast.LENGTH_SHORT).show();
+                                    infoList.clear();
+                                    dailyRecordAdapter.notifyDataSetChanged();
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
+
                     }
                 });
     }

@@ -52,12 +52,12 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
     FloatingActionButton floatingActionButton;
 
     // 对象
-    private int userId;//当前用户的id
+    private String userId;//当前用户的id
     private String md5UserSID;
     private MailReceivedAdapter adapter;
     private Context mContext;
     private Mails mails = new Mails();//邮件实体类
-    private List<Mails.Info> infoList = new ArrayList<>();//邮件列表信息
+    private List<Mails.Data.Info> infoList = new ArrayList<>();//邮件列表信息
     private RequestCall mCall;
 
     @Nullable
@@ -84,7 +84,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
         mContext = getActivity();
 
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         onRefresh();
     }
@@ -138,7 +138,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
                     Gson gson = new Gson();
                     mails = gson.fromJson(response, Mails.class);
                     if (mails != null) {
-                        List<Mails.Info> list = mails.getInfo();
+                        List<Mails.Data.Info> list = mails.getData().getInfo();
                         infoList.clear();
                         infoList.addAll(list);
                         adapter.notifyDataSetChanged();

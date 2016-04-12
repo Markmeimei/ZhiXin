@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.example.zhi.R;
 import com.example.zhi.adapter.NoticeAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.NoticeBean;
+import com.example.zhi.object.NoticeList;
 import com.example.zhi.utils.ASimpleCache;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -40,7 +42,7 @@ import okhttp3.Call;
  * Date: 2016/3/25 0025
  * Time: 16:28
  */
-public class NoticeActivity extends Activity {
+public class NoticeActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context mContext;
 
@@ -52,12 +54,11 @@ public class NoticeActivity extends Activity {
     @Bind(R.id.srl_notice)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.rv_notice_list)
-    RecyclerView noticeList;
+    RecyclerView noticeListRv;
 
     private String md5UserSID;
-    private SwipeRefreshLayout mSwipeLayout;
-    private List<NoticeBean> noticeBeanList = new ArrayList<>();
-    private NoticeBean noticeBean = new NoticeBean();
+    private NoticeList notice;
+    private List<NoticeList.Data> noticeList = new ArrayList<>();// 消息列表
     private NoticeAdapter noticeAdapter;
 
     @Override
@@ -76,9 +77,42 @@ public class NoticeActivity extends Activity {
     private void initConstant() {
         mContext = NoticeActivity.this;
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
+        swipeRefreshLayout.setOnRefreshListener(this);
+        noticeAdapter = new NoticeAdapter(mContext, noticeList);
+        noticeListRv.setAdapter(noticeAdapter);
+        noticeListRv.setLayoutManager(new LinearLayoutManager(mContext));
     }
 
     private void initData() {
+        onRefresh();
+    }
+
+    private void initView() {
+        headerTitle.setText(R.string.notice_title);
+        headerRight.setVisibility(View.GONE);
+        swipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+    }
+
+
+    private void initEvent() {
+        // Adapter 点击事件
+        noticeAdapter.setOnItemClickListener(new NoticeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startActivity(new Intent(mContext, NoticeDetailActivity.class)
+                        .putExtra("noticeId", noticeList.get(position).getId()));
+            }
+        });
+    }
+
+    @OnClick(R.id.header_back)
+    void back() {
+        this.finish();
+    }
+
+
+    @Override
+    public void onRefresh() {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.NOTICELIST)
@@ -93,40 +127,16 @@ public class NoticeActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         try {
+//                            Log.e("tag", "通知列表数据------------------>" + response);
                             Gson gson = new Gson();
-                            //创建一个JsonParser
-                            JsonParser parser = new JsonParser();
-                            //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
-                            JsonElement el = parser.parse(response);
-                            //把JsonElement对象转换成JsonArray
-                            JsonArray jsonArray = null;
-                            if (el.isJsonArray()) {
-                                jsonArray = el.getAsJsonArray();
+                            notice = gson.fromJson(response, NoticeList.class);
+                            if (null != notice) {
+                                List<NoticeList.Data> list = notice.getData();
+                                noticeList.clear();
+                                noticeList.addAll(list);
+                                noticeAdapter.notifyDataSetChanged();
+                                swipeRefreshLayout.setRefreshing(false);
                             }
-                            //遍历JsonArray对象
-                            Iterator it = jsonArray.iterator();
-                            while (it.hasNext()) {
-                                JsonElement e = (JsonElement) it.next();
-                                //JsonElement转换为JavaBean对象
-                                noticeBean = gson.fromJson(e, NoticeBean.class);
-                                noticeBeanList.add(noticeBean);
-//                            Log.e("tag", "通知--------->" + noticeBean.getTitle());
-                            }
-
-                            noticeAdapter = new NoticeAdapter(mContext, noticeBeanList);
-//                        Log.e("tag", "通知--------->" + noticeBeanList.size());
-                            noticeList.setAdapter(noticeAdapter);
-                            noticeList.setLayoutManager(new LinearLayoutManager(mContext));
-                            // Adapter 点击事件
-                            noticeAdapter.setOnItemClickListener(new NoticeAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-//                                Toast.makeText(mContext, noticeBeanList.get(position).getId(), Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(mContext, NoticeDetailActivity.class)
-                                            .putExtra("noticeId", noticeBeanList.get(position).getId()));
-                                }
-                            });
-                            swipeRefreshLayout.setRefreshing(false);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -134,30 +144,4 @@ public class NoticeActivity extends Activity {
                     }
                 });
     }
-
-    private void initView() {
-        headerTitle.setText(R.string.notice_title);
-        headerRight.setVisibility(View.GONE);
-        mSwipeLayout = new SwipeRefreshLayout(mContext);
-        swipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-                noticeBeanList.clear();// 清空原数据
-            }
-        });
-    }
-
-
-    private void initEvent() {
-
-    }
-
-    @OnClick(R.id.header_back)
-    void back() {
-        this.finish();
-    }
-
-
 }

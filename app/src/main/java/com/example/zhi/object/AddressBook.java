@@ -10,13 +10,13 @@ import java.util.List;
  * Time: 17:21
  */
 public class AddressBook {
-    private List<txl> txl;
+    private List<txl> data;
 
-    public List<txl> getTxl() {
-        return txl;
+    public List<txl> getData() {
+        return data;
     }
 
-    public void setTxl(List<txl> txl) {
-        this.txl = txl;
+    public void setData(List<txl> data) {
+        this.data = data;
     }
 }

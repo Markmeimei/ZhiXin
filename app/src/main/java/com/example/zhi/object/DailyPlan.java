@@ -10,10 +10,17 @@ import java.util.List;
  * Time: 9:53
  */
 public class DailyPlan {
+    private Data data;
 
-    private Plan plan;
+    public Data getData() {
+        return data;
+    }
 
-    public class Plan {
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public class Data {
         private int state;
         private String text;
         private List<Info> info;
@@ -143,13 +150,7 @@ public class DailyPlan {
                 this.userid = userid;
             }
         }
+
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
 }

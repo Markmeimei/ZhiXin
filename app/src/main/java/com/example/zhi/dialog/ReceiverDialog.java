@@ -19,7 +19,9 @@ import android.widget.Toast;
 import com.example.zhi.R;
 import com.example.zhi.adapter.ReceiverAdapter;
 import com.example.zhi.constant.ConstantURL;
+import com.example.zhi.object.Receiver;
 import com.example.zhi.object.ReceiverObject;
+import com.example.zhi.object.TaskList;
 import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.ToolsUtils;
 import com.google.gson.Gson;
@@ -31,6 +33,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -63,14 +66,17 @@ public class ReceiverDialog {
     Button dialogPositive;
 
     private ReceiverAdapter receiverAdapter;
-    private int userId;//当前用户的id
+    private String userId;//当前用户的id
     private String md5UserSID;
 
     private static final boolean SELECTALL = false;
     private static final boolean CANCEL = false;
 
-    public ArrayList<ReceiverObject> objects = new ArrayList<>();
+    public List<Receiver.Data> objects = new ArrayList<>();
     public ReceiverObject receivers;
+    private Receiver receiver;
+    private List<Receiver.Data> dataList = new ArrayList<>();
+    private Receiver.Data data;
 
     public ReceiverDialog(Context context) {
         this.mContext = context;
@@ -87,14 +93,11 @@ public class ReceiverDialog {
         ButterKnife.bind(this, view);
 
         SharedPreferences preferences = mContext.getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Log.e("办理人------ID------>", userId+"");
         Log.e("办理人------md5------>", md5UserSID);
 
-        receiverAdapter = new ReceiverAdapter(mContext, objects);
-        receiverList.setAdapter(receiverAdapter);
-        receiverList.setLayoutManager(new LinearLayoutManager(mContext));
         // 调整Dialog大小
         receiverDialog.setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth() * 0.86), (int) (display.getHeight() * 0.86)));
 
@@ -139,24 +142,34 @@ public class ReceiverDialog {
                     public void onResponse(String response) {
                         try {
                             Log.e("办理人------>", response);
+//                            Gson gson = new Gson();
+//                            //创建一个JsonParser
+//                            JsonParser parser = new JsonParser();
+//                            //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
+//                            JsonElement el = parser.parse(response);
+//                            //把JsonElement对象转换成JsonArray
+//                            JsonArray jsonArray = null;
+//                            if (el.isJsonArray()) {
+//                                jsonArray = el.getAsJsonArray();
+//                            }
+//                            //遍历JsonArray对象
+//                            Iterator it = jsonArray.iterator();
+//                            while (it.hasNext()) {
+//                                JsonElement e = (JsonElement) it.next();
+//                                //JsonElement转换为JavaBean对象
+//                                receivers = gson.fromJson(e, ReceiverObject.class);
+//                                objects.add(receivers);
+//                                System.out.println(receivers.getName() + " === " + receivers.getId());
+//                            }
+//                            receiverAdapter.notifyDataSetChanged();
+
                             Gson gson = new Gson();
-                            //创建一个JsonParser
-                            JsonParser parser = new JsonParser();
-                            //通过JsonParser对象可以把json格式的字符串解析成一个JsonElement对象
-                            JsonElement el = parser.parse(response);
-                            //把JsonElement对象转换成JsonArray
-                            JsonArray jsonArray = null;
-                            if (el.isJsonArray()) {
-                                jsonArray = el.getAsJsonArray();
-                            }
-                            //遍历JsonArray对象
-                            Iterator it = jsonArray.iterator();
-                            while (it.hasNext()) {
-                                JsonElement e = (JsonElement) it.next();
-                                //JsonElement转换为JavaBean对象
-                                receivers = gson.fromJson(e, ReceiverObject.class);
-                                objects.add(receivers);
-                                System.out.println(receivers.getName() + " === " + receivers.getId());
+                            receiver = gson.fromJson(response, Receiver.class);
+                            if (null != receiver) {
+                                dataList = receiver.getData();
+                                receiverAdapter = new ReceiverAdapter(mContext, dataList);
+                                receiverList.setAdapter(receiverAdapter);
+                                receiverList.setLayoutManager(new LinearLayoutManager(mContext));
                             }
                             receiverAdapter.notifyDataSetChanged();
                         } catch (Exception e) {
@@ -184,7 +197,7 @@ public class ReceiverDialog {
         dialogPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (ReceiverObject o : objects) {
+                for (Receiver.Data o : dataList) {
                     if (o.isSelected()) {
                         ToolsUtils.checkedUsers.add(o);
                     }

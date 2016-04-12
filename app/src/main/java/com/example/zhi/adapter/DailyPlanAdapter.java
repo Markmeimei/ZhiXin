@@ -25,10 +25,10 @@ public class DailyPlanAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<DailyPlan.Plan.Info> infoList = new ArrayList<>();
-    private DailyPlan.Plan.Info info;
+    private List<DailyPlan.Data.Info> infoList = new ArrayList<>();
+    private DailyPlan.Data.Info info;
 
-    public DailyPlanAdapter(Context context, List<DailyPlan.Plan.Info> data) {
+    public DailyPlanAdapter(Context context, List<DailyPlan.Data.Info> data) {
         mInflater = LayoutInflater.from(context);
         this.infoList = data;
     }

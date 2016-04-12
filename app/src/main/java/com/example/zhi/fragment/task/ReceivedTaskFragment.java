@@ -41,7 +41,7 @@ import okhttp3.Call;
  * Date: 2016/3/26
  * Time: 22:51
  */
-public class ReceivedTaskFragment extends Fragment{
+public class ReceivedTaskFragment extends Fragment {
 
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
@@ -51,10 +51,10 @@ public class ReceivedTaskFragment extends Fragment{
     @Bind(R.id.fab_taskList)
     FloatingActionButton floatingActionButton;
 
-    private int userId;//当前用户id
+    private String userId;//当前用户id
     private String md5UserSID;
     private TaskList taskList = new TaskList();// 任务列表实体类
-    private List<TaskList.Renwu> taskLists = new ArrayList<>();//任务列表
+    private List<TaskList.Data.Info> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
     private View view;
 
@@ -85,7 +85,7 @@ public class ReceivedTaskFragment extends Fragment{
     private void initConstant() {
         this.mContext = getActivity();
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Log.e("tag", "当前用户的Id---------------->" + userId);
     }
@@ -108,35 +108,34 @@ public class ReceivedTaskFragment extends Fragment{
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.e("tag", "打印数据------>" + response.toString());
-                            Gson gson = new Gson();
-                            taskList = gson.fromJson(response, TaskList.class);
-
-                            if (taskList != null) {
-                                List<TaskList.Renwu> list = taskList.getRenwu();
-                                taskLists.clear();
-                                taskLists.addAll(list);
-                                Log.e("tag", "打印数组数据------>" + taskLists);
-
-                                // 设置 Adapter
-                                taskListAdapter = new TaskListAdapter(mContext, taskLists);
-                                Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
-                                taskListAdapter.notifyDataSetChanged();
-                                unTakeTaskList.setAdapter(taskListAdapter);
-                                unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
-                                if (null != taskLists) {
-                                    taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(View view, int position) {
-                                            Log.e("Fragment Item点击", position + "");
-                                            startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                                    .putExtra("id", taskLists.get(position).getId())
-                                                    .putExtra("list", taskLists.get(position).getList())
-                                                    .putExtra("status", 2));
-                                        }
-                                    });
-                                } else {
-                                    Toast.makeText(mContext,"没有任务",Toast.LENGTH_SHORT).show();
+//                            Log.e("tag", "打印===已接任务===数据------>" + response);
+                            if (null != response) {
+                                Gson gson = new Gson();
+                                taskList = gson.fromJson(response, TaskList.class);
+                                if (null != taskList) {
+                                    if (taskList.getData().getState() == 0) {
+                                        taskListAdapter.notifyDataSetChanged();
+                                        Toast.makeText(mContext, "无已接任务", Toast.LENGTH_SHORT).show();
+                                    } else if (taskList.getData().getState() == 1) {
+                                        List<TaskList.Data.Info> list = taskList.getData().getInfo();
+                                        taskLists.clear();
+                                        taskLists.addAll(list);
+                                        taskListAdapter = new TaskListAdapter(mContext, taskLists);
+//                                        Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
+                                        taskListAdapter.notifyDataSetChanged();
+                                        unTakeTaskList.setAdapter(taskListAdapter);
+                                        unTakeTaskList.setLayoutManager(new LinearLayoutManager(mContext));
+                                        taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(View view, int position) {
+//                                                Log.e("Fragment Item点击", position + "");
+                                                startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                                        .putExtra("id", taskLists.get(position).getId())
+                                                        .putExtra("list", taskLists.get(position).getList())
+                                                        .putExtra("status", 2));
+                                            }
+                                        });
+                                    }
                                 }
                                 mSwipeRefreshLayout.setRefreshing(false);
                             }

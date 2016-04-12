@@ -41,6 +41,8 @@ import me.drakeet.materialdialog.MaterialDialog;
 import okhttp3.Call;
 
 /**
+ * 通讯录
+ *
  * Author：Mark
  * Date：2015/11/24 0024
  * Tell：15006330640
@@ -117,10 +119,10 @@ public class Fragment_AddressBook extends Fragment {
                             addressBook = gson.fromJson(response, AddressBook.class);
                             if (addressBook != null) {
                                 // 排序
-                                usersList = addressBook.getTxl();
+                                usersList = addressBook.getData();
 //                            Log.e("tag", "打印数据------>" + usersList);
                                 Map<String, txl> users = new HashMap<>();
-                                for (int i = 0; i < addressBook.getTxl().size(); i++) {
+                                for (int i = 0; i < addressBook.getData().size(); i++) {
                                     txl user1 = usersList.get(i);
                                     String headerName = user1.getName();
                                     String phone = user1.getPhone();

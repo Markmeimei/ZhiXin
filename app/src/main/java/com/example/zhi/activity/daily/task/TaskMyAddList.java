@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
 import com.example.zhi.utils.ASimpleCache;
 import com.example.zhi.utils.JsonUtils;
+import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.request.RequestCall;
@@ -52,9 +54,10 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
     @Bind(R.id.rv_task_my_list)
     RecyclerView taskMyList;
 
-    private int userId;//当前用户id
+    private String userId;//当前用户id
     private String md5UserSID;
-    private List<TaskList.Renwu> renwuList;
+    private TaskList taskList = new TaskList();// 任务列表实体类
+    private List<TaskList.Data.Info> taskLists = new ArrayList<>();//任务列表
     private TaskListAdapter taskListAdapter;
     private RequestCall mCall;//OkHttpCall
 
@@ -72,11 +75,10 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
     private void initConstant() {
         mContext = TaskMyAddList.this;
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        renwuList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-        taskListAdapter = new TaskListAdapter(mContext, renwuList);
+        taskListAdapter = new TaskListAdapter(mContext, taskLists);
         taskMyList.setAdapter(taskListAdapter);
         taskMyList.setLayoutManager(layoutManager);
         refreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
@@ -111,27 +113,35 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
             @Override
             public void onResponse(String response) {
                 try {
-                    TaskList taskList = JsonUtils.fromJoson(response, TaskList.class);
-                    if (taskList != null) {
-                        List<TaskList.Renwu> list = taskList.getRenwu();
-                        renwuList.clear();
-                        renwuList.addAll(list);
-                        taskListAdapter.notifyDataSetChanged();
-                        refreshLayout.setRefreshing(false);
-                        taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent();
-                                intent.putExtra("id", renwuList.get(position).getId());// 单条任务的Id
-                                intent.putExtra("list", renwuList.get(position).getList());// 接收人列表
-//                            intent.putExtra("hide", "2");
-                                intent.setClass(mContext, TaskDetailsActivity.class);
-                                startActivity(new Intent(mContext, TaskDetailsActivity.class)
-                                        .putExtra("id", renwuList.get(position).getId())
-                                        .putExtra("list", renwuList.get(position).getList())
-                                        .putExtra("status", 4));
+//                    Log.e("tag", "打印我的任务列表" + response);
+                    if (null != response) {
+                        Gson gson = new Gson();
+                        taskList = gson.fromJson(response, TaskList.class);
+                        if (null != taskList) {
+                            if (taskList.getData().getState() == 0) {
+                                taskListAdapter.notifyDataSetChanged();
+                                Toast.makeText(mContext, "无完成任务", Toast.LENGTH_SHORT).show();
+                            } else if (taskList.getData().getState() == 1) {
+                                List<TaskList.Data.Info> list = taskList.getData().getInfo();
+                                taskLists.clear();
+                                taskLists.addAll(list);
+//                                        Log.e("tag", "打印是否传递了数据数据------>" + taskLists);
+                                taskListAdapter.notifyDataSetChanged();
+                                taskMyList.setAdapter(taskListAdapter);
+                                taskMyList.setLayoutManager(new LinearLayoutManager(mContext));
+                                taskListAdapter.setOnItemClickListener(new TaskListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+//                                                Log.e("Fragment Item点击", position + "");
+                                        startActivity(new Intent(mContext, TaskDetailsActivity.class)
+                                                .putExtra("id", taskLists.get(position).getId())
+                                                .putExtra("list", taskLists.get(position).getList())
+                                                .putExtra("status", 4));
+                                    }
+                                });
                             }
-                        });
+                        }
+                        refreshLayout.setRefreshing(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

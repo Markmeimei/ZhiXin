@@ -55,7 +55,7 @@ import okhttp3.Call;
 
 /**
  * 添加日报
- * <p>
+ * <p/>
  * Author: Eron
  * Date: 2016/3/28
  * Time: 21:49
@@ -68,7 +68,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     TextView add_time_chose;//选择日起
     @Bind(R.id.add_date_show)
     TextView add_date_show;
-//    @Bind(R.id.iv_add_attachment)
+    //    @Bind(R.id.iv_add_attachment)
 //    ImageView add_attachment;//添加附件
     @Bind(R.id.et_add_input)
     EditText add_daily_report;
@@ -80,7 +80,7 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     private Context mContext;
     public CalenderDialogFragment mCalenderDialogFragment;// 日历
     public String userName;
-    public int userId;
+    public String userId;
     private String md5UserSID;
     public String dailyReportTime;//时间
     public String currentDate;
@@ -116,28 +116,21 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.daily_every_add, container, false);
         ButterKnife.bind(this, view);
-        return view;
-    }
 
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         initConstants();
         initData();
         initView();
         initEvent();
+        return view;
     }
 
     private void initData() {
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
-        userId = preferences.getInt("user_id", 0);
+        userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e(TAG, userName);
-        Log.e(TAG, "" + userId);
         dailyReportTime = DateUtils.getDateYMD();
-        Log.e(TAG, dailyReportTime);
+        Log.e("tag", "添加每日一报----------->" + dailyReportTime);
         currentDate = DateUtils.getTimeYMDHM();
     }
 
@@ -332,10 +325,10 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
                         Gson gson = new Gson();
                         DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                         if (dailyReport != null) {
-                            if (dailyReport.getCode() == 1) {
-                                Toast.makeText(mContext, "上报失败！", Toast.LENGTH_SHORT).show();
-                            } else if (dailyReport.getCode() == 2) {
-                                Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (dailyReport.getData().getState() == 2) {
+                                Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -381,14 +374,14 @@ public class Daily_Add_Fragment extends Fragment implements View.OnClickListener
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "添加每日计划返回数据----------->" + response);
+//                    Log.e("tag", "添加日报返回数据----------->" + response);
                     Gson gson = new Gson();
                     DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                     if (dailyReport != null) {
-                        if (dailyReport.getCode() == 2) {
+                        if (dailyReport.getData().getState() == 2) {
                             Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
-                        } else if (dailyReport.getCode() == 0) {
-                            Toast.makeText(mContext, dailyReport.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
                         }
                     }
                     add_daily_report.setText("");// 清空输入框

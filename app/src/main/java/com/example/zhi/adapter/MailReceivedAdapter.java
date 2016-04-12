@@ -24,11 +24,11 @@ import java.util.List;
 public class MailReceivedAdapter extends BaseAdapter {
     private static final String TAG = "MailReceivedAdapter";
     private Context context;
-    private List<Mails.Info> infoList = new ArrayList<>();//邮件列表实体类
-    private Mails.Info infos;//邮件实体类
+    private List<Mails.Data.Info> infoList = new ArrayList<>();//邮件列表实体类
+    private Mails.Data.Info infos;//邮件实体类
     private int state = 0 ;
 
-    public MailReceivedAdapter(Context context, List<Mails.Info> data,int state) {
+    public MailReceivedAdapter(Context context, List<Mails.Data.Info> data,int state) {
         this.context = context;
         this.infoList = data;
         this.state = state;
