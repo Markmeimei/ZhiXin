@@ -41,7 +41,7 @@ import okhttp3.Call;
  * Date: 2016/3/26
  * Time: 22:51
  */
-public class ReceivedTaskFragment extends Fragment {
+public class ReceivedTaskFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
@@ -66,7 +66,6 @@ public class ReceivedTaskFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_untake_task, container, false);
             ButterKnife.bind(this, view);
         }
-
         ViewGroup parent = (ViewGroup) view.getParent();
         if (parent != null) {
             parent.removeView(view);
@@ -87,11 +86,39 @@ public class ReceivedTaskFragment extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e("tag", "当前用户的Id---------------->" + userId);
+//        Log.e("tag", "当前用户的Id---------------->" + userId);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void initData() {
+        onRefresh();
+    }
 
+    private void initView() {
+
+        unTakeTaskList.setAdapter(taskListAdapter);
+        floatingActionButton.attachToRecyclerView(unTakeTaskList);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, TaskAddActivity.class));
+            }
+        });
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+    }
+
+
+    /**
+     * 接收后刷新数据
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    @Override
+    public void onRefresh() {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
@@ -103,6 +130,12 @@ public class ReceivedTaskFragment extends Fragment {
                     @Override
                     public void onError(Call call, Exception e) {
                         Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void inProgress(float progress) {
+                        super.inProgress(progress);
+                        mSwipeRefreshLayout.setRefreshing(true);
                     }
 
                     @Override
@@ -146,37 +179,5 @@ public class ReceivedTaskFragment extends Fragment {
 
                     }
                 });
-
-    }
-
-    private void initView() {
-
-        unTakeTaskList.setAdapter(taskListAdapter);
-        floatingActionButton.attachToRecyclerView(unTakeTaskList);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, TaskAddActivity.class));
-            }
-        });
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-
-    /**
-     * 接收后刷新数据
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        initData();
     }
 }

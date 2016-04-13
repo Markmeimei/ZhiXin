@@ -125,6 +125,12 @@ public class NoticeActivity extends Activity implements SwipeRefreshLayout.OnRef
                     }
 
                     @Override
+                    public void inProgress(float progress) {
+                        super.inProgress(progress);
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+
+                    @Override
                     public void onResponse(String response) {
                         try {
 //                            Log.e("tag", "通知列表数据------------------>" + response);

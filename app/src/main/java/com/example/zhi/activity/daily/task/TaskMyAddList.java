@@ -111,6 +111,12 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
             }
 
             @Override
+            public void inProgress(float progress) {
+                super.inProgress(progress);
+                refreshLayout.setRefreshing(true);
+            }
+
+            @Override
             public void onResponse(String response) {
                 try {
 //                    Log.e("tag", "打印我的任务列表" + response);

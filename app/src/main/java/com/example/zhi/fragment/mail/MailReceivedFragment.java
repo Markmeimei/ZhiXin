@@ -132,6 +132,12 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
             }
 
             @Override
+            public void inProgress(float progress) {
+                super.inProgress(progress);
+                swipeRefreshLayout.setRefreshing(true);
+            }
+
+            @Override
             public void onResponse(String response) {
                 try {
                     Log.e("tag", "打印收件箱数据---------->" + response);

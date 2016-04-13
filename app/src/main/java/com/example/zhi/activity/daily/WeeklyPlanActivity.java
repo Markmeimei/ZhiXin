@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.example.zhi.R;
 import com.example.zhi.fragment.dailyManage.Plan_Add_Fragment;
 import com.example.zhi.fragment.dailyManage.PlanRecordFragment;
+import com.example.zhi.fragment.dailyManage.WeeklyPlanAdd;
+import com.example.zhi.fragment.dailyManage.WeeklyPlanRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +54,8 @@ public class WeeklyPlanActivity extends FragmentActivity implements View.OnClick
 
     private FragmentPagerAdapter pagerAdapter;
     private List<Fragment> fragments = new ArrayList<>();
-    private Plan_Add_Fragment plan_add_fragment;
-    private PlanRecordFragment plan_record_fragment;
+    private WeeklyPlanAdd plan_add_fragment;
+    private WeeklyPlanRecord plan_record_fragment;
     private int currentIndex; // ViewPager的当前选中页
 
     @Override
@@ -69,8 +71,8 @@ public class WeeklyPlanActivity extends FragmentActivity implements View.OnClick
 
     private void initConstants() {
         mContext = WeeklyPlanActivity.this;
-        plan_add_fragment = new Plan_Add_Fragment();
-        plan_record_fragment = new PlanRecordFragment();
+        plan_add_fragment = new WeeklyPlanAdd();
+        plan_record_fragment = new WeeklyPlanRecord();
         fragments.add(plan_add_fragment);
         fragments.add(plan_record_fragment);
 

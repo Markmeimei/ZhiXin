@@ -41,7 +41,7 @@ import okhttp3.Call;
  * Date: 2016/3/26
  * Time: 22:37
  */
-public class UnTakeTaskFragment extends Fragment {
+public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
@@ -65,7 +65,6 @@ public class UnTakeTaskFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_untake_task, container, false);
             ButterKnife.bind(this, view);
         }
-
         ViewGroup parent = (ViewGroup) view.getParent();
         if (parent != null) {
             parent.removeView(view);
@@ -92,10 +91,38 @@ public class UnTakeTaskFragment extends Fragment {
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
         Log.e("tag", "当前用户的Id---------------->" + userId);
         taskListAdapter = new TaskListAdapter(mContext, taskLists);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void initData() {
-        Log.e("tag", "未接任务打印md5------>" + md5UserSID);
+        onRefresh();
+    }
+
+    private void initView() {
+        floatingActionButton.attachToRecyclerView(unTakeTaskList);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, TaskAddActivity.class));
+            }
+        });
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+    }
+
+    /**
+     * 接收后刷新数据
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        taskLists.clear();
+        initData();
+    }
+
+    @Override
+    public void onRefresh() {
+//        Log.e("tag", "未接任务打印md5------>" + md5UserSID);
         OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
@@ -107,6 +134,12 @@ public class UnTakeTaskFragment extends Fragment {
                     @Override
                     public void onError(Call call, Exception e) {
                         Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void inProgress(float progress) {
+                        super.inProgress(progress);
+                        mSwipeRefreshLayout.setRefreshing(true);
                     }
 
                     @Override
@@ -148,36 +181,5 @@ public class UnTakeTaskFragment extends Fragment {
                         }
                     }
                 });
-    }
-
-    private void initView() {
-
-
-        floatingActionButton.attachToRecyclerView(unTakeTaskList);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, TaskAddActivity.class));
-            }
-        });
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-    /**
-     * 接收后刷新数据
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        taskLists.clear();
-        initData();
     }
 }

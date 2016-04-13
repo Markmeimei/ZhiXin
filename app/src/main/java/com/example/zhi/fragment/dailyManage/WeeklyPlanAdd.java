@@ -278,14 +278,16 @@ public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
      * @param beanList
      */
     public void postFile(List<ImageBean> beanList) {
+
         Map<String, String> requestParams = new HashMap<>();
         requestParams.put("uid", "" + userId);
         requestParams.put("token", "" + md5UserSID);//md5加密后SID
         requestParams.put("date", currentDate);
         requestParams.put("text", add_daily_report.getText().toString());
-        Log.e("tag", "提交计划内容------->" + add_daily_report.getText().toString());
-        Log.e("tag", "提交照片数量------->" + beanList.size());
-        Log.e("tag", "打印每日计划------token------->" + md5UserSID);
+        Log.e("tag", "提交周计划内容------->" + add_daily_report.getText().toString());
+        Log.e("tag", "提交周计划照片数量------->" + beanList.size());
+        Log.e("tag", "打印周计划------token------->" + md5UserSID);
+
         List<PostFormBuilder.FileInput> files = new ArrayList<>();
         if (beanList != null && !beanList.isEmpty()) {
 //            for (String fileName : fileMap.keySet()) {
@@ -295,6 +297,7 @@ public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
                 files.add(new PostFormBuilder.FileInput("myfile", bean.getDisplayName(), new File(bean.getPath())));
             }
         }
+
         RequestCall call = new PostFormRequest(ConstantURL.WEEKLY_REPORT, null, requestParams, null, files).build();
         call.execute(new StringCallback() {
             @Override
@@ -311,7 +314,7 @@ public class WeeklyPlanAdd extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "添加 明日计划 返回数据------------->" + response);
+                    Log.e("tag", "添加 周计划 返回数据------------->" + response);
                     Gson gson = new Gson();
                     DailyReport dailyReport = gson.fromJson(response, DailyReport.class);
                     if (dailyReport != null) {

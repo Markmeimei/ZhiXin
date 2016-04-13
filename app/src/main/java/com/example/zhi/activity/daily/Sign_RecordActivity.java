@@ -83,14 +83,7 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
      */
     private void initDate() {
         Calendar mCalendar = Calendar.getInstance();
-
         dailyReportCalendar.setSelectedDate(mCalendar.getTime());
-
-        mCalendar.set(mCalendar.get(Calendar.YEAR), Calendar.JANUARY, 1);
-        dailyReportCalendar.setMinimumDate(mCalendar.getTime());
-
-        mCalendar.set(mCalendar.get(Calendar.YEAR), Calendar.DECEMBER, 31);
-        dailyReportCalendar.setMaximumDate(mCalendar.getTime());
     }
 
     /**
@@ -120,6 +113,8 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
 
         initTime();
     }
+
+
 
 
 
@@ -165,10 +160,10 @@ public class Sign_RecordActivity extends Activity implements OnDateSelectedListe
             case MotionEvent.ACTION_UP:
                 if (y1 - y2 > 100) {
                     dailyReportCalendar.setCalendarDisplayMode(CalendarMode.WEEKS);
-                    Toast.makeText(this, "向上滑", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "向上滑", Toast.LENGTH_SHORT).show();
                 } else if (y2 - y1 > 100) {
                     dailyReportCalendar.setCalendarDisplayMode(CalendarMode.MONTHS);
-                    Toast.makeText(this, "向下滑----", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "向下滑----", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

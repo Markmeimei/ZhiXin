@@ -8,16 +8,17 @@
     <TextView
         android:id="@+id/tv_task_finish_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_35"
         android:background="@color/main_color"
         android:gravity="center"
         android:text="光荣完成任务"
+        android:textSize="16sp"
         android:textColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/alert_bg"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView

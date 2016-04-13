@@ -41,7 +41,7 @@ import okhttp3.Call;
  * Date: 2016/3/26
  * Time: 22:52
  */
-public class FinishedTaskFragment extends Fragment {
+public class FinishedTaskFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private Context mContext;
     @Bind(R.id.rv_unTake_task)
@@ -88,10 +88,27 @@ public class FinishedTaskFragment extends Fragment {
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
 //        Log.e("tag", "当前用户的Id---------------->" + userId);
         taskListAdapter = new TaskListAdapter(mContext, taskLists);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void initData() {
+        onRefresh();
+    }
 
+    private void initView() {
+        unTakeTaskList.setAdapter(taskListAdapter);
+        floatingActionButton.attachToRecyclerView(unTakeTaskList);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, TaskAddActivity.class));
+            }
+        });
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
+    }
+
+    @Override
+    public void onRefresh() {
         OkHttpUtils
                 .post()
                 .url(ConstantURL.TASKLIST)
@@ -103,6 +120,12 @@ public class FinishedTaskFragment extends Fragment {
                     @Override
                     public void onError(Call call, Exception e) {
                         Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void inProgress(float progress) {
+                        super.inProgress(progress);
+                        mSwipeRefreshLayout.setRefreshing(true);
                     }
 
                     @Override
@@ -143,27 +166,5 @@ public class FinishedTaskFragment extends Fragment {
                         }
                     }
                 });
-    }
-
-    private void initView() {
-        unTakeTaskList.setAdapter(taskListAdapter);
-        floatingActionButton.attachToRecyclerView(unTakeTaskList);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, TaskAddActivity.class));
-            }
-        });
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.deepPink, R.color.darkOrange, R.color.mediumBlue);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-
     }
 }
