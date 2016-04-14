@@ -1,6 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
+    //配置签名文件
+    signingConfigs {
+        //调试用的KeyStore
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            //配置你的keystroe路径
+            storeFile file('C:/Users/Administrator/.android/debug.keystore')
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
     defaultConfig {
@@ -38,7 +49,7 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.2.0'
     // 日历控件
     compile 'com.jakewharton:butterknife:7.0.1'
-        compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
     //    compile 'com.android.support:cardview-v7:23.1.1'
     //    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.zhy:okhttputils:2.3.8'
@@ -56,4 +67,6 @@ dependencies {
     //FloatingActionButton 仿知乎提问上滑隐藏
     compile 'com.android.support:recyclerview-v7:24.0.0-alpha1'
     compile 'com.android.support:cardview-v7:24.0.0-alpha1'
+    compile 'com.android.support:design:23.3.0'
+    compile files('libs/AMap_Location_V2.4.0_20160308.jar')
 }

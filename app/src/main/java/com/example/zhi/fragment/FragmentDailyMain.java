@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.zhi.R;
 import com.example.zhi.activity.daily.EveryDayActivity;
+import com.example.zhi.activity.daily.RegisterActivity;
 import com.example.zhi.activity.daily.Sign_RecordActivity;
 import com.example.zhi.activity.daily.TomorrowPlanActivity;
 import com.example.zhi.activity.daily.WeeklyPlanActivity;
@@ -119,6 +120,6 @@ public class FragmentDailyMain extends Fragment {
     }
     @OnClick(R.id.ll_daily_sign)
     void dailySign() {
-        startActivity(new Intent(mContext, Sign_RecordActivity.class));
+        startActivity(new Intent(mContext, RegisterActivity.class));// 签到Activity
     }
 }
