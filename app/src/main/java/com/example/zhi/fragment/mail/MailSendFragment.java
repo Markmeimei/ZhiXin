@@ -99,6 +99,7 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(new Intent(mContext, MailDetailsActivity.class)
                         .putExtra("eMailId", infoList.get(position).getId())
+                        .putExtra("receiver_name",infoList.get(position).getShou_id())//收件人姓名，用于在详情中显示
                         .putExtra("status", 2));// 2代表查询 已发 邮件详情
             }
         });
@@ -139,7 +140,7 @@ public class MailSendFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "发件箱数据---------->" + response);
+//                    Log.e("tag", "发件箱数据---------->" + response);
                     Gson gson = new Gson();
                     mails = gson.fromJson(response, Mails.class);
                     if (mails != null) {

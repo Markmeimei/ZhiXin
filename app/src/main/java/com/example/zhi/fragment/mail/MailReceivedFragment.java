@@ -100,6 +100,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(new Intent(mContext, MailDetailsActivity.class)
                         .putExtra("eMailId", infoList.get(position).getId())
+                        .putExtra("sender_name",infoList.get(position).getFa_id())// 发件人姓名，用于在详情中显示
                         .putExtra("status", 1));// 1代表查询 已收 邮件详情
             }
         });
@@ -140,7 +141,7 @@ public class MailReceivedFragment extends Fragment implements SwipeRefreshLayout
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "打印收件箱数据---------->" + response);
+//                    Log.e("tag", "打印收件箱数据---------->" + response);
                     Gson gson = new Gson();
                     mails = gson.fromJson(response, Mails.class);
                     if (mails != null) {

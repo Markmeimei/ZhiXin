@@ -267,5 +267,7 @@
     <string name="dialog_select_all">全选</string>
     <string name="dialog_positive">确定</string>
     <string name="dialog_negative">取消</string>
-
+    
+    <!--定位说明-->
+    <string name="location_description">1. 签到做了位置限制，因GPS网络原因和手机信号问题可能会存在一定的误差。\n2. 请确定本人已到公司并已连接公司内部网络再进行签到。</string>
 </resources>

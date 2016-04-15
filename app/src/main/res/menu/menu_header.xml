@@ -2,21 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-    android:id="@+id/action_search"
-    android:icon="@mipmap/ic_launcher"
-    android:title="刷新"
+    android:id="@+id/action_question"
+    android:icon="@mipmap/ic_question"
+    android:title="问题"
     app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_notification"
-        android:icon="@mipmap/ic_launcher"
-        android:title="签到记录"
+        android:id="@+id/action_refresh"
+        android:icon="@mipmap/ic_refresh"
+        android:title="刷新"
         app:showAsAction="ifRoom" />
 
-    <!--<item-->
-    <!--android:id="@+id/action_item1"-->
-    <!--android:title="@string/item_01"-->
-    <!--app:showAsAction="never" />-->
+    <item
+    android:id="@+id/action_setting"
+    android:title="签到记录"
+    app:showAsAction="never" />
 
     <!--<item-->
     <!--android:id="@+id/action_item2"-->

@@ -138,6 +138,8 @@
         <activity android:name=".activity.daily.timetableManage.TimetableManageActivity" />
         <!--签到-->
         <activity android:name=".activity.daily.RegisterActivity" />
+        <!--签到说明-->
+        <activity android:name=".activity.daily.RegisterQuestionActivity" />
     </application>
 
 </manifest>

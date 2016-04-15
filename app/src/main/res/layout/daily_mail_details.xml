@@ -78,11 +78,11 @@
             android:background="@color/line_color" />
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/dimen_30"
@@ -117,15 +117,9 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_15">
-
-                    <TextView
-                        style="@style/rl_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:text="@string/mail_theme" />
 
                     <TextView
                         android:id="@+id/tv_mail_detail_topic"
@@ -139,27 +133,35 @@
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/dimen_0.5"
                     android:background="@color/line_color" />
+
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_15">
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/dimen_15">
 
                     <TextView
-                        style="@style/rl_text"
+                        android:id="@+id/tv_mail_details_sender"
                         android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:text="@string/mail_sender" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_5"
+                        android:text="来自" />
 
                     <TextView
-                        android:id="@+id/tv_mail_detail_sender"
-                        style="@style/text_style"
+                        android:id="@+id/tv_mail_detail_receiver"
                         android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:text="发件人" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_10"
+                        android:text="发给" />
+
+                    <TextView
+                        android:id="@+id/tv_mail_details_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dimen_5"
+                        android:layout_marginTop="@dimen/dimen_10"
+                        android:text="2016-04-15" />
                 </LinearLayout>
-
-
-
 
 
                 <View
@@ -234,12 +236,12 @@
 
                 <TextView
                     android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_40"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimen_15"
                     android:text="附件"
                     android:textColor="@color/text_color1"
-                    android:textSize="@dimen/dimen_18"
-                    android:paddingLeft="@dimen/dimen_15"
-                    android:gravity="center_vertical"
-                    android:layout_height="@dimen/dimen_40" />
+                    android:textSize="@dimen/dimen_18" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_mail_detail_attachment"

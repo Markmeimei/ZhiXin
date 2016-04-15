@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.daily.mail.MailAddActivity">
+    tools:context=".activity.daily.RegisterQuestionActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_email_add"
+            android:id="@+id/tb_register_que"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -21,6 +21,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/activity_mail_add_content" />
+    <include layout="@layout/activity_register_que_con" />
+
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

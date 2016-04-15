@@ -1,6 +1,9 @@
 package com.example.zhi.activity.daily;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +27,10 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.zhi.R;
+import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.Utils;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +42,7 @@ import butterknife.ButterKnife;
  * Date: 2016/4/14 0014
  * Time: 9:27
  */
-public class RegisterActivity extends AppCompatActivity implements AMapLocationListener{
+public class RegisterActivity extends AppCompatActivity implements AMapLocationListener {
 
 
     @Bind(R.id.tb_register_main)
@@ -45,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     TextView tvRegisterName;
     @Bind(R.id.tv_register_desc)
     TextView tvRegisterDesc;
+    @Bind(R.id.tv_register_week)
+    TextView tvRegisterWeek;//星期
     @Bind(R.id.tv_register_date)
     TextView tvRegisterDate;// 日期
     @Bind(R.id.tv_register_time)
@@ -63,8 +73,12 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     @Bind(R.id.tv_register_test)
     TextView registerTest;// 测试定位
 
-    private Context mContext;
+    private String userName;
 
+    private Context mContext;
+    protected MenuItem refreshItem;
+
+    // 定位
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
 
@@ -127,6 +141,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     private void initConstant() {
         mContext = RegisterActivity.this;
 //        setSupportActionBar(tbRegisterMain);
+        SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        userName = preferences.getString("user_name", "");
 
         locationClient = new AMapLocationClient(this.getApplicationContext());
         locationOption = new AMapLocationClientOption();
@@ -139,7 +155,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     }
 
     private void initData() {
-
+        tvRegisterTime.setText(DateUtils.getTime());// 刷新时间
         // 设置定位参数
         locationClient.setLocationOption(locationOption);
         // 启动定位
@@ -149,10 +165,17 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     }
 
     private void initView() {
+        Date date = new Date();
+        tvRegisterWeek.setText("星期"+DateUtils.getWeek(date));
+        tvRegisterDate.setText(DateUtils.getDateYMD());
+        tvRegisterTime.setText(DateUtils.getTime());
+        tvRegisterName.setText(userName);
         tbRegisterMain.setNavigationIcon(R.mipmap.ic_toolbar_back);
         tbRegisterMain.setTitle("签到");
         tbRegisterMain.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
         tbRegisterMain.inflateMenu(R.menu.menu_header);
+
+        fabRegisterSign.setImageResource(R.mipmap.ic_file_ppt);
     }
 
     private void initEvent() {
@@ -173,13 +196,16 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemId = item.getItemId();
-                switch (itemId){
-                    case R.id.action_search:
-                        Toast.makeText(mContext, "刷新", Toast.LENGTH_SHORT).show();
+                switch (itemId) {
+                    case R.id.action_question:
+                        startActivity(new Intent(mContext,RegisterQuestionActivity.class));
                         break;
-                    case R.id.action_notification:
+                    case R.id.action_refresh:
+                        showRefreshAnimation(item);
+                        initData();// 刷新数据
+                        break;
+                    case R.id.action_setting:
                         Toast.makeText(mContext, "签到记录", Toast.LENGTH_SHORT).show();
-                        break;
                 }
                 return true;
             }
@@ -191,6 +217,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             switch (msg.what) {
                 case Utils.MSG_LOCATION_START:
                     registerTest.setText("开始定位");
+                    tvRegisterLoc.setText("开始定位");
+                    tvRegisterLocDet.setText("");
                     break;
                 case Utils.MSG_LOCATION_FINISH:// 设置定位结果
                     AMapLocation loc = (AMapLocation) msg.obj;
@@ -206,8 +234,10 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                     double now_longitude = loc.getLongitude();
                     double default_latitude = 35.460712;
                     double default_longitude = 119.541432;
-                    double distance = Utils.DistanceOfTwoPoints(now_latitude,now_longitude,default_latitude,default_longitude);
-                    registerTest.setText("纬度："+now_latitude+"经度："+now_longitude+"距离"+String.valueOf(distance)+"米");
+                    double distance = Utils.DistanceOfTwoPoints(now_latitude, now_longitude, default_latitude, default_longitude);
+                    registerTest.setText("纬度：" + now_latitude + "经度：" + now_longitude + "距离" + String.valueOf(distance) + "米");
+                    sendRequest();
+                    hideRefreshAnimation();//隐藏动画
                     break;
                 //停止定位
                 case Utils.MSG_LOCATION_STOP:
@@ -219,6 +249,13 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
         }
     };
 
+    /**
+     * 发送签到请求
+     */
+    private void sendRequest() {
+
+    }
+
     // 定位监听
     @Override
     public void onLocationChanged(AMapLocation loc) {
@@ -227,6 +264,36 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             msg.obj = loc;
             msg.what = Utils.MSG_LOCATION_FINISH;
             mHandler.sendMessage(msg);
+        }
+    }
+
+
+    @SuppressLint("NewApi")
+    private void showRefreshAnimation(MenuItem item) {
+        hideRefreshAnimation();
+
+        refreshItem = item;
+
+        //这里使用一个ImageView设置成MenuItem的ActionView，这样我们就可以使用这个ImageView显示旋转动画了
+        ImageView refreshActionView = (ImageView) getLayoutInflater().inflate(R.layout.refresh_ani_view, null);
+        refreshActionView.setImageResource(R.mipmap.ic_refresh);
+        refreshItem.setActionView(refreshActionView);
+
+        //显示刷新动画
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.toolbar_refresh);
+        animation.setRepeatMode(Animation.RESTART);
+        animation.setRepeatCount(Animation.INFINITE);
+        refreshActionView.startAnimation(animation);
+    }
+
+    @SuppressLint("NewApi")
+    private void hideRefreshAnimation() {
+        if (refreshItem != null) {
+            View view = refreshItem.getActionView();
+            if (view != null) {
+                view.clearAnimation();
+                refreshItem.setActionView(null);
+            }
         }
     }
 }

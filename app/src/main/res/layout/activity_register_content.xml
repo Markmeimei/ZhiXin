@@ -30,7 +30,7 @@
             android:layout_marginLeft="@dimen/dimen_15"
             android:layout_marginTop="@dimen/dimen_20"
             android:layout_toRightOf="@id/iv_register_avatar"
-            android:text="张全蛋"
+            android:text=""
             android:textColor="@color/text_color1"
             android:textSize="17sp" />
 
@@ -42,7 +42,7 @@
             android:layout_marginLeft="@dimen/dimen_15"
             android:layout_marginTop="@dimen/dimen_10"
             android:layout_toRightOf="@id/iv_register_avatar"
-            android:text="您还未签到，请注意时间" />
+            android:text="" />
 
     </RelativeLayout>
 
@@ -55,7 +55,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_170"
+        android:layout_height="@dimen/dimen_190"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dimen_20"
@@ -69,12 +69,13 @@
             android:paddingTop="@dimen/dimen_3">
 
             <TextView
+                android:id="@+id/tv_register_week"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:drawableLeft="@mipmap/icon_choice_date"
                 android:drawablePadding="@dimen/dimen_4"
                 android:gravity="center"
-                android:text="星期"
+                android:text=""
                 android:textColor="@color/darkOrange"
                 android:textSize="17sp" />
 
@@ -83,14 +84,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dimen_5"
-                android:text="2016-04-14"
+                android:text=""
                 android:textColor="@color/text_color1"
                 android:textSize="17sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_30"
+                android:layout_marginLeft="@dimen/dimen_10"
                 android:drawablePadding="@dimen/dimen_4"
                 android:gravity="center"
                 android:text="当前时间："
@@ -101,8 +102,8 @@
                 android:id="@+id/tv_register_time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_5"
-                android:text="10:25"
+                android:layout_marginLeft="@dimen/dimen_3"
+                android:text=""
                 android:textColor="@color/text_color1"
                 android:textSize="17sp" />
         </LinearLayout>
@@ -150,6 +151,7 @@
                 android:layout_marginLeft="@dimen/dimen_5"
                 android:layout_toRightOf="@id/iv_register_map"
                 android:text="地点不对？"
+                android:layout_marginBottom="@dimen/dimen_5"
                 android:textColor="@color/main_color" />
 
         </RelativeLayout>
@@ -163,8 +165,8 @@
 
     <TextView
         android:id="@+id/tv_register_test"
-        android:text="测试定位"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="测试定位" />
 
 </LinearLayout>
