@@ -26,11 +26,16 @@ import com.example.zhi.utils.CipherUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.cookie.store.MemoryCookieStore;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import dmax.dialog.SpotsDialog;
 import okhttp3.Call;
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 
 /**
  * Author：Mark
@@ -70,10 +75,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
         initConstants();
         // 隐藏键盘
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         initData();
         initEvent();
-
     }
 
     private void initData() {
@@ -162,6 +165,8 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
                         Toast.makeText(mContext, "未知错误！请检查您的网络！", Toast.LENGTH_SHORT).show();
                     }
 
+
+
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -203,6 +208,10 @@ public class LoginActivity extends Activity implements View.OnClickListener, Com
 
                     }
                 });
+
+//        MemoryCookieStore cookieStore = new MemoryCookieStore();
+//        List<Cookie> cookies = cookieStore.get(HttpUrl.parse("http://xtbg.sdzxkj.cn/android/login.php?username=王选龙&password=456852"));
+//        Log.e("tag", "打印Cookies------------------->" + cookies);
     }
 
     /**

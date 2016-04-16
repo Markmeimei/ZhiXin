@@ -4,9 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +31,14 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerBase;
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.MyLocationStyle;
 import com.example.zhi.R;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.Utils;
@@ -60,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     @Bind(R.id.tv_register_time)
     TextView tvRegisterTime;// 时间
     @Bind(R.id.iv_register_map)
-    ImageView ivRegisterMap;// 地图
+    MapView ivRegisterMap;// 地图
     @Bind(R.id.tv_register_loc)
     TextView tvRegisterLoc;// 位置
     @Bind(R.id.tv_register_loc_det)
@@ -80,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 
     // 定位
     private AMapLocationClient locationClient = null;
+    private AMap aMap;
     private AMapLocationClientOption locationOption = null;
 
     @Override
@@ -88,6 +102,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+
+        ivRegisterMap.onCreate(savedInstanceState);
 
         initConstant();
         initData();
@@ -99,6 +115,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ivRegisterMap.onDestroy();
+
         if (null != locationClient) {
             /**
              * 如果AMapLocationClient是在当前Activity实例化的，
@@ -139,8 +157,11 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 //    }
 
     private void initConstant() {
+
         mContext = RegisterActivity.this;
 //        setSupportActionBar(tbRegisterMain);
+        aMap = ivRegisterMap.getMap();
+        aMap.getUiSettings().setZoomControlsEnabled(false);
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
 
@@ -166,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 
     private void initView() {
         Date date = new Date();
-        tvRegisterWeek.setText("星期"+DateUtils.getWeek(date));
+        tvRegisterWeek.setText("星期" + DateUtils.getWeek(date));
         tvRegisterDate.setText(DateUtils.getDateYMD());
         tvRegisterTime.setText(DateUtils.getTime());
         tvRegisterName.setText(userName);
@@ -175,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
         tbRegisterMain.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
         tbRegisterMain.inflateMenu(R.menu.menu_header);
 
-        fabRegisterSign.setImageResource(R.mipmap.ic_file_ppt);
+        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
     }
 
     private void initEvent() {
@@ -198,9 +219,11 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                 int itemId = item.getItemId();
                 switch (itemId) {
                     case R.id.action_question:
-                        startActivity(new Intent(mContext,RegisterQuestionActivity.class));
+                        startActivity(new Intent(mContext, RegisterQuestionActivity.class));
                         break;
                     case R.id.action_refresh:
+//                        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.toolbar_refresh);
+//                        startAnimation(animation);
                         showRefreshAnimation(item);
                         initData();// 刷新数据
                         break;
@@ -236,6 +259,14 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                     double default_longitude = 119.541432;
                     double distance = Utils.DistanceOfTwoPoints(now_latitude, now_longitude, default_latitude, default_longitude);
                     registerTest.setText("纬度：" + now_latitude + "经度：" + now_longitude + "距离" + String.valueOf(distance) + "米");
+
+                    //绘制marker
+                    Marker marker = aMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(now_latitude,now_longitude))
+                            .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                                    .decodeResource(getResources(), R.mipmap.ic_launcher)))
+                            .draggable(true));
+
                     sendRequest();
                     hideRefreshAnimation();//隐藏动画
                     break;
@@ -276,7 +307,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 
         //这里使用一个ImageView设置成MenuItem的ActionView，这样我们就可以使用这个ImageView显示旋转动画了
         ImageView refreshActionView = (ImageView) getLayoutInflater().inflate(R.layout.refresh_ani_view, null);
-        refreshActionView.setImageResource(R.mipmap.ic_refresh);
+        refreshActionView.setImageResource(R.mipmap.ic_refresh_s);
         refreshItem.setActionView(refreshActionView);
 
         //显示刷新动画
@@ -296,4 +327,23 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ivRegisterMap.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ivRegisterMap.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        ivRegisterMap.onSaveInstanceState(outState);
+    }
+
 }

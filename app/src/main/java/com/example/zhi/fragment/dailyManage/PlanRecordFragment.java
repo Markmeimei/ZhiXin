@@ -134,7 +134,7 @@ public class PlanRecordFragment extends Fragment implements OnDateSelectedListen
                     @Override
                     public void onResponse(String response) {
                         try {
-//                            Log.e("tag", "------测试每日计划返回数据------------------->" + response);
+                            Log.e("tag", "------测试每日计划返回数据------------------->" + response);
                             Gson gson = new Gson();
                             DailyPlan dailyPlan = gson.fromJson(response, DailyPlan.class);
                             if (dailyPlan != null) {

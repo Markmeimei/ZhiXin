@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
     android:id="@+id/action_question"
-    android:icon="@mipmap/ic_question"
+    android:icon="@mipmap/ic_question_s"
     android:title="问题"
     app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_refresh"
-        android:icon="@mipmap/ic_refresh"
+        android:icon="@mipmap/ic_refresh_s"
         android:title="刷新"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
 
     <item
     android:id="@+id/action_setting"

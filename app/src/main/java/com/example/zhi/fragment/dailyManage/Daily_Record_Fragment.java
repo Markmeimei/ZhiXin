@@ -132,7 +132,7 @@ public class Daily_Record_Fragment extends Fragment implements OnDateSelectedLis
                     @Override
                     public void onResponse(String response) {
                         try {
-//                            Log.e("tag", "每日一报记录---------------->" + response);
+                            Log.e("tag", "每日一报记录---------------->" + response);
                             Gson gson = new Gson();
                             DailyRecord dailyRecord = gson.fromJson(response, DailyRecord.class);
                             if (null != dailyRecord) {

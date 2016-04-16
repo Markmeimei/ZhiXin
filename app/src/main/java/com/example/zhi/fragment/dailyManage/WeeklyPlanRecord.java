@@ -91,7 +91,7 @@ public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener
         userName = preferences.getString("user_name", "");
         userId = preferences.getString("user_id", "");
         md5UserSID = ASimpleCache.get(mContext).getAsString("md5_sid");
-        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
+//        Log.e("tag", "-----查看每日一报测试sid------------>" + md5UserSID);
         // 初始化日期
         Calendar mCalendar = Calendar.getInstance();
         dailyRecordCalender.setSelectedDate(mCalendar.getTime());
@@ -129,7 +129,7 @@ public class WeeklyPlanRecord extends Fragment implements OnDateSelectedListener
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.e("tag", "------测试每日计划返回数据------------------->" + response);
+//                            Log.e("tag", "------测试每周计划返回数据------------------->" + response);
                             Gson gson = new Gson();
                             DailyPlan dailyPlan = gson.fromJson(response, DailyPlan.class);
                             if (dailyPlan != null) {
