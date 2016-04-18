@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import com.example.zhi.adapter.TaskListAdapter;
 import com.example.zhi.constant.ConstantURL;
 import com.example.zhi.object.TaskList;
 import com.example.zhi.utils.ASimpleCache;
-import com.example.zhi.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -125,8 +123,10 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
                         taskList = gson.fromJson(response, TaskList.class);
                         if (null != taskList) {
                             if (taskList.getData().getState() == 0) {
+                                taskLists.clear();//清空List
                                 taskListAdapter.notifyDataSetChanged();
-                                Toast.makeText(mContext, "无完成任务", Toast.LENGTH_SHORT).show();
+                                refreshLayout.setRefreshing(false);
+                                Toast.makeText(mContext, "无我添加的任务", Toast.LENGTH_SHORT).show();
                             } else if (taskList.getData().getState() == 1) {
                                 List<TaskList.Data.Info> list = taskList.getData().getInfo();
                                 taskLists.clear();
@@ -147,12 +147,11 @@ public class TaskMyAddList extends AppCompatActivity implements SwipeRefreshLayo
                                 });
                             }
                         }
-                        refreshLayout.setRefreshing(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                refreshLayout.setRefreshing(false);
             }
         });
     }

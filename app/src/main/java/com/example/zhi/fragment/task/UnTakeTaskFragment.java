@@ -151,7 +151,9 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
                                 taskList = gson.fromJson(response, TaskList.class);
                                 if (null != taskList) {
                                     if (taskList.getData().getState() == 0) {
+                                        taskLists.clear();//清空List
                                         taskListAdapter.notifyDataSetChanged();
+                                        mSwipeRefreshLayout.setRefreshing(false);
                                         Toast.makeText(mContext, "无未接任务", Toast.LENGTH_SHORT).show();
                                     } else if (taskList.getData().getState() == 1) {
                                         List<TaskList.Data.Info> list = taskList.getData().getInfo();
@@ -174,11 +176,11 @@ public class UnTakeTaskFragment extends Fragment implements SwipeRefreshLayout.O
                                         });
                                     }
                                 }
-                                mSwipeRefreshLayout.setRefreshing(false);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }

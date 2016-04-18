@@ -137,7 +137,9 @@ public class FinishedTaskFragment extends Fragment implements SwipeRefreshLayout
                                 taskList = gson.fromJson(response, TaskList.class);
                                 if (null != taskList) {
                                     if (taskList.getData().getState() == 0) {
+                                        taskLists.clear();//清空List
                                         taskListAdapter.notifyDataSetChanged();
+                                        mSwipeRefreshLayout.setRefreshing(false);
                                         Toast.makeText(mContext, "无完成任务", Toast.LENGTH_SHORT).show();
                                     } else if (taskList.getData().getState() == 1) {
                                         List<TaskList.Data.Info> list = taskList.getData().getInfo();
@@ -159,11 +161,11 @@ public class FinishedTaskFragment extends Fragment implements SwipeRefreshLayout
                                         });
                                     }
                                 }
-                                mSwipeRefreshLayout.setRefreshing(false);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }

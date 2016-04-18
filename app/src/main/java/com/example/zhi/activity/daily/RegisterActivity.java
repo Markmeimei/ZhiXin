@@ -33,8 +33,11 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerBase;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -262,10 +265,25 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 
                     //绘制marker
                     Marker marker = aMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(now_latitude,now_longitude))
+                            .position(new LatLng(now_latitude, now_longitude))
                             .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                                    .decodeResource(getResources(), R.mipmap.ic_launcher)))
+                                    .decodeResource(getResources(), R.mipmap.ic_loc_point)))
                             .draggable(true));
+
+                    AMap amap = ivRegisterMap.getMap();
+                    CameraPosition p = new CameraPosition.Builder().target(new LatLng(now_latitude, now_longitude)).zoom(18).build();
+                    CameraUpdate c = CameraUpdateFactory.newCameraPosition(p);
+                    amap.moveCamera(c);
+
+                    // 获取地图截图
+//						amap.getMapScreenShot(new OnMapScreenShotListener() {
+//
+//							@Override
+//							public void onMapScreenShot(Bitmap arg0) {
+//								locationImg.setImageBitmap(arg0);
+//							}
+//						});
+
 
                     sendRequest();
                     hideRefreshAnimation();//隐藏动画

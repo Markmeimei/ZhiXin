@@ -130,6 +130,7 @@ public class ReceivedTaskFragment extends Fragment implements SwipeRefreshLayout
                     @Override
                     public void onError(Call call, Exception e) {
                         Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -147,6 +148,7 @@ public class ReceivedTaskFragment extends Fragment implements SwipeRefreshLayout
                                 taskList = gson.fromJson(response, TaskList.class);
                                 if (null != taskList) {
                                     if (taskList.getData().getState() == 0) {
+                                        taskLists.clear();//清空List
                                         taskListAdapter.notifyDataSetChanged();
                                         Toast.makeText(mContext, "无已接任务", Toast.LENGTH_SHORT).show();
                                     } else if (taskList.getData().getState() == 1) {
@@ -170,13 +172,11 @@ public class ReceivedTaskFragment extends Fragment implements SwipeRefreshLayout
                                         });
                                     }
                                 }
-                                mSwipeRefreshLayout.setRefreshing(false);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }
