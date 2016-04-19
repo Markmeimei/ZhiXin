@@ -160,7 +160,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dimen_5"
                         android:layout_marginTop="@dimen/dimen_10"
-                        android:text="2016-04-15" />
+                        android:textColor="@color/orange"
+                        android:text="" />
                 </LinearLayout>
 
 
@@ -200,8 +201,7 @@
                         android:id="@+id/tv_mail_detail_content"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:text="（11月14日-11月20日）国内外投融资共计60起，国内外O2O产业达8起，数据挖掘1起，智能硬件3起，游戏相关2起，社交相关3起，工具软件2起，互联网金融6起，医疗健康2起，企业服务11起，云计算2起，在线教育3起，电商8起，旅游3起，其他类型6起。详细请点击投融助手分类进行查看.部分数据未得到证实，若发现，欢迎读者指出。
-"
+                        android:text=""
                         android:textColor="@color/text_color2"
                         android:textSize="@dimen/dimen_14" />
                 </LinearLayout>

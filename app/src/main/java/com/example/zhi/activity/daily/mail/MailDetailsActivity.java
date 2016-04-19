@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,14 +94,14 @@ public class MailDetailsActivity extends Activity {
                     mailDetailContent.setText(Html.fromHtml(details.getContent()));
                     emailSender.setText("来自：" + userName);
                     emailReceiver.setText("发给：" + receiverName);
-                    emailTime.setText(details.getDate());
+                    emailTime.setText("时间：" + details.getDate());
                     break;
                 case RECEIVER_UPDATA_UI:
                     mailDetailTopic.setText(details.getTitle());
                     mailDetailContent.setText(Html.fromHtml(details.getContent()));
                     emailSender.setText("来自：" + senderName);
                     emailReceiver.setText("发给：" + userName);
-                    emailTime.setText(details.getDate());
+                    emailTime.setText("时间：" + details.getDate());
                     break;
                 default:
                     break;

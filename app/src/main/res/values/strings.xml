@@ -269,5 +269,5 @@
     <string name="dialog_negative">取消</string>
     
     <!--定位说明-->
-    <string name="location_description">1. 签到做了位置限制，因GPS网络原因和手机信号问题可能会存在一定的误差。\n2. 请确定本人已到公司并已连接公司内部网络再进行签到。</string>
+    <string name="location_description">1.签到定位的原点坐标为研发室坐标，签到距离以距离研发室的坐标为基准（分公司暂时无法签到，后续版本会提供解决方案）。\n2. 签到做了位置限制，因GPS网络原因和手机信号问题可能会存在一定的误差，造成无法签到。\n3. 为保证成功签到，请确定本人已到公司并已连接公司内部网络再进行签到。</string>
 </resources>

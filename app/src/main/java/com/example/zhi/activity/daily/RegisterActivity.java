@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,7 +14,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -31,7 +27,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.LocationManagerBase;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
@@ -41,7 +36,6 @@ import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
-import com.amap.api.maps2d.model.MyLocationStyle;
 import com.example.zhi.R;
 import com.example.zhi.utils.DateUtils;
 import com.example.zhi.utils.Utils;
@@ -258,8 +252,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                     // 距离
                     double now_latitude = loc.getLatitude();
                     double now_longitude = loc.getLongitude();
-                    double default_latitude = 35.460712;
-                    double default_longitude = 119.541432;
+                    double default_latitude = 35.460573;
+                    double default_longitude = 119.541594;
                     double distance = Utils.DistanceOfTwoPoints(now_latitude, now_longitude, default_latitude, default_longitude);
                     registerTest.setText("纬度：" + now_latitude + "经度：" + now_longitude + "距离" + String.valueOf(distance) + "米");
 
@@ -271,7 +265,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                             .draggable(true));
 
                     AMap amap = ivRegisterMap.getMap();
-                    CameraPosition p = new CameraPosition.Builder().target(new LatLng(now_latitude, now_longitude)).zoom(18).build();
+                    CameraPosition p = new CameraPosition.Builder().target(new LatLng(now_latitude, now_longitude)).zoom(15).build();
                     CameraUpdate c = CameraUpdateFactory.newCameraPosition(p);
                     amap.moveCamera(c);
 
