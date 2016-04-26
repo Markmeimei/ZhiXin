@@ -42,7 +42,7 @@
             android:layout_marginLeft="@dimen/dimen_15"
             android:layout_marginTop="@dimen/dimen_10"
             android:layout_toRightOf="@id/iv_register_avatar"
-            android:text="" />
+            android:text="签到状态" />
 
     </RelativeLayout>
 

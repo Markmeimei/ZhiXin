@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.zhi.activity.daily.AddDailyWork;
-import com.example.zhi.activity.daily.mail.MailActivity;
-import com.example.zhi.activity.daily.notice.NoticeActivity;
 import com.example.zhi.activity.daily.extraWork.ExtraWorkManageActivity;
 import com.example.zhi.activity.daily.leave.Leave_FragmentActivity;
+import com.example.zhi.activity.daily.mail.MailActivity;
+import com.example.zhi.activity.daily.notice.NoticeActivity;
 import com.example.zhi.activity.daily.task.Task_Fragment_Activity;
 import com.example.zhi.activity.daily.timetableManage.TimetableManageActivity;
 import com.example.zhi.object.Receiver;
-import com.example.zhi.object.ReceiverObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +25,10 @@ public class ToolsUtils {
     public static List<Receiver.Data> checkedUsers = new ArrayList<>();
     public static String update_ID = "" ;
 
-    //完成任务内容全局对象
+    // 完成任务内容全局对象
     public static String taskFinishContent = "";
+    // 迟到或早退全局对象
+    public static String registerContent = "";
 
     /**
      * 跳转页

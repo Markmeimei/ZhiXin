@@ -59,7 +59,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
 
         holder.taskListDescribe.setText(taskLists.get(position).getContent());
 //        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getContent());
-//        Log.e("tag", "Adapter打印单条数据------>" + taskLists.get(position).getAddtime());
         holder.taskListAddTime.setText(DateUtils.getDateToString(Long.valueOf(taskLists.get(position).getAddtime()) * 1000));//添加时间
         holder.taskListAddUser.setText(taskLists.get(position).getName());
         holder.taskListDate.setText(taskLists.get(position).getDate());// 添加日期

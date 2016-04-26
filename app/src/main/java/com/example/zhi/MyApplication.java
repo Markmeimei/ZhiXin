@@ -23,7 +23,6 @@ public class MyApplication extends Application {
     private static MyApplication myApplication;
 
     private MyApplication() {
-
     }
 
     @Override

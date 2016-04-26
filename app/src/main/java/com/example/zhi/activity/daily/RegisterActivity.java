@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -37,13 +38,20 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.example.zhi.R;
+import com.example.zhi.constant.ConstantURL;
+import com.example.zhi.dialog.RegisterDialog;
 import com.example.zhi.utils.DateUtils;
+import com.example.zhi.utils.ToolsUtils;
 import com.example.zhi.utils.Utils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.RequestCall;
 
 import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * 签到Activity
@@ -54,6 +62,8 @@ import butterknife.ButterKnife;
  */
 public class RegisterActivity extends AppCompatActivity implements AMapLocationListener {
 
+    private static final int REGISTER_STATE = 3;
+
 
     @Bind(R.id.tb_register_main)
     Toolbar tbRegisterMain;
@@ -62,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     @Bind(R.id.tv_register_name)
     TextView tvRegisterName;
     @Bind(R.id.tv_register_desc)
-    TextView tvRegisterDesc;
+    TextView tvRegisterDesc;// 签到状态
     @Bind(R.id.tv_register_week)
     TextView tvRegisterWeek;//星期
     @Bind(R.id.tv_register_date)
@@ -88,10 +98,17 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     private Context mContext;
     protected MenuItem refreshItem;
 
+    private String userId;//当前用户id
+    private RequestCall mCall;// OKHttpCall
+
     // 定位
     private AMapLocationClient locationClient = null;
     private AMap aMap;
     private AMapLocationClientOption locationOption = null;
+
+    private double distance;// 距离
+    private String states;// 签到状态
+    private RegisterDialog registerDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,21 +126,6 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ivRegisterMap.onDestroy();
-
-        if (null != locationClient) {
-            /**
-             * 如果AMapLocationClient是在当前Activity实例化的，
-             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
-             */
-            locationClient.onDestroy();
-            locationClient = null;
-            locationOption = null;
-        }
-    }
 
 //    /**
 //     * 创建Toolbar菜单
@@ -159,8 +161,10 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 //        setSupportActionBar(tbRegisterMain);
         aMap = ivRegisterMap.getMap();
         aMap.getUiSettings().setZoomControlsEnabled(false);
+        // 用户基本信息
         SharedPreferences preferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
         userName = preferences.getString("user_name", "");
+        userId = preferences.getString("user_id", "");
 
         locationClient = new AMapLocationClient(this.getApplicationContext());
         locationOption = new AMapLocationClientOption();
@@ -169,6 +173,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
         locationOption.setOnceLocation(true);// 设置单次定位
         // 设置定位监听
         locationClient.setLocationListener(this);
+
 
     }
 
@@ -180,6 +185,49 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
         locationClient.startLocation();
         mHandler.sendEmptyMessage(Utils.MSG_LOCATION_START);
 
+        // 获取签到状态
+        getState();
+
+    }
+
+    // 获取签到状态
+    private void getState() {
+        mCall = OkHttpUtils
+                .get()
+                .url(ConstantURL.REGISTER)
+                .addParams("state", "" + 1)
+                .addParams("uid", "" + userId)
+                .build();
+        mCall.execute(new StringCallback() {
+
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tag", "签到状态---------->" + response);
+                    states = response;
+                    if (response.contains("0")) {
+                        tvRegisterDesc.setText("未签到");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
+                    } else if (response.contains("1")) {
+                        tvRegisterDesc.setText("已签到 未签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+
+                    } else if (response.contains("2")) {
+                        tvRegisterDesc.setText("已签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
+
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -193,7 +241,6 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
         tbRegisterMain.setTitleTextColor(ContextCompat.getColor(mContext, R.color.white));
         tbRegisterMain.inflateMenu(R.menu.menu_header);
 
-        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
     }
 
     private void initEvent() {
@@ -203,13 +250,25 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                 finish();
             }
         });
-
+        /**
+         * 签到点击事件
+         */
         fabRegisterSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "签到", Toast.LENGTH_SHORT).show();
+                // 签到
+                if (states.contains("0")) {
+                    if (distance < 500) {
+                        sendInRequest();//发送签到请求
+                    } else {
+                        Toast.makeText(mContext,"请在规定范围内签到",Toast.LENGTH_SHORT).show();
+                    }
+                } else if (states.contains("1")) {
+                    sendOutRequest();
+                }
             }
         });
+
         tbRegisterMain.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -231,6 +290,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             }
         });
     }
+
+
 
     Handler mHandler = new Handler() {
         public void dispatchMessage(android.os.Message msg) {
@@ -254,7 +315,8 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                     double now_longitude = loc.getLongitude();
                     double default_latitude = 35.460573;
                     double default_longitude = 119.541594;
-                    double distance = Utils.DistanceOfTwoPoints(now_latitude, now_longitude, default_latitude, default_longitude);
+                    // 计算距离
+                    distance = Utils.DistanceOfTwoPoints(now_latitude, now_longitude, default_latitude, default_longitude);
                     registerTest.setText("纬度：" + now_latitude + "经度：" + now_longitude + "距离" + String.valueOf(distance) + "米");
 
                     //绘制marker
@@ -278,8 +340,6 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 //							}
 //						});
 
-
-                    sendRequest();
                     hideRefreshAnimation();//隐藏动画
                     break;
                 //停止定位
@@ -293,9 +353,74 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     };
 
     /**
-     * 发送签到请求
+     * 发送 签到 请求
      */
-    private void sendRequest() {
+    private void sendInRequest() {
+        Toast.makeText(mContext, "签到", Toast.LENGTH_SHORT).show();
+        mCall = OkHttpUtils
+                .get()
+                .url(ConstantURL.REGISTER)
+                .addParams("uid", "" + userId)
+                .addParams("qiandao", "" + 1)
+                .build();
+        mCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tag", "发送签到返回状态---------->" + response);
+                    states = response;
+                    if (response.contains("1")) {
+                        Toast.makeText(mContext, "签到成功", Toast.LENGTH_SHORT).show();
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+                    } else if (response.contains("2")) {
+                        tvRegisterDesc.setText("签到失败");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
+                    } else if (response.contains("3")) {
+                        // 输入迟到原因
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
+                        Log.e("tag", "签到Dialog内容-------->" + ToolsUtils.registerContent);
+                        registerDialog = new RegisterDialog(mContext);
+                        registerDialog.builder()
+                                .setTitle("请输入迟到原因")
+                                .setCancelable(true)
+                                .setNegativeButton("取消", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        registerDialog.dismiss();
+                                    }
+                                })
+                                .setPositiveButton("确定", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        sendLateRequest();
+                                    }
+                                })
+                                .show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * 提交迟到内容
+     */
+    private void sendLateRequest() {
+
+    }
+
+    /**
+     * 发送 签退 请求
+     */
+    private void sendOutRequest() {
+        Toast.makeText(mContext, "签退", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -356,6 +481,29 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         ivRegisterMap.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ivRegisterMap.onDestroy();
+
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
+
+        // 网络请求
+        if (mCall != null) {
+            mCall.cancel();
+        }
+        ButterKnife.unbind(this);
     }
 
 }
