@@ -219,9 +219,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
 
                     } else if (response.contains("2")) {
                         tvRegisterDesc.setText("已签退");
-                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
-
-
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_al_out);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -261,10 +259,14 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                     if (distance < 500) {
                         sendInRequest();//发送签到请求
                     } else {
-                        Toast.makeText(mContext,"请在规定范围内签到",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "请在规定范围内签到", Toast.LENGTH_SHORT).show();
                     }
                 } else if (states.contains("1")) {
                     sendOutRequest();
+                } else if (states.contains("2")) {
+                    tvRegisterDesc.setText("已签退");
+                    fabRegisterSign.setImageResource(R.mipmap.ic_sign_al_out);
+                    Toast.makeText(mContext, "您今天已签退！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -290,7 +292,6 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             }
         });
     }
-
 
 
     Handler mHandler = new Handler() {
@@ -356,7 +357,7 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
      * 发送 签到 请求
      */
     private void sendInRequest() {
-        Toast.makeText(mContext, "签到", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "签到", Toast.LENGTH_SHORT).show();
         mCall = OkHttpUtils
                 .get()
                 .url(ConstantURL.REGISTER)
@@ -372,13 +373,15 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
             @Override
             public void onResponse(String response) {
                 try {
-                    Log.e("tag", "发送签到返回状态---------->" + response);
-                    states = response;
+                    Log.e("tag", "发送签到返回状态---------->" + response + "response长度" + response.length());
                     if (response.contains("1")) {
                         Toast.makeText(mContext, "签到成功", Toast.LENGTH_SHORT).show();
+                        states = "1";
+                        tvRegisterDesc.setText("已签到");
                         fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
                     } else if (response.contains("2")) {
                         tvRegisterDesc.setText("签到失败");
+                        tvRegisterDesc.setText("未签到");
                         fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
                     } else if (response.contains("3")) {
                         // 输入迟到原因
@@ -397,7 +400,11 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
                                 .setPositiveButton("确定", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        sendLateRequest();
+                                        if (ToolsUtils.registerContent.equals("")) {
+                                            Toast.makeText(mContext, "请输入迟到原因！", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            sendLateRequest();// 发送迟到请求
+                                        }
                                     }
                                 })
                                 .show();
@@ -413,15 +420,148 @@ public class RegisterActivity extends AppCompatActivity implements AMapLocationL
      * 提交迟到内容
      */
     private void sendLateRequest() {
+        mCall = OkHttpUtils
+                .get()
+                .url(ConstantURL.REGISTER)
+                .addParams("uid", "" + userId)
+                .addParams("qiandao", "" + 1)
+                .addParams("ok", "" + 1)
+                .addParams("text", ToolsUtils.registerContent)
+                .build();
+        mCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+                registerDialog.dismiss();
+            }
 
+            @Override
+            public void onResponse(String response) {
+                try {
+                    Log.e("tag", "迟到返回值-------------->" + response);
+                    if (response.contains("1")) {
+                        Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+                        tvRegisterDesc.setText("已签到 未签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+                        registerDialog.dismiss();
+                    } else if (response.contains("2")) {
+                        Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_in);
+                        registerDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     /**
      * 发送 签退 请求
      */
     private void sendOutRequest() {
-        Toast.makeText(mContext, "签退", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, "签退", Toast.LENGTH_SHORT).show();
+        mCall = OkHttpUtils
+                .get()
+                .url(ConstantURL.REGISTER)
+                .addParams("uid", "" + userId)
+                .addParams("qiantui", "" + 1)
+                .build();
+        mCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (response.contains("1")) {
+                        Toast.makeText(mContext, "签退成功！", Toast.LENGTH_SHORT).show();
+                        tvRegisterDesc.setText("已签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_al_out);
+                    } else if (response.contains("2")) {
+                        Toast.makeText(mContext, "签退失败！", Toast.LENGTH_SHORT).show();
+                        tvRegisterDesc.setText("已签到 未签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+                    } else if (response.contains("3")) {
+                        /**
+                         * 早退原因
+                         */
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+                        Log.e("tag", "签到Dialog内容-------->" + ToolsUtils.registerContent);
+                        registerDialog = new RegisterDialog(mContext);
+                        registerDialog.builder()
+                                .setTitle("请输入早退原因")
+                                .setCancelable(true)
+                                .setNegativeButton("取消", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        registerDialog.dismiss();
+                                    }
+                                })
+                                .setPositiveButton("确定", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (ToolsUtils.registerContent.equals("")) {
+                                            Toast.makeText(mContext, "请输入早退原因！", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            sendLeaveRequest();// 发送早退请求
+                                        }
+                                    }
+                                })
+                                .show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+    }
+
+    /**
+     * 提交早退原因
+     */
+    private void sendLeaveRequest() {
+        mCall = OkHttpUtils
+                .get()
+                .url(ConstantURL.REGISTER)
+                .addParams("uid", "" + userId)
+                .addParams("qiantui", "" + 1)
+                .addParams("ok", "" + 1)
+                .addParams("text", ToolsUtils.registerContent)
+                .build();
+        mCall.execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                Toast.makeText(mContext, "网络错误！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+//                    Log.e("tag", "早退返回值-------------->" + response);
+                    if (response.contains("1")) {
+                        Toast.makeText(mContext, "提交成功！", Toast.LENGTH_SHORT).show();
+                        tvRegisterDesc.setText("已签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_al_out);
+                        registerDialog.dismiss();
+                    } else if (response.contains("2")) {
+                        Toast.makeText(mContext, "提交失败！", Toast.LENGTH_SHORT).show();
+                        tvRegisterDesc.setText("已签到 未签退");
+                        fabRegisterSign.setImageResource(R.mipmap.ic_sign_out);
+                        registerDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     // 定位监听

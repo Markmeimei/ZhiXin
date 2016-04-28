@@ -25,4 +25,6 @@ public class ConstantURL {
     public static final String MAILLIST = BASIC_URL + "email.php"; // 邮件列表
     public static final String REGISTER = "http://xtbg.sdzxkj.cn/qiandao.php"; // 签到
 
+    public static final String TIMATABLE_MANAGE=BASIC_URL + "richeng.php?uid=";//日程管理
+
 }
